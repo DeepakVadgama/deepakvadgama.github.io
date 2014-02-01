@@ -2,4 +2,5 @@
 2. How Chronicle works
 3. How to make Java app wicked fast.
 4. Introduction to Hadoop (article first, video later).
-5. 
+5. EdX course review
+6. 
