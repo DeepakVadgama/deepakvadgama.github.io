@@ -4,3 +4,4 @@
 4. Introduction to BigData and Cloud computing (article first, video later).
 5. EdX course review
 6. Is someone stealing my idea? Ideas are organic (Inception).
+7. What i learned from Doug Lea and Brian Goetz concurrency code. Plus update of fundamental classes in Java 7, 8 etc. Like ExecutorService or Concurrent Lists/Sets/Maps and so on.
