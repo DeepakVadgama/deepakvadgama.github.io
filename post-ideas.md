@@ -10,3 +10,8 @@
     1. Intellij shortcuts/tips
     2. AngularJS
     3. 
+10. Google mis-steps:
+    1. Inspite of the popularity, the chromecast was launched in UK whole 8 months after its US launch.
+    2. Merging hangouts and sms
+    3. Availability/Distribution issues of devices from Play store.
+    4. 
