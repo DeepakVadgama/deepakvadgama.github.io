@@ -1,14 +1,9 @@
 ---
-layout: page
-tagline: My thoughts, filtered
+layout: home
+excerpt: "Deepak Vadgama's blog"
+tags: [deepakvadgama, blog]
+image:
+  feature: homepage-image.jpg
+  credit: Myself :)
+  creditlink: https://plus.google.com/+DeepakVadgama/photos
 ---
-
-
-Here's a sample "posts list".
-
-<ul class="posts">
-  {% for post in site.posts %}
-    <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
-  {% endfor %}
-</ul>
-
