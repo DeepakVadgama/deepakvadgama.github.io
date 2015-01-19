@@ -5,7 +5,7 @@ category: poem
 comments: true
 ---
 
-We saw kajal off, the dust settled, later that night I pondered.. 
+We saw kajal off, the dust settled, later that night I pondered..   
 For our story to begin, when is the kickoff, I wondered 
 
 
