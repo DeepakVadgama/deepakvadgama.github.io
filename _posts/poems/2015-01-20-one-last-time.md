@@ -3,7 +3,9 @@ layout: post
 title: One Last Time
 category: poem
 comments: true
+excerpt: Let us introduce ourselves, but I want to be discreet.. If anyone can guess who we are, they are in for a treat
 ---
+
 
 Let us introduce ourselves, but I want to be discreet..  
 If anyone can guess who we are, they are in for a treat 
@@ -68,4 +70,8 @@ Oh wait, we are and will always be, our friendship is a circle, we will always r
 So raise your glasses for this moment, soak it, one last time..   
 Catching up is only moments away, so sayonara.. until next time
 
+
+<figure>
+    <a href="#"><img src="/images/poem-one-last-time.jpg"></a>
+</figure>
 
