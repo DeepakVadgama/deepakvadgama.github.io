@@ -1,6 +1,6 @@
 ---
 layout: home
-excerpt: "Deepak Vadgama's blog"
+excerpt: "Deepak Vadgama blog"
 tags: [deepakvadgama, blog]
 image:
   feature: homepage-image.jpg
