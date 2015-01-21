@@ -51,8 +51,8 @@ Let’s get wild, lets paint the town red, like they say 'rage against the dying
 Lets eat and drink like theres no tomorrow; to compensate, there is always oats and egg-white
 
 
-A sage told me to give up the one, and instead make the world my mule..  
-But my poems are nothing but stories that rhyme, and the poet in me needs that fuel 
+A sage told me to give up the one, and instead make the world my muse..  
+But my poems are nothing but stories that rhyme, and the creative circuit in me mandates that fuse 
 
 
 So I am slowly expanding from the one, to you four..   
