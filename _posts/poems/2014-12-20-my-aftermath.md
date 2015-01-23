@@ -5,7 +5,7 @@ category: poem
 comments: true
 ---
 
-We saw kajal off, the dust settled, later that night I pondered..   
+We saw kajal off, the dust settled, then later that night I pondered..   
 For our story to begin, when is the kickoff, I wondered 
 
 
@@ -18,7 +18,7 @@ Forget about meet ups, there wasn't even a missed call
 
 
 When you blame yourself it is a new low..  
-Well, no end in sight even after 2 years of being solo
+No end in sight even after 2 years of being solo
 
 
 I doubted myself, my abilities, my USP..  
@@ -38,15 +38,15 @@ Current loneliness was a choice, not result of the somber
 
 
 What went wrong, why even start if for such end, the questions linger..   
-I liked you probably still do, I'm just venting out, not pointing finger 
+I liked you, probably still do, I'm just venting out, not pointing finger 
 
 
 When expectations are high and lot of desire..  
 I told myself, this is what happens when you play with fire  
 
 
-Unlike your past I want to be a lifer..  
-Past will be forgotten like a bad dream with no need to decipher 
+Unlike your past, I want to be a lifer..  
+Past will be forgotten like a bad dream, with no need to decipher 
 
 
 Maybe it was far fetched, with you being the Princess and me the pauper..  
