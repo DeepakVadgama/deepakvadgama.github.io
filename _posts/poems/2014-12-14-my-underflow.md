@@ -49,20 +49,20 @@ They shed all seriousness and played it like a game..
 oh that alkesh, hetal and sandhya-ben
 
 
-The joke was stretched the odds were few..  
+The joke was stretched, the odds were few..  
 We could be a good team I hoped, I wished, I just knew
 
 
 With time running out, I floundered, I hassled..  
-So much to say, tons to know, albeit our meets castled
+So much to say, tons to know, albeit, our meets castled
 
 
 You turned me down though the goodbye was playful..  
-I think you were being considerate, for that i'm grateful
+I think you were being considerate, for that I'm grateful
 
 
 Blink-of-an-eye came the end to all of this..  
-am I forced to think of it as just two days of bliss
+am I forced to think of it as just two days of bliss?
 
 
 Forgetting the moments will be amiss..  
@@ -77,7 +77,7 @@ I don't ask for much, neither promise you any..
 If nothing else, people will call us chummy
 
 
-If rivers are experiences with our closed ones in tow..  
+If rivers are experiences, with our closed ones in tow..  
 Then these memories are the energetic underflow
 
 
