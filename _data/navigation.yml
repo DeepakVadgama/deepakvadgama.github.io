@@ -1,4 +1,8 @@
 # Site navigation links
 
+- title: Poem
+  url: /poems/
+
 - title: About
   url: /about/
+
