@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: about
 title: About myself
 tags: [about, deepakvadgama]
 modified: 2015-01-17
