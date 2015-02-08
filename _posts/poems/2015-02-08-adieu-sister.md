@@ -46,7 +46,7 @@ We are like 2 travelers crossing path, exchanging stories across sparks of bonfi
 Under the starry night, pushing away the threat of cold and darkness’s ire
 
 
-I re-read this poem and man, it is too mushy...  
+I re-read this poem, dear Lord, it is too mushy...  
 If your fiancé misconstrues, I’ll need to hide some place bushy
 
 
