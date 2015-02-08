@@ -35,7 +35,7 @@ You will then share life stories and experiences, smiles they will bring through
 
 
 God speed to both of you, hope your relationship surpasses synergy...  
-I imagine even your fights will rhyme too and inevitable make-ups would be like poetry
+I imagine even your fights will rhyme and inevitable make-ups would be like poetry
 
 
 Thanks for helping me find my pen, I owe it all to you...  
