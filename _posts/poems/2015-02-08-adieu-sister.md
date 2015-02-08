@@ -43,7 +43,7 @@ I’m not even close to being a poet, but it feels nice to have written a few
 
 
 We are like 2 travelers crossing path, exchanging stories across sparks of bonfire...  
-Under the starry night, pushing away the threat of cold and darkness’ ire
+Under the starry night, pushing away the threat of cold and darkness’s ire
 
 
 I re-read this poem and man, it is too mushy...  
