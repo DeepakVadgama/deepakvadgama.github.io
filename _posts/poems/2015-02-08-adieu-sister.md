@@ -22,6 +22,10 @@ Come march, the dry city awaits you...
 Made wholesome by outsiders like us; locals are good too
 
 
+Living the city feels, with infinite malls, exquisite food outlets and the hip crowd..  
+But finding inner peace can be hard, even the soul will have to shout out loud
+
+
 I picture you on a humongous vessel some day...  
 Accompanying the vastness of the seas, far from the bay
 
