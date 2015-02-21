@@ -35,7 +35,7 @@ They together form the safety net, making it your inner child's playground
 
 
 Time takes its toll on the strands though, few wither away every other year...   
-Each one is cherished for a while; remaining ones well, forever you hold them dear
+Each one is cherished for a while; remaining ones, well, forever you hold them dear
 
 
 You team up with your queen by tying the knot, like rock climbers on a cliff sharing a rope...   
