@@ -51,7 +51,7 @@ Visible only through lenses of faith, it stretches from the heaven to the earth
 
 
 Astronauts know how small we are in scheme of things; how petty are our differences and fights...   
-The world is a mesh of billions of connections; each twinkle, as it transfers pulses of lights 
+The world is a mesh of billions of connections; each twinkles, as it transfers pulses of lights 
 
 
 Keep spinning them; more connections are better than just a few...   
