@@ -55,6 +55,6 @@ The world is a mesh of billions of connections; each twinkles, as it transfers p
 
 
 Keep spinning them; more connections are better than just a few...   
-A spider never runs out of silk and with God's grace neither will you 
+A spider never runs out of silk and with God's grace, neither will you 
 
 
