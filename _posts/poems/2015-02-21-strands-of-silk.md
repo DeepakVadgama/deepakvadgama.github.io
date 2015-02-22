@@ -23,7 +23,7 @@ Parents ignore your pleads to break out; oblivious they are to the wilderness ou
 
 
 At tender age when a princess connects, heart dreams for lifespan right then and there...  
-When silk is tugged too hard too soon, it breaks apart, and I think that's only fair 
+When that strand is tugged too hard too soon, it breaks apart, and I think that's only fair 
 
 
 The fall is hard if leaning on the strand; thousand complains of pain and of life being unfair...   
