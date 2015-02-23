@@ -19,10 +19,10 @@ Smooth and shiny they feel, until we face the ones affront
 
 
 While young and curious, we are built a prison of silk; equal parts isolated and bare...   
-Parents ignore your pleads to break out; oblivious they are to the wilderness out there 
+Parents ignore our pleads to break out; oblivious they are to the wilderness out there 
 
 
-At tender age when a princess connects, heart dreams for lifespan right then and there...  
+At tender age when a princess connects, the heart dreams for lifespan right then and there...  
 When that strand is tugged too hard too soon, it breaks apart, and I think that's only fair 
 
 
@@ -35,7 +35,7 @@ They together form the safety net, making it your inner child's playground
 
 
 Time takes its toll on the strands though, few wither away every other year...   
-Each one is cherished for a while; remaining ones, well, forever you hold them dear
+Each one is cherished for a bit; remaining ones, well, forever you hold them dear
 
 
 You team up with your queen by tying the knot, like rock climbers on a cliff sharing a rope...   
@@ -43,15 +43,15 @@ That strand is stronger than steel yet lighter than feather, even the mightiest 
 
 
 The day comes when you create a cocoon to protect your child...   
-Because you've seen the world out there, nothing about it is mild 
+Because you've seen the world out there, and nothing about it is mild 
 
 
-One strand holds still, omnipresent in death, the middle and even in birth...   
-Visible only through lenses of faith, it stretches from the heaven to the earth 
+One strand holds still, omnipresent in the stretch between ashes and birth...   
+Visible only through lenses of faith, it stretches from heaven to the earth 
 
 
-Astronauts know how small we are in scheme of things; how petty are our differences and fights...   
-The world is a mesh of billions of connections; each twinkles, as it transfers pulses of lights 
+Astronauts know how small we are in the scheme of things; how petty are our differences and fights...   
+The world is a mesh of billions of connections; each one twinkles, as it transfers pulses of lights 
 
 
 Keep spinning them; more connections are better than just a few...   
