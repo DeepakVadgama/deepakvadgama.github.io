@@ -31,8 +31,8 @@ You won't agree, but don't explode and cut them down to size
 If you wish to speak to someone, I am all ears..  
 I am also here for you, to allay any of your fears
 
-Giving advice to you is unnecessary, almost senseless..  
-We think of you as a fighter; our warrior princess
-
 Painful as it is now, in hindsight it will be labeled a farce..   
 Now stand up, dust yourself and get back on that horse
+
+Giving advice to you is unnecessary, almost senseless..  
+We think of you as a fighter; our warrior princess
