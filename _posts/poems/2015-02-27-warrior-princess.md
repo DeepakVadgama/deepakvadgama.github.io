@@ -17,7 +17,7 @@ I cannot understate, the preciousness of the fact that you are sensible..
 The characteristic is so rare, it makes you that much more indispensable
 
 You are a perfect amalgam of logic, intellect and relentless ferocity..   
-I know you without knowing you; no point getting into all the nitty-gritty
+I know you without knowing you; no point getting into the nitty-gritty
 
 It's impressive, the sheer talent you possess..   
 The day is near when you will taste sweet success 
