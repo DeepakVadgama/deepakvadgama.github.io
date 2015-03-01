@@ -38,7 +38,7 @@ Current loneliness was a choice, not result of the somber
 
 
 What went wrong, why even start if for such end, the questions linger..   
-I liked you, probably still do, I'm just venting out, not pointing finger 
+I liked you, really did, I'm just venting out, not pointing finger 
 
 
 When expectations are high and lot of desire..  
