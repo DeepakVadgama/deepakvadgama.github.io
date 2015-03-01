@@ -13,7 +13,7 @@ After talking to you, the cheer stays with me for a while
 Akin to a river, uninhibited is your extravagant grace..   
 Like a feather floating in the wind, silently, without a trace
 
-I cannot understate, the preciousness of the fact that you are sensible..  
+I cannot overstate, the preciousness of the fact that you are sensible..  
 The characteristic is so rare, it makes you that much more indispensable
 
 You are a perfect amalgam of logic, intellect and relentless ferocity..   
