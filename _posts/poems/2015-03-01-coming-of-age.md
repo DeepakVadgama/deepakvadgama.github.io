@@ -7,7 +7,7 @@ excerpt: I no longer watch movies about good vs evil, where things are clear as 
 ---
 
 I no longer watch movies about good vs evil, where things are clear as day...  
-I’d rather enjoy the ones, where morality lies on the ground painted gray
+I’d rather watch the ones, where morality lies on the ground painted gray
 
 That's not because fighting evil is easy, it's not something I disregard...   
 Its because fighting your inner demons is way more hard 
