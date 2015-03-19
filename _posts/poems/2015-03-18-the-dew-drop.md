@@ -6,11 +6,11 @@ comments: true
 excerpt: Greetings city dwellers, I am the morning dew drop..    
 ---
 
-Greetings city dwellers, I am the morning dew drop..  
+Greetings city dwellers, I'm a morning dew drop..  
 You might not know me, my discovery requires a long hop 
 
 I live in the wilderness, eternal vast and green..   
-I like to hide in the roses, to remain always unseen
+I like to hide in the roses, to remain unseen
 
 Shiny and sparkly I am, like a diamond lying around..  
 Reflecting the world onto itself, projecting it small and round
