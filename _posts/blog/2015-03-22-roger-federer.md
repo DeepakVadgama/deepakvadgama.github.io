@@ -6,9 +6,9 @@ comments: true
 excerpt: About Roger Federer, after his loss at Wimbledon 2008  
 ---
 
-I recent found this long lost article about Roger Federer (after his loss to Rafael Nadal in Wimbledon Open 2008). Being a fan myself, I found this article mirroring my feelings.
+I recently found this long lost article about Roger Federer's loss to Rafael Nadal in Wimbledon Open 2008. Being a fan myself, I found it mirroring my feelings.
 
-The below article is not written by me. I couldn't find the link to the original. 
+The article is not written by me. I couldn't find the link to the original. 
 
 ----
 
