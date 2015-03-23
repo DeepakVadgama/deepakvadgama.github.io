@@ -30,7 +30,7 @@ After his loss to Rafael Nadal in 2009 Australian Open
 <iframe width="420" height="315" src="https://www.youtube.com/embed/dCjw0Unm8OY" frameborder="0" allowfullscreen></iframe>   
 
 <br/>
-I love Federer for his talent and sublime elegant skills. I love him for his dedication, commitment and never-give-up attitude. I love him for his honesty in the interviews. I love him for being humble and a family person. I love him for showing immense respect to his peers, his sport and its tradition. 
+I love Federer for his talent and sublime elegant skills. I love him for his dedication, commitment and never-give-up attitude. I love him for being humble and a family person. I love him for showing immense respect to his peers, his sport and its tradition. 
 
 It was heart wrenching to see Federer crying. The very fact that after rewriting the records books, a loss still hurt him this much. I also had new found respect for Rafael Nadal for consoling Federer. Here are legends at top of their game, arguably the best, tennis has ever seen, showing the sportsman spirit tennis deserves.
 
