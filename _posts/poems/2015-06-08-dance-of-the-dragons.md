@@ -3,7 +3,7 @@ layout: post
 title: Dance of the dragons
 category: poem
 comments: true
-excerpt: 'protect your queen' the soldiers screamed amidst chaos..  
+excerpt: protect your queen; the soldiers screamed amidst chaos..  
 ---
 
 
