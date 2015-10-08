@@ -35,17 +35,17 @@ While trying to replicate this at our new company, we also want to encourage fee
 A Gmail team member once [said](http://techcrunch.com/2010/03/14/key-to-gmail/) “managers are of 2 types shit-funnels and shit-umbrellas”. All the literature out there about effective management from agile [books](http://www.amazon.in/Scrum-revolutionary-approach-deadlines-productivity/dp/1847941095/ref=tmm_pap_title_0), to startup [advice](http://theleanstartup.com/book),  to the modern concepts of microservices and devops; they all have one thing in common. Keep teams small, assign them the task and give them the freedom to achieve it their own way, and provide support by removing any hurdles in their path. 
 
 This helps in 
-* speeding up the team by removing bureaucracy 
-* improving accountability by cutting off possibility of blame-game 
-* making the team feel more empowered, accountable, and in control 
+1. speeding up the team by removing bureaucracy
+2. improving accountability by cutting off possibility of blame-game 
+3. making the team feel more empowered, accountable, and in control 
 
 In spite of all the evidence, it is unfortunate that traditional enterprises have not embraced this style of management. 
 
 They are still stuck in era of 
-- top down management 
-- waterfall model of software delivery 
-- lengthy approval process for deployments 
-- restriction on choice of tools like IDE/CVS/browsers 
+1. top down management 
+2. waterfall model of software delivery 
+3. lengthy approval process for deployments 
+4. restriction on choice of tools like IDE/CVS/browsers 
 
 
 <figure>
