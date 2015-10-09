@@ -10,13 +10,13 @@ excerpt: Changing direction after 9 years of experience in Investment banks
     <a href="#"><img src="/images/blog/today.jpg"></a>
 </figure>
 
-A friend once told me, 9 years of software development in an investment bank feels like 1st year repeated 9 times. This statement was lost on me until today. As I ponder over my future plans, no longer being part of Nomura as of today, I am beginning to feel the same. 
+A friend once told me, 9 years of software development in an investment bank feels like 1st year repeated 9 times. This statement was lost on me until today. As I ponder over my future, no longer being part of Nomura as of today, I am beginning to feel the same. 
 
 I was part of HSBC, J.P.Morgan and then Nomura for last 9 years, working as a software developer primarily in Java. I was also technical lead of a failed startup chat2get.com, and have made couple of websites along the way. My plans are for something slightly more drastic.
 
 ## What next
 
-We (few friends & myself) plan to form a software company catering specifically to the small and medium businesses in India. These companies still use paper for their workflow and at best use excel. 
+We (few friends & myself) plan to form a software company catering specifically to the small and medium businesses in India. These companies still use paper for their workflow, at best excel/spreadsheets. 
 
 The service companies in India, though capable, cater to larger clients and fail to provide attention to the smaller ones. Products like SAP provide solutions, but are prohibitively expensive to be bought, customized and maintained. We want to help such businesses use software and become more effective and efficient.
 
@@ -32,7 +32,7 @@ While trying to replicate this at our new company, we also want to encourage fee
 
 ## Freedom with support
 
-A Gmail team member once [said](http://techcrunch.com/2010/03/14/key-to-gmail/) “managers are of 2 types shit-funnels and shit-umbrellas”. All the literature out there about effective management from agile [books](http://www.amazon.in/Scrum-revolutionary-approach-deadlines-productivity/dp/1847941095/ref=tmm_pap_title_0), to startup [advice](http://theleanstartup.com/book),  to the modern concepts of microservices and devops; they all have one thing in common. Keep teams small, assign them the task and give them the freedom to achieve it their own way, and provide support by removing any hurdles in their path. 
+A Gmail team member once [said](http://techcrunch.com/2010/03/14/key-to-gmail/) “managers are of 2 types shit-funnels and shit-umbrellas”. All the literature out there about effective management from agile [books](http://www.amazon.in/Scrum-revolutionary-approach-deadlines-productivity/dp/1847941095/ref=tmm_pap_title_0), to startup [advice](http://theleanstartup.com/book),  to the modern concepts of microservices and devops; they all have one theme in common. Keep teams small, assign them the task and give them the freedom to achieve it their own way, and provide support by removing any hurdles in their path. 
 
 This helps in
 
@@ -56,9 +56,9 @@ They are still stuck in era of
 
 ## Speed and customer partnership
 
-Today’s world moves fast; every aspect has good probability of changing - from requirements to markets to technologies. In such times, to code in a dark corner for months can translate in missed opportunities or entire re-writes. It is important to partner with the customer and not show up at the end. 
+Today’s world moves fast; every aspect has good probability of changing - from requirements to markets to technologies. In such times, to code in a dark corner for months can translate in missed opportunities or complete software re-writes. It is important to partner with the customer and not just show up at the end. 
 
-Customers love to see the software more than the in-the-air preceding discussions. This is precisely why teams should create, showcase and get feedback on working versions of software, by iterating through agile (a term which is overused and less understood).  
+Customers are more visual, they love to see the software more than the in-the-air preceding discussions. This is precisely why teams should create, showcase and get feedback on working versions of software, by iterating, through agile (a term overused and less understood).  
 
 We sometimes fail to understand that agile methodologies are just guidelines. It is upto the team to decide the processes that work for them, and not other way round. For example, architecture design is not about UML blueprints painstakingly made in some software. It is about people coming together and discussing design on a whiteboard. Resultant artifact can be either be a full blown UML or just a pic of the whiteboard. Similarly, agile is not about the which tools you use, it is about process which enable you to move efficiently as a team. 
 
