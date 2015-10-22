@@ -3,7 +3,7 @@ layout: post
 title: Circle onto tangent
 category: blog
 comments: true
-excerpt: Changing direction after 9 years of experience in Investment banks  
+excerpt: Changing direction after 9 years of software development in investment banks  
 ---
 
 <figure>
