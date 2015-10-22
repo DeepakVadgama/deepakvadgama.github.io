@@ -36,6 +36,10 @@ These issues called for drastic change in architecture and processes. We had nev
 
 ## From monolith to microservices
 
+<figure>
+    <a href="#"><img src="/images/blog/microservices.png"></a>
+</figure>
+
 ### Step 1: Identify independent pieces within the application
 
 + Breakdown application into components, each based on single functionality
@@ -91,7 +95,3 @@ We made a mistake of going with [Kryo](https://github.com/EsotericSoftware/kryo)
     - Owning component would validate and persist the update
 
 In the end, the resultant architecture aka microservices, was lot more flexible, modular and maintainable. The processes too became more streamlined and we moved more swiftly as a team.
-
-<figure>
-    <a href="#"><img src="/images/blog/microservices.png"></a>
-</figure>
