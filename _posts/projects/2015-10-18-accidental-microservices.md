@@ -24,7 +24,7 @@ We faced lot of issues due to the monolithic nature of our architecture
 ### Build and deploy
 + Testing fixes in an environment, say UAT, required building entire codebase. For us, this meant close to 30 minutes of coffee break. 
 + This did not scale well. 12 developers multi-tasking bug-fixes and features additions, lead to huge number of concurrent builds and serious coffee addiction.
-+ Deploying a complete fix, might deploy other developer's partial fix. All the code needed to be checked-in atomically (which is difficult to enforce). 
++ Deploying a complete fix, might accidentally deploy other developer's partial fix. All the code needed to be checked-in atomically (which was difficult to enforce). 
 + It became terribly important to know state of codebase, and schedule of building it; which meant lot of communication overhead within the team.
 
 ### Latency
@@ -42,11 +42,11 @@ These issues called for drastic change in architecture and processes. We had nev
 
 ### Step 1: Identify independent pieces of the application
 
-+ Breakdown application into components, each based on single functionality
-+ For us, it translated to ‘piece connecting to a single external system’
++ Breaking down application into components, each responsible for single functionality
++ For us, it translated to ‘sub-system connecting to a single external system’
 + Create separate subversion (or your VCS) tree for each component
 
-Rejoice. No more codebase conflicts amongst developers. As a bonus, each developer can own 1 or more component(s). 
+Rejoice! No more codebase conflicts amongst developers. As a bonus, we started owning components instead of code packages. 
 
 ### Step 2: Expose the service
 
@@ -97,4 +97,4 @@ Other alternative was to split the POJO JAR itself into multiple subset of POJOs
     - Send it across to owning component 
     - Owning component would validate and persist the update
 
-In the end, the resultant architecture aka microservices, was lot more flexible, modular and maintainable. The processes too became more streamlined and we moved more swiftly as a team.
+In the end, the resultant architecture aka microservices, was lot more flexible, modular and maintainable. The processes became more streamlined and we started moving more swiftly as a team.
