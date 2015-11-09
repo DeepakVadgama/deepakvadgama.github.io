@@ -80,4 +80,4 @@ This Java class used Bamboo API detailed above to trigger builds, retrieve the b
 </figure>
 
 ### Results
-This task took around 2 months, much longer than I anticipated (It involved lot of research). In the end, it was an exciting and very satisfying challenge. There were no human errors in the build process and developers avoid dry manual task of building the project. Best of all, it saved our team at least 2 days of developer for every sprint (which was typically 2 weeks).   
+This task took around 2 months; much longer than I anticipated (it involved lot of research). In the end, it was an exciting and very satisfying challenge. Whole team started using the product immediately; no more error prone repetitive builds. Best of all, it saved us at least 2 days for every sprint (which was typically 2 weeks).   
