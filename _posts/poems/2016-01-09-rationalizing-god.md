@@ -49,11 +49,11 @@ She pleads ‘come to me as you are, don't be guilty of your past’
 Instill humility, kindness and love within; until they become an everyday chore..  
 They are a reflection of Her qualities, soon you’ll start feeling Her in your core
 
-Material world needs are infinite and growing; they get incessantly greedy..  
+Material world needs are infinite and growing; they become incessantly greedy..  
 I try not to fuel the fire; they themselves are deceptively needy 
 
 These are two cycles equally strong & ruthlessly effective..  
-Step back, think it through, and decide with a calm collective
+Step back, think it through, and choose one with a calm collective
 
 Seek and read and watch and learn; Her knowledge is precinct everywhere..  
 Kripalu, Lama, Aurobindo, Kabir, so many screamed the Truth, yet we act unaware
