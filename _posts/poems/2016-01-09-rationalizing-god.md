@@ -40,7 +40,7 @@ Or think of earth as a place of happiness, which God gave us to value Her compan
 God forms are infinite, approach whichever one appeals to you..  
 Beauty lies in Her personal bond with all, not just a chosen few
 
-Getting rid of our earthly duties is mandated; nor does She command specific asks..  
+Getting rid of our earthly duties is not mandated; nor does She command specific asks..  
 Love is all she needs and all we can give; there are no other God's “tasks”
 
 Love is a personification of God so is forgiveness, you’re not an outcast..  
