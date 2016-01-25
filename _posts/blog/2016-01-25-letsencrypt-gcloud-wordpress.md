@@ -14,6 +14,8 @@ All the paths below are based on assumption that you've used one-click-install G
  
 # Installation
 
+Login to your Compute instance using SSH
+
 Change to super user  
 `$ sudo su`
 
@@ -84,12 +86,12 @@ Add the lines from `DocumentRoot` until `</Directory>` at appropriate position
                     </Directory>
 
 
-# Redirect all http to https
+# Redirect all http links to https
 
 Open default-ssl.conf file  
 `sudo nano /etc/apache2/sites-available/default-ssl.conf`
 
-Add new VirtualHost tag as below, after existing VirtualHost tag and  
+Add new VirtualHost tag as below, after existing VirtualHost tag and before </IfModule> 
 
             </VirtualHost>
             <VirtualHost *:80>
@@ -100,13 +102,13 @@ Add new VirtualHost tag as below, after existing VirtualHost tag and
 
 # Wordpress configuration
 
-Ensure all Wordpress permalinks in follow https by changing URL in Wordpress Admin -> Settings -> General
+Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin -> Settings -> General
  
  <figure>
      <a href="/images/blog/https-wordpress-config.png"><img src="/images/blog/https-wordpress-config.png"></a>
  </figure>
  
- Note: Once URL is updated and apache is restarted then your wordpress admin URL will change from 104.99.99.99/wp-admin to balajiextrusions.com/wp-admin 
+ Note: Once URL is updated and apache is restarted, your wordpress admin URL will change from IP based (xxx.xx.xx.xx/wp-admin) to domain based (balajiextrusions.com/wp-admin) 
 
 # Restart apache
 
