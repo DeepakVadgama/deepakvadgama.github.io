@@ -7,7 +7,7 @@ excerpt: How we ended up with microservices in a trading system project
 ---
 
 <figure>
-    <a href="#"><img src="/images/blog/monolith.png"></a>
+    <a href="/images/blog/monolith.png"><img src="/images/blog/monolith.png"></a>
 </figure>
 
 I worked as a Java developer on a trading system for close to 2 years. 
@@ -36,7 +36,7 @@ These issues called for drastic change in architecture and processes. We had nev
 ## From monolith to microservices
 
 <figure>
-    <a href="#"><img src="/images/blog/microservices.png"></a>
+    <a href="/images/blog/microservices.png"><img src="/images/blog/microservices.png"></a>
 </figure>
 
 ### Step 1: Identify independent pieces of the application
