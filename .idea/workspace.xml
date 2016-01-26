@@ -5,15 +5,7 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/_posts/blog/2015-11-12-refactoring-to-sanity-part-1.md" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/_posts/blog/2016-01-26-working-from-home-india.md" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/_posts/projects/2016-01-26-balajiextrusions-website.md" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/deepakvadgama.github.io.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="deepakvadgama.github.io.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -773,7 +765,7 @@
       <workItem from="1453780727134" duration="719000" />
       <workItem from="1453781476203" duration="13000" />
       <workItem from="1453782562659" duration="666000" />
-      <workItem from="1453795185456" duration="3077000" />
+      <workItem from="1453795185456" duration="3101000" />
     </task>
     <task id="LOCAL-00001" summary="Blog post - circle onto tangent">
       <created>1444300901361</created>
@@ -919,11 +911,17 @@
       <option name="project" value="LOCAL" />
       <updated>1453799960466</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Removed .idea">
+      <created>1453800235255</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1453800235255</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25303000" />
+    <option name="totallyTimeSpent" value="25327000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1602" height="875" extended-state="6" />
@@ -992,7 +990,8 @@
     <MESSAGE value="Typography, Image and Grammar changes for Wordpress https blog" />
     <MESSAGE value="Adjusted content widths" />
     <MESSAGE value="Code formatting changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Code formatting changes" />
+    <MESSAGE value="Removed .idea" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed .idea" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
