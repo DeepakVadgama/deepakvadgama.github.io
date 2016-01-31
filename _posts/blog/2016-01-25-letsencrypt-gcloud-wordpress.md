@@ -16,6 +16,11 @@ All the paths below are based on assumption that you've used one-click-install G
 
 Login to your Compute instance using SSH
 
+ <figure>
+     <a href="/images/blog/ssh-compute-instance.png"><img src="/images/blog/ssh-compute-instance.png"></a>
+ </figure>
+
+
 Change to super user  
 {% highlight bash %}$ sudo su{% endhighlight %}
 
@@ -36,11 +41,13 @@ The above command will guide you through the steps (will ask for email and other
  
 If it asks to select the .conf file, select `default-ssl.conf`
 
-### Error in selecting ssl conf file
+
+# Error in selecting ssl conf file
 
 In my case, after selection it gave error similar to `server name not found`.  I reselected the same `default-ssl.conf` file couple of times and that error went away.  
   
 It expects ServerName to be present in default-ssl.conf. I am not sure whats the purpose of this field. Anyways, I was able to work through the problem without adding ServerName.
+
 
 # Error in installation
 
@@ -88,6 +95,7 @@ Add the lines from `DocumentRoot` until `</Directory>` at appropriate position
                 </Directory>
 {% endhighlight %}
 
+
 # Redirect all http links to https
 
 Open default-ssl.conf file  
@@ -104,6 +112,7 @@ Add new VirtualHost tag as below, after existing VirtualHost tag and before </If
     </IfModule>
 {% endhighlight %}
 
+
 # Wordpress configuration
 
 Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin -> Settings -> General
@@ -114,10 +123,12 @@ Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin 
  
  Note: Once URL is updated and apache is restarted, your wordpress admin URL will change from IP based (xxx.xx.xx.xx/wp-admin) to domain based (balajiextrusions.com/wp-admin) 
 
+
 # Restart apache
 
 Restart apache service for changes to take effect
 {% highlight bash %}$ service apache2 restart{% endhighlight %}
+
 
 # Certificate auto-renewal 
 
@@ -132,6 +143,7 @@ Add this line to the file
 {% endhighlight %}
 
 This new command is saved to a temp file (it will ask you for location), and then add it to [actual cron](http://unix.stackexchange.com/a/197506)
+
 
 # Confirm and rejoice
 
