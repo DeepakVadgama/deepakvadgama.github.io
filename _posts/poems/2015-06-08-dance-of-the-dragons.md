@@ -8,7 +8,7 @@ excerpt: protect your queen; the soldiers screamed amidst chaos..
 
 
 <figure>
-    <a href="#"><img src="/images/got-1.jpg"></a>
+    <a href="{{ site.url }}/images/got-1.jpg"><img src="{{ site.url }}/images/got-1.jpg"></a>
 </figure>
 
 'protect your queen' the soldiers screamed amidst chaos..  
@@ -43,6 +43,6 @@ she climbs on his back; the whisper of 'fly'
 and he soars towards the sky with triumphant roar so wild  
 
 <figure>
-    <a href="#"><img src="/images/got-2.jpg"></a>
+    <a href="#"><img src="{{ site.url }}/images/got-2.jpg"></a>
 </figure>
 

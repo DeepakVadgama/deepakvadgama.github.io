@@ -15,7 +15,7 @@ Each microservice had multiple dependencies; a combination of third-party JARs a
 The messy build hierarchy with criss-crossing dependencies made it even more cumbersome. The picture below is a snippet of the build tree; the complete tree was much deeper and broader. Few of dependencies at the base level (eg: those containing Trade POJO) were used by most of the projects. Meaning, if those changed, whole tree had to be rebuilt.
 
 <figure>
-    <a href="/images/blog/build_hierarchy.png"><img src="/images/blog/build_hierarchy.png"></a>
+    <a href="{{ site.url }}/images/blog/build_hierarchy.png"><img src="{{ site.url }}/images/blog/build_hierarchy.png"></a>
 </figure>
 
 ### Manual update of pom.xml
@@ -36,7 +36,7 @@ I was lucky to be assigned the task to resolve this issue. After some research w
 We had to prepare each project in Bamboo for the automation. We created 2 stages for each build: Release and Snapshot. Snapshot was nothing special (since it did not involve updating dependencies). Release job was made up of many tasks: Source Code Checkout, Maven plugin tasks (detailed in next sections), Maven Release etc. 
 
 <figure>
-    <a href="/images/blog/bamboo_tasks.png"><img src="/images/blog/bamboo_tasks.png"></a>
+    <a href="{{ site.url }}/images/blog/bamboo_tasks.png"><img src="{{ site.url }}/images/blog/bamboo_tasks.png"></a>
 </figure>
 
 ### Bamboo API
@@ -62,7 +62,7 @@ The manual step of updating the child dependency’s new version in parent pom.x
 The changes made by this plugin are done in local checked-out files. We used [SCM plugin](https://maven.apache.org/scm/maven-scm-plugin/checkin-mojo.html) to check-in the updated pom.xmls to SVN repository. Each plugin was configured using Bamboo's Maven task shown below:
  
 <figure>
-    <a href="#"><img src="/images/blog/bamboo_maventask.png"></a>
+    <a href="#"><img src="{{ site.url }}/images/blog/bamboo_maventask.png"></a>
 </figure>
 
 ### Tree for each service
@@ -72,11 +72,11 @@ We created a single Java class which could trigger the whole build of applicatio
 This Java class used Bamboo API detailed above to trigger builds, retrieve the build number. Monitor the progress using the build number. This java code also had a list of all dependencies which were passed as parameters to the Maven plugins detailed above. Thus, skipping an update of dependency update was as simple as commenting it out from the list.
 
 <figure>
-    <a href="/images/blog/bamboo_build_queue.png"><img src="/images/blog/bamboo_build_queue.png"></a>
+    <a href="{{ site.url }}/images/blog/bamboo_build_queue.png"><img src="{{ site.url }}/images/blog/bamboo_build_queue.png"></a>
 </figure>
 
 <figure>
-    <a href="/images/blog/bamboo_results.png"><img src="/images/blog/bamboo_results.png"></a>
+    <a href="{{ site.url }}/images/blog/bamboo_results.png"><img src="{{ site.url }}/images/blog/bamboo_results.png"></a>
 </figure>
 
 ### Results

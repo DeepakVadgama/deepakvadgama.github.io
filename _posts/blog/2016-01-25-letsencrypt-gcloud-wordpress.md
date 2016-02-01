@@ -17,7 +17,7 @@ All the paths below are based on assumption that you've used one-click-install G
 Login to your Compute instance using SSH
 
  <figure>
-     <a href="/images/blog/ssh-compute-instance.png"><img src="/images/blog/ssh-compute-instance.png"></a>
+     <a href="{{ site.url }}/images/blog/ssh-compute-instance.png"><img src="{{ site.url }}/images/blog/ssh-compute-instance.png"></a>
  </figure>
 
 
@@ -118,7 +118,7 @@ Add new VirtualHost tag as below, after existing VirtualHost tag and before </If
 Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin -> Settings -> General
  
  <figure>
-     <a href="/images/blog/https-wordpress-config.png"><img src="/images/blog/https-wordpress-config.png"></a>
+     <a href="{{ site.url }}/images/blog/https-wordpress-config.png"><img src="{{ site.url }}/images/blog/https-wordpress-config.png"></a>
  </figure>
  
  Note: Once URL is updated and apache is restarted, your wordpress admin URL will change from IP based (xxx.xx.xx.xx/wp-admin) to domain based (balajiextrusions.com/wp-admin) 
@@ -148,7 +148,7 @@ This new command is saved to a temp file (it will ask you for location), and the
 # Confirm and rejoice
 
  <figure>
-     <a href="/images/blog/https-balajiextrusions-site.png"><img src="/images/blog/https-balajiextrusions-site.png"></a>
+     <a href="{{ site.url }}/images/blog/https-balajiextrusions-site.png"><img src="{{ site.url }}/images/blog/https-balajiextrusions-site.png"></a>
  </figure>
 
 That's it. You are done. Enjoy free https.
