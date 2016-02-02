@@ -43,6 +43,6 @@ she climbs on his back; the whisper of 'fly'
 and he soars towards the sky with triumphant roar so wild  
 
 <figure>
-    <a href="#"><img src="{{ site.url }}/images/got-2.jpg"></a>
+    <a href="{{ site.url }}/images/got-2.jpg"><img src="{{ site.url }}/images/got-2.jpg"></a>
 </figure>
 
