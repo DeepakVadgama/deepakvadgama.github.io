@@ -14,15 +14,15 @@ All the blockbuster movies of modern era seem to be about good vs evil. Take exa
 and on. There is no conflict within, there are no personal sacrifices, there are no decisions to be made. Only factions to be formed and to have one faction
 kill and get praised by the world, or be killed and be called a martyr. This plague has swept most of the biggest franchises of Hollywood. 
 The rationale for this is simple: dumb down the movie enough to reach widest audience base possible (primarily non-english speaking population).
-In fact even the process of movie-making as an art-form itself has been compromised by these money making machines  
-(watch [these videos](https://www.youtube.com/user/everyframeapainting/videos?shelf_id=1&sort=p&view=0) to see what I mean).
+In fact even the process of movie-making as an art-form itself has been compromised by these money making machines (watch [these videos](https://www.youtube.com/user/everyframeapainting/videos?shelf_id=1&sort=p&view=0) to see what I mean).
+
 I wonder what the psychological impact this has on children (especially combined with the social pressure of competing and expectation of being the best at everything).   
 
 ### Politics
 
 Destin Sandlin [YouTube channel: Smarter-Everyday](https://youtu.be/Tjl8ka3F6QU?t=21m54s) in a conversation with President Barack Obama discussed issue of polarization in Politics. 
  Obama's answer was simple and rational: (paraphrased) When people just depend on single source of news which itself might have certain bias, that biased information becomes their belief. 
- This is even supported by statistic in Justin's [subsequent video](https://youtu.be/GpWQHFzrEqc?t=4m22s)
+ This is even supported by statistic in Destin's [subsequent video](https://youtu.be/GpWQHFzrEqc?t=4m22s)
 
 ### Twitter and YouTube comments 
   
@@ -35,8 +35,8 @@ I think technology is one of the primary reasons of this polarization. Every per
 
 
 ### India's intolerance debate
-Recently India had a very vocal issue about [intolerance](http://edition.cnn.com/2015/11/04/opinions/agrawal-tolerance-india/).
- It all started with couple of small issues but soon exploded with everyone from celebrities, actors, politicians everyone weighing in.
+Recently India had a massive hoopla about [intolerance](http://edition.cnn.com/2015/11/04/opinions/agrawal-tolerance-india/).
+ It all started with couple of small issues but soon exploded with everyone from celebrities, actors, politicians, twitterati, everyone weighing in.
  Most of these comments followed the pattern. Choose your faction and bombard the enemy. 
 Though the ruling government is accused for these incidents, perceived to be caused by intolerance; the reality I think, is quite murky.
 
