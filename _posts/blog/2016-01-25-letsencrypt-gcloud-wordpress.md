@@ -137,9 +137,9 @@ LetsEncrypt certificate expire every 90 days. So schedule cronjob to auto-renew 
 Open crontab
 {% highlight bash %}$ crontab -e{% endhighlight %}
 
-Add this line to the file
+Add this line to the file (update your letsencrypt directory path as applicable)
 {% highlight console %}
-    0 0 1 * * /home/vadgama_deepak/letsencrypt/letsencrypt-auto certonly --webroot -w /var/www/html -d balajiextrusions.com -d www.balajiextrusions.com --renew-by-default
+ 0 0 1 * * /home/vadgama_deepak/letsencrypt/letsencrypt-auto certonly --webroot -w /var/www/html -d balajiextrusions.com -d www.balajiextrusions.com --renew-by-default
 {% endhighlight %}
 
 This new command is saved to a temp file (it will ask you for location), and then add it to [actual cron](http://unix.stackexchange.com/a/197506)
