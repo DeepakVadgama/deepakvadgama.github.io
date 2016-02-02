@@ -9,7 +9,7 @@ url: http://www.deepakvadgama.com
 
 permalink:   /:categories/:title/
 markdown:    kramdown
-highlighter: pygments
+highlighter: rogue
 sass:
   sass_dir: _sass
   style: compressed
