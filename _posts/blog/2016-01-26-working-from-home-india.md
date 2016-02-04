@@ -6,7 +6,7 @@ comments: true
 excerpt: My Work from home ergonomic setup (India)   
 ---
 
-Being a freelancer and working from home in India turned out to be different than I anticipated, primarily because 
+Being a freelancer and working from home in India turned out to be different than I anticipated, primarily due to 
   
  * Budget - I don't earn enough to splurge on a [$1000 chair](http://store.hermanmiller.com/Products/Aeron-Chair) or a [triple monitor setup](https://i.ytimg.com/vi/S4RfkcM1Dx8/maxresdefault.jpg)
  * Equipment Availability - 80% of equipment worth buying is not available in India.
@@ -28,7 +28,7 @@ I cannot understate importance of getting this right. I started experiencing low
 + Ensure good lower back support. I use an extra cushion for this. 
 + Checkout [this image](http://deepakvadgama.com/images/ergonomics.jpg) for ergonomics.  
 
-Budget option: [My chair](http://www.pepperfry.com/ergonomic-chairs-by-emperor-1104811.html)  
+Budget option: Similar to [this](http://www.pepperfry.com/ergonomic-chairs-by-emperor-1104811.html)  
 The best: [Aeron](http://store.hermanmiller.com/Products/Aeron-Chair)
 
 ### Monitor
@@ -89,7 +89,7 @@ Hope this helps. Comment below if you need any help/advice.
 
 Happy working from home!
 
-Remember, wish is different than reality :)
+Remember, wish is different than reality, and that is okay :)
 
 
 __Wish__ (Photo credit: [acflynn flickr](https://www.flickr.com/photos/acflynn/3787513726))
