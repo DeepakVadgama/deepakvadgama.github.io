@@ -23,9 +23,9 @@ One I have: [Prima Plastics](http://www.primaplastics.com/images/product-trolley
 ### Chair
 I cannot understate importance of getting this right. I started experiencing lower back pain within few weeks. These injuries are recurrent and can last decades. 
 
-+ Ensure chair is at good height such legs are not pressing too much against the chair cushion (that cuts off the blood flow). 
-+ Chair height and keyboard placement should allow shoulders to be in relaxed state.
 + Ensure good lower back support. I use an extra cushion for this. 
++ Chair height and keyboard placement should allow shoulders to be in relaxed state.
++ Ensure chair is at good height such legs are not pressing too much against the chair cushion (that cuts off the blood flow). 
 + Checkout [this image](http://deepakvadgama.com/images/ergonomics.jpg) for ergonomics.  
 
 Budget option: Similar to [this](http://www.pepperfry.com/ergonomic-chairs-by-emperor-1104811.html)  
