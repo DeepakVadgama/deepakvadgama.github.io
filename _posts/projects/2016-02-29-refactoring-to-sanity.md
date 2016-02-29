@@ -7,7 +7,7 @@ excerpt: Enhancing Balaji Extrusion's ERP software (based on Spring MVC).
 ---
 
 One of my first undertakings as a [freelancer/consultant](http://deepakvadgama.com/blog/circle-into-tangent/) has been working on a client's existing internal ERP software (based on Java 7, Spring MVC, Hibernate, Tomcat).
- While it sounded very interesting on the surface, I ended up spending 50% of the effort on refactoring the code back to healthy state. Existing code snippets at the end. 
+ While it sounded very interesting on the surface, I ended up spending 50% of the effort on refactoring the code back to healthy state. Fun snippets of existing code added at the end of the post. 
 
 ### Making of chaos
 The client initially opted for SAP based solution which turned out to be too expensive a proposition to maintain. They lost close to INR 12 lakhs.
