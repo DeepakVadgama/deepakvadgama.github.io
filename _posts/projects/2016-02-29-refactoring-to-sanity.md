@@ -21,8 +21,6 @@ Since most of the issues could've been easily avoided with proper guidance to th
 let me jot down *instead-do-this* advice-list for issues I encountered.
 
 ### Setup of Project
-Critical for long term developer happiness, please do not overlook.
-
 - Ensure codebase is maintained in some external & private repository. [BitBucket](http://bitbucket.org) and [Gitlab](http://gitlab.com) provide it for free.
 - Setup logging. Java's logging ecosystem is a mess. Use [this chart](http://www.slf4j.org/images/legacy.png) for guidance, or better yet, use out-of-the-box solutions like [Spring Boot](http://projects.spring.io/spring-boot/).
 - Ensure logging is setup using appropriate rollovers and max-file-sizes while retaining atleast 2 weeks of history. [Log4j](https://logging.apache.org/log4php/docs/appenders/rolling-file.html) or [Logback](http://stackoverflow.com/a/14199642/3494368) references. 
@@ -34,10 +32,9 @@ Critical for long term developer happiness, please do not overlook.
 - Use enums instead of Strings when possible. They restrict values and reduce equals errors, especially case sensitive ones.
 - Prefer primitives over wrapper class if possible. Otherwise stick to wrapper classes, avoid mixing them too much.
 - Object conversions (eg: POJO to DTO) should be done within owner classes. If done outside, it needs to be repeated. Also, if a new field is added to the class, every copy of conversion code needs to be updated.
-- Common utility like code which uses fields of single class, should be part of owner class itself.
+- Code which uses fields of single class, should be part of owner class itself.
 - If repetitive code uses fields from multiple classes, or is about things like date formatting, create and use separate Utility classes.
 - Understand concurrency. 90% of the cases need simple utilites like [Atomic classes](https://docs.oracle.com/javase/tutorial/essential/concurrency/atomicvars.html) or [Concurrent collections](https://docs.oracle.com/javase/tutorial/essential/concurrency/collections.html) or simply using right scope for variable (method level instead of class level). 
-- If overwhelming, knowing low-level concurrency primitives like locks, mutexes etc can be avoided until required.
 - Keep number of method arguments relatively low (<=4). Once threshold is reached, use criteria/domain POJOs as single encapsulating parameter instead.
 - Split large methods and classes into multiple ones. This eases testing (limited dependencies for each task) and encourages code re-use. 
 - [IDE](http://jetbrains.com/idea) is your friend. It is excellent at pointing out inefficient code and ways to resolve it. 
@@ -48,10 +45,10 @@ I had to update logging config to log only insert/updates, though even that is s
 - Prefer Spring annotations over XML for setup.  
 - Avoid writing any logic in controllers (servlets). Controllers should be there only to validate input, call service and return output. 
 This helps in testing services without mocking servlet containers, and services can be reused across controllers.
-- Avoid auto SQL generating JPA interfaces, especially when method names get too long. Readability is more important that verbosity.
+- Avoid JPA interface method names (which auto-generate SQLs). They get too lengthy, write your own HQL queries. Readability is more important that verbosity.
 
 ### Terse code
-Unfortunately, Java is too verbose, thus special care needs to be taken to write succinct code. This helps make business logic more readable (easy to understand).
+Unfortunately, Java is too verbose. Thus, special care needs to be taken to write succinct code. This helps make business logic more readable (easy to understand).
 
 - If using Java 8 take advantage of [Lambdas](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) and [Streams](https://docs.oracle.com/javase/tutorial/collections/streams/).
 - String/Date formatting, collection sorting etc should be done using libraries like [Guava](https://code.google.com/p/guava-libraries/) and [Apache Commons](https://commons.apache.org).
