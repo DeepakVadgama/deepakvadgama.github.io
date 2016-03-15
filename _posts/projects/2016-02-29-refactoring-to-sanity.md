@@ -116,3 +116,6 @@ Click on image to enlarge and navigate using swipe/keyboard.
 <figure>
     <a href="{{ site.url }}/images/blog/balaji/8-no-code-in-if.png"><img src="{{ site.url }}/images/blog/balaji/8-no-code-in-if.png"></a>
 </figure>
+<figure>
+    <a href="{{ site.url }}/images/blog/balaji/9-incorrect-month-and-verbose.png"><img src="{{ site.url }}/images/blog/balaji/9-incorrect-month-and-verbose.png"></a>
+</figure>
