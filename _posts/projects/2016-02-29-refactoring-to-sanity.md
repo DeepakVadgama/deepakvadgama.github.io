@@ -36,7 +36,8 @@ let me jot down *instead-do-this* advice-list for issues I encountered.
 - If repetitive code uses fields from multiple classes, or is about things like date formatting, create and use separate Utility classes.
 - Understand concurrency. 90% of the cases need simple utilites like [Atomic classes](https://docs.oracle.com/javase/tutorial/essential/concurrency/atomicvars.html) or [Concurrent collections](https://docs.oracle.com/javase/tutorial/essential/concurrency/collections.html) or simply using right scope for variable (method level instead of class level). 
 - Keep number of method arguments relatively low (<=4). Once threshold is reached, use criteria/domain POJOs as single encapsulating parameter instead.
-- Split large methods and classes into multiple ones. This eases testing (limited dependencies for each task) and encourages code re-use. 
+- Split large methods and classes into multiple ones. This eases testing (limited dependencies for each task) and encourages code re-use.
+- Use ID fields/columns to uniquely identify the record. Avoid using any other fields, especially free-text fields. These may contain special characters (like &) whose meaning changes the context across UI (JS/AJAX), Java and DB.
 - [IDE](http://jetbrains.com/idea) is your friend. It is excellent at pointing out inefficient code and ways to resolve it. 
 
 ### Spring/Hibernate
@@ -64,8 +65,8 @@ Unfortunately, Java is too verbose. Thus, special care needs to be taken to writ
 - Setup continuous integration server if possible. It helps find errors long before you merge branches. 
 - Decide as a team if you want implement JavaDocs. If yes, ensure they are in sync with method signatures. I tend to have them only on interfaces used by external modules.
 - Comments should be complementary to code. Not a copy of it.
-- Use comments only where code is complex or not-easy to read (which itself is a signal to simplify things). 
-Comments like // end of if, // end of for, etc. are nothing but distractions.
+- Use comments only where code is complex or not-easy to read (which itself is a signal to simplify or split code). 
+Comments like '// end of if', '// end of for', etc. are nothing but distractions.
 - Write comments for documenting domain/business logic, especially for unique/not-obvious use-cases. Eg: Calculations of sales taxes. 
 
 ### Performance
@@ -89,7 +90,7 @@ Based on the steps mentioned above, the current state of the project is much hea
 - Delivered several feature requests over 5 months (most were small, except one which took 2 months of coding).
 - Happy client
 
-### Code snippets of existing code (a.k.a what to avoid) 
+### Code snippets of legacy code (a.k.a what to avoid) 
 Click on image to enlarge and navigate using swipe/keyboard.
 
 <figure>
