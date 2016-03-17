@@ -29,9 +29,9 @@ Wordpress excels in addressing usual suspects of setting up a website. All these
 ## Theme 
 Even though the website did not feature a blog, I chose a theme so as to minimize the effort in creating a beautiful looking site.
 I chose [Porto theme](http://themeforest.net/item/porto-responsive-wordpress-woocommerce-theme/9207399?s_rank=3) and it was a big learning for me. 
- I had to muck around a lot to resolve simple issues (compounded due to my lack of Wordpress experience). 
+ I had to muck around a lot to resolve simple issues (compounded by my lack of Wordpress experience). 
 
-+ Learning = Choose a theme with a lot of sales like [Avada](http://themeforest.net/item/avada-responsive-multipurpose-theme/2833226?s_rank=1) or [X-Theme](http://themeforest.net/item/x-the-theme/5871901?s_rank=2). 
++ My learning: Choose a theme with a lot of sales like [Avada](http://themeforest.net/item/avada-responsive-multipurpose-theme/2833226?s_rank=1) or [X-Theme](http://themeforest.net/item/x-the-theme/5871901?s_rank=2). 
 + Porto sales = ~4,500, X Theme sales = ~95,000, Avada sales = ~200,000!
 + Higher sales = Good standard documentation
 + Higher sales = Lot of indirect documentation in form of Q&A from other buyers and YouTube videos.
@@ -70,5 +70,5 @@ Few operations/aspects of these tools I learned are:
 
 ## Conclusion
  Project lasted much longer than I anticipated. Most of this time was consumed in image editing. 
-  Wordpress/Theme had some learning curve, though very handy once learned. 
+  Wordpress & the theme had some learning curve, though very handy once learned. 
  All in all, lot of learning. That makes me happy!
