@@ -123,3 +123,6 @@ Click on image to enlarge and navigate using swipe/keyboard.
 <figure>
     <a href="{{ site.url }}/images/blog/balaji/10-everyline-a-comment.png"><img src="{{ site.url }}/images/blog/balaji/10-everyline-a-comment.png"></a>
 </figure>
+<figure>
+    <a href="{{ site.url }}/images/blog/balaji/11-iteration-set-order.png"><img src="{{ site.url }}/images/blog/balaji/11-iteration-set-order.png"></a>
+</figure>
