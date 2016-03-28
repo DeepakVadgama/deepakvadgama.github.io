@@ -129,3 +129,6 @@ Click on image to enlarge and navigate using swipe/keyboard.
 <figure>
     <a href="{{ site.url }}/images/blog/balaji/12-actual-code-vs-useless-code.png"><img src="{{ site.url }}/images/blog/balaji/12-actual-code-vs-useless-code.png"></a>
 </figure>
+<figure>
+    <a href="{{ site.url }}/images/blog/balaji/13-hibernate-constraints.png"><img src="{{ site.url }}/images/blog/balaji/13-hibernate-constraints.png"></a>
+</figure>
