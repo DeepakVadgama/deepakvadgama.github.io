@@ -135,3 +135,6 @@ Click on image to enlarge and navigate using swipe/keyboard.
 <figure>
     <a href="{{ site.url }}/images/blog/balaji/14-is-number-check.png"><img src="{{ site.url }}/images/blog/balaji/14-is-number-check.png"></a>
 </figure>
+<figure>
+    <a href="{{ site.url }}/images/blog/balaji/15-mess.png"><img src="{{ site.url }}/images/blog/balaji/15-mess.png"></a>
+</figure>
