@@ -66,12 +66,12 @@ All these have API, Dashboard, Indexing and Querying facilities.
 
 + [Firebase](https://firebase.com) - NoSQL. With offline, sync, dashboard, security-rules. 
 + [Google Cloud SQL](https://cloud.google.com/sql/), [Amazon RDS](https:/aws.amazon.com/rds‎), [Microsoft Azure SQL](https://azure.microsoft.com/en-in/services/sql-database/) - SQL in the cloud.
-+ [Amazon DynamoDB](https://aws.amazon.com/dynamodb/), [Microsoft Document Store](https://azure.microsoft.com/en-in/services/documentdb/), [Google BigTable](https://cloud.google.com/bigtable/) - NoSQL in the cloud.
++ [Amazon DynamoDB](https://aws.amazon.com/dynamodb/), [Microsoft Document Store](https://azure.microsoft.com/en-in/services/documentdb/), [Google Datastore](https://cloud.google.com/datastore/), [Google BigTable](https://cloud.google.com/bigtable/) - NoSQL in the cloud.
 
 ### Cloud - Object store
 
 + [Amazon S3](https://aws.amazon.com/s3/) - Key-Object store. Object = images, videos, files etc. Group into buckets. Security rules. API.
-+ [Google datastore](https://cloud.google.com/datastore) -  Same as above.
++ [Google storage](https://cloud.google.com/storage) -  Same as above.
  
 ### Cloud - Archival Storage aka Cold Storage
 
