@@ -69,6 +69,7 @@ Open your mind and run steadfast, She is calling you
 
 PS:   
 1. The poem above is based on my understanding of [Kripalu Maharajji’s](http://jkp.org/) lectures [[Hindi](https://www.youtube.com/playlist?list=PLA3B03C8320853BC2), [English](http://www.swaminikhilanandlectures.org/sanatan.html)]. They are very [simple](https://www.youtube.com/watch?v=kl_0QrDr0-0), clear, yet logical. I have not researched too deep, but enough to gauge the basic fundamentals in teachings of [Sri Aurobindo](https://en.wikipedia.org/wiki/Sri_Aurobindo), [ISKCON](http://www.iskcon.org/) and [Brahmakumaris](http://www.brahmakumaris.org/).  
-2. I recommended reading books(literature) penned by founders of these movements. Actions guided by these teachings can be misinterpreted or *possibly* diluted or changed over the years. Core literature on the other hand, remains the same.      
-3. Title of the poem should be interpreted as 'My attempt at understanding God rationally'.  
-4. I address God as Her because I relate to God's form of *Radha*.  
+2. I recommended reading books(literature) penned by founders of these movements. Actions guided by these teachings can be misinterpreted or *possibly* diluted or changed over the years. Core literature on the other hand, remains the same.  
+3. Most of these are variations of larger *Bhakti movement* on India (16th Century). This evolvution of this philosophy is discussed in this [video](https://www.youtube.com/watch?v=-i_7R96_tAI)  
+4. Title of the poem should be interpreted as 'My attempt at understanding God rationally'.  
+5. I address God as Her because I relate to God's form of *Radha*.  
