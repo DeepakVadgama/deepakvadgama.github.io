@@ -61,7 +61,7 @@ Kripalu, Mira, Aurobindo, Kabir, so many screamed the Truth, yet we act unaware
 The more you research the right literature, the clearer it all gets..  
 Though it's advised to follow just one of many, else plenty confusion sets 
 
-So focus and discipline go hand in hand, I believe they are the only way..  
+Focus and discipline go hand in hand, and I believe they are the only way..  
 Faith and humility are your strongest pillars, helping oppose any other sway 
 
 You are waiting for happiness, it's long overdue..  
