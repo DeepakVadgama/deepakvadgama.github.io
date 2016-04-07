@@ -18,7 +18,7 @@ With this, installation was done in less than 15 minutes.
 Wordpress excels in addressing usual suspects of setting up a website. All these were relatively easy to setup.   
 
 + [Google Analytics](www.wpbeginner.com/beginners-guide/how-to-install-google-analytics-in-wordpress/) 
-+ [Caching](https://wordpress.org/plugins/wp-super-cache/) - Pending as of March 2016.
++ [Caching](https://wordpress.org/plugins/w3-total-cache/)
 + [Free HTTPS]({{ site.url}}/blog/letsencrypt-gcloud-wordpress/)
 + Email - [Plugin](https://wordpress.org/plugins/postman-smtp/) and [Sendgrid on Google Cloud](https://cloud.google.com/compute/docs/tutorials/sending-mail/using-sendgrid) 
 + [Permalinks](https://codex.wordpress.org/Settings_Permalinks_Screen)
