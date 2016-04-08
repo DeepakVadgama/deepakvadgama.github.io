@@ -39,7 +39,8 @@ I chose [Porto theme](http://themeforest.net/item/porto-responsive-wordpress-woo
 
 ## Performance
 Out of the box performance of the theme was not good. Even after adding [cache](https://wordpress.org/plugins/w3-total-cache/), the [speed test was horrible](http://www.webpagetest.org/result/160407_TH_BZ4/).
- This is purely due to large number of JavaScript files (thanks to the Theme) and large number of images. There are a few options to fix this.    
+ This is purely due to large number of JavaScript files (thanks to the Theme) and large number of images. There are a few options to fix this.  
+     
 + Optimize cache settings on the [plugin](https://wordpress.org/plugins/w3-total-cache/)
 + Use proxy servers like [nginx](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-nginx-on-ubuntu-14-04), [apache](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04) or [varnish](http://code.tutsplus.com/tutorials/optimizing-wordpress-with-varnish-and-w3-total-cache--cms-21136)
 + Use HTTP2 on top
