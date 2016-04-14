@@ -18,7 +18,7 @@ the ground quenched its thirst.. none spared, neither women nor daughters
 merciless, faceless, men.. a ruthlessly executed slaughter
 
 surrounded, the queen stood still.. today, the fate would be sealed  
-her choices flashed against the sun.. yet soldiers kept her concealed
+her choices flashed against the sun.. while soldiers kept her concealed
 
 she felt responsible, and cursed herself for soldiers' plight..  
 one last breath, she closed her eyes; this was no longer a winning fight
