@@ -28,12 +28,12 @@ did he program us with a beautiful and vastly complex algorithm..
 or has he given us free will and sparked evolution’s natural rhythm
 
 can he predict our behavior..  
-does he want to change our motives, ulterior
+or does he want to change our motives, ulterior
 
 does he account for all of our deeds..  
-or does he forgive like a parent when a child pleads
+or does he forgive like a parent when the child pleads
 
-is he happy with the world where its headed..  
+is he happy with the world & where its headed..  
 or having seen atrocities over generations, is he all jaded
 
 does he like to be liked by all us..  
