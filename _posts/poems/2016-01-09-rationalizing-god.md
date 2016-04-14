@@ -26,12 +26,12 @@ We curse constantly about being kind yet receiving sticks we don’t deserve..
 Failing to grasp the stretch of time, which flattens our actions’ shaky curve
 
 Infinite lifetimes we travelled afar; between hell, heaven and earth..  
-Love for God is the only path, that breaks the cycle of death and rebirth
+Love for God is the only path, that breaks the cycle of death and the inevitable rebirth
 
 This simple act of ‘attachment to God’ is lot easier said than done..  
 Try to focus for even 30 seconds and observe yourself being undone
 
-Think of the wondrous cosmos and its intricate workings, this form of Her is called *nirguna*..  
+Think of the wondrous cosmos and its intricate workings, this form of Hers is called *nirguna*..  
 Or think of Her *leelas* as manifestations on earth; these forms of *avatars* are called *saguna*
 
 Think of this material world as an endless ordeal, where all actions lead to misery..  
@@ -64,12 +64,12 @@ Though it's advised to follow just one of many, else plenty confusion sets
 Focus and discipline go hand in hand, and I believe they are the only way..  
 Faith and humility are your strongest pillars, helping oppose any other sway 
 
-You are waiting for happiness, it's long overdue..  
-Open your mind and run steadfast, She is calling you
+You are waiting for happiness, it's your birth right, long overdue..  
+Open your mind and run steadfast; with arms spread, She is calling you
 
 PS:   
 1. The poem above is based on my understanding of [Kripalu Maharajji’s](http://jkp.org/) lectures [[Hindi](https://www.youtube.com/playlist?list=PLA3B03C8320853BC2), [English](http://www.swaminikhilanandlectures.org/sanatan.html)]. They are very [simple](https://www.youtube.com/watch?v=kl_0QrDr0-0), clear, yet logical. I have not researched too deep, but enough to gauge the basic fundamentals in teachings of [Sri Aurobindo](https://en.wikipedia.org/wiki/Sri_Aurobindo), [ISKCON](http://www.iskcon.org/) and [Brahmakumaris](http://www.brahmakumaris.org/).  
-2. I recommended reading books(literature) penned by founders of these movements. Actions guided by these teachings can be misinterpreted or *possibly* diluted or changed over the years. Core literature on the other hand, remains the same.  
-3. Most of these are variations of larger *Bhakti movement* on India (16th Century). This evolvution of this philosophy is discussed in this [video](https://www.youtube.com/watch?v=-i_7R96_tAI)  
+2. I recommend reading books(literature) penned by founders of these movements. Actions guided by these teachings can be misinterpreted or *possibly* diluted or changed over the years. Core literature on the other hand, remains the same.  
+3. Most of these are variations of larger *Bhakti movement* on India (16th Century). Evolution of this philosophy is discussed in [this video](https://www.youtube.com/watch?v=-i_7R96_tAI)  
 4. Title of the poem should be interpreted as 'My attempt at understanding God rationally'.  
 5. I address God as Her because I relate to God's form of *Radha*.  
