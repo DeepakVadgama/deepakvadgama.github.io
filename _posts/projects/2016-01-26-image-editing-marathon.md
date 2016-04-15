@@ -6,6 +6,10 @@ comments: true
 excerpt: Wordpress website for Balaji Extrusions
 ---
 
+<figure>
+    <a href="{{ site.url }}/images/blog/balaji-site.png"><img src="{{ site.url }}/images/blog/balaji-site.png"></a>
+</figure>
+
 I recently created a Wordpress based website [Balaji Extrusions](http://balajiextrusions.com). It was one of my first projects as a freelancer/consultant.
  
 ## Wordpress installation mess
