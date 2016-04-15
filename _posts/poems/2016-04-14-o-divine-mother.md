@@ -15,7 +15,7 @@ Ours is an upstream flow compared to this material world’s every relation
 I did not know any better, knowledge was blinded by this body’s constant calls to indulge..   
 Like when natural rhythm of time takes over and memory cells refuse to divulge
 
-Though wasn’t precinct, knowledge came hastily, rushed, not in pieces one after another..  
+Though it wasn’t precinct, knowledge came hastily, rushed, not in pieces one after another..  
 Reaching middle age, my actions are still understated, the unexpressed love for my Mother
 
 I hope the progression is relentless, and I jump past the spiritual teenage years..   
