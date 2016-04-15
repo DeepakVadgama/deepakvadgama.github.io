@@ -19,10 +19,10 @@ Though wasn’t precinct, knowledge came hastily, rushed, not in pieces one afte
 Reaching middle age, my actions are still understated, the unexpressed love for my Mother
 
 I hope the progression is relentless, and I jump past the spiritual teenage years..   
-With no stage of taking you for granted, I’d rather be a child with an irrational fear
+With no stage of taking you for granted, I’d rather be a child with many irrational fears
 
 Crying a river for your attention, screaming for you not being in my sight..  
-This is probably the ‘surrender’ the veds claim, a way to bliss and eternal delight
+This is probably the ‘surrender’ veds claim, a way to bliss and eternal delight
 
 I am sure you will arrive, for I will be clocking in years of languish..  
 A Mother cannot sustain a blind eye towards Her son in such anguish
