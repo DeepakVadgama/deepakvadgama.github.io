@@ -46,7 +46,9 @@ I had to update logging config to log only insert/updates, though even that is s
 - Prefer Spring annotations over XML for setup.  
 - Avoid writing any logic in controllers (servlets). Controllers should be there only to validate input, call service and return output. 
 This helps in testing services without mocking servlet containers, and services can be reused across controllers.
-- Avoid JPA interface method names (which auto-generate SQLs). They get too lengthy, write your own HQL queries. Readability is more important that verbosity.
+- Avoid JPA interface method names (which auto-generate SQLs). They get too lengthy, write your own HQL queries. Readability is more important that verbosity.   
+- Use @Transactional annotation for controllers and services which perform multiple DB updates. Transactions are critical to maintain integrity to data, when a business functionality needs updates to multiple tables.   
+- @Transactional used for code which inserts/updates single record is redundant.  
 
 ### Terse code
 Unfortunately, Java is too verbose. Thus, special care needs to be taken to write succinct code. This helps make business logic more readable (easy to understand).
