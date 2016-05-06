@@ -62,7 +62,7 @@ The manual step of updating the child dependency’s new version in parent pom.x
 The changes made by this plugin are done in local checked-out files. We used [SCM plugin](https://maven.apache.org/scm/maven-scm-plugin/checkin-mojo.html) to check-in the updated pom.xmls to SVN repository. Each plugin was configured using Bamboo's Maven task shown below:
  
 <figure>
-    <a href="#"><img src="{{ site.url }}/images/blog/bamboo_maventask.png"></a>
+    <a href="{{ site.url }}/images/blog/bamboo_maventask.png"><img src="{{ site.url }}/images/blog/bamboo_maventask.png"></a>
 </figure>
 
 ### Tree for each service
