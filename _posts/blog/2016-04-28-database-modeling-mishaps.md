@@ -18,7 +18,7 @@ Balaji Wires and Cables company creates wires using simple process flow of 4 ste
 - Stock In = Process of stocking in the item after making it is called 'Stock In'
 - Store Register = Once stocked-in, the item is said to be in 'Store Register'
 - Quality Check = While in store, cable is tested for quality
-- Stock Out = Once quality is tested, the item can be stocked out and is ready for delivery
+- Stock Out = Once quality is tested, the item can be 'Stocked out' and is ready for delivery
 
 <figure>
     <a href="{{ site.url }}/images/blog/balaji/balaji-flow.png"><img src="{{ site.url }}/images/blog/balaji/balaji-flow.png"></a>
