@@ -83,6 +83,7 @@ public class MetaController {
 - Use JQuery's timeout to periodically call the same method. This is done by calling timeout in onComplete callback (avoid calling timeout in success callback, because once server shuts down, the ajax call will fail and next timeout will not be set).  
 - Put this code in common JavaScript, JSP, Tag file. I used it in menu.tag file, since all pages include that file for showing header menu.  
 - In case, the JQuery library is being loaded *after* this code is called. Use defer (as shown below) to wait for JQuery to load.
+- Use modal in case you want the alert to be pretty. I used the native one. 
 
 <br>
 
