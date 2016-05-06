@@ -42,9 +42,9 @@ Instead, currently, each one of the states has a corresponding table!
 - To avoid this, the previous team retained only Stock-IN table records, and deleted records from other tables as flow proceeds.
 - Though weirdly, in intermediate state, record is present in all 3 tables, so if weight is updated for item, it needs to be synchronized across tables. 
 - The Software allows reverting the item to previous state. This means constantly deleting and inserted records in 3 tables.  
-- Each of these 3 tables have their own primary key, which are not synchronized. A functionality called 'label' which prints physical sticky labels, uses these keys to uniquely identify the item.  
+- Each of these 3 tables have their own primary key, which are not synchronized. A functionality called 'label' which prints physical sticky labels, uses these keys to uniquely identify the item.   
 
-> Mistakes made in earlier stages especially at a structural level are hard to rectify, even more so over time as the codebase keeps growing, inculcating technical debt.
+> Mistakes made in earlier stages especially at a structural level are hard to rectify, even more so over time, as the codebase keeps growing, inculcating technical debt.
  
  This whole ordeal could have been avoided, using single table with a column to represent the current state of the item. 
  
