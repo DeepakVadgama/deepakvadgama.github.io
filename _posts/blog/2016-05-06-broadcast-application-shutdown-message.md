@@ -9,7 +9,9 @@ tags: spring, javascript
 
 I have been working on an [ERP software]({{ site.url }}/projects/refactoring-to-sanity/) which is used by ~25 users across departments. 
 
-The coordination across departments during a deploy (before shutdown and post restart) becomes a pain. Unfortunately, the company does not use such chat tools; the communication is done using phone or in-person.
+The coordination across departments during a deploy (before shutdown and post restart) becomes a pain. 
+Unfortunately, the company does not use chat tools which can be used for broadcast. 
+Instead, the communication is done using phone or in-person.
  
 To resolve this, I was asked if software itself could intimate the user when it is about to shutdown, and once its restarted.  
 

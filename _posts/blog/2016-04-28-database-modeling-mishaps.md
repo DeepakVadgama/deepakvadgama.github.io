@@ -15,7 +15,7 @@ out of college. Suffice to say, code base I got was inefficient. Though code in 
 
 Balaji Wires and Cables company creates wires using simple process flow of 4 steps - make, check-quality, store, deliver
 
-- Stock In = Process of stocking in the item after making it is called 'Stock In'
+- Stock In = Process of stocking in the item after creating it is called 'Stock In'
 - Store Register = Once stocked-in, the item is said to be in 'Store Register'
 - Quality Check = While in store, cable is tested for quality
 - Stock Out = Once quality is tested, the item can be 'Stocked out' and is ready for delivery
@@ -39,10 +39,10 @@ Instead, currently, each one of the states has a corresponding table!
 #### Problems
 
 - Each of these tables cover roughly 90% of the same fields. So each item is represented thrice in DB.
-- To avoid this, the previous team retained only Stock-IN table records, and deleted records from other tables as flow proceeds.
-- Though weirdly, in intermediate state, record is present in all 3 tables, so if weight is updated for item, it needs to be synchronized across tables. 
-- The Software allows reverting the item to previous state. This means constantly deleting and inserted records in 3 tables.  
-- Each of these 3 tables have their own primary key, which are not synchronized. A functionality called 'label' which prints physical sticky labels, uses these keys to uniquely identify the item.   
+- To avoid this, the previous team retained only Stock-In table records, and deleted records from other tables as flow proceeds.
+- In intermediate states, record is present in 2 tables. If weight is updated for a single table, other table become out of sync and thus, cause for confusion. 
+- The Software allows reverting the item to previous state. This means constantly deleting and inserting records in 3 tables.  
+- Each of these 3 tables have their own primary key, which are not synchronized. A functionality called 'label' prints physical sticky labels uses these keys to uniquely identify the item. So labels, are impossible to recover later if item is deleted from a table.  
 
 > Mistakes made in earlier stages especially at a structural level are hard to rectify, even more so over time, as the codebase keeps growing, inculcating technical debt.
  
