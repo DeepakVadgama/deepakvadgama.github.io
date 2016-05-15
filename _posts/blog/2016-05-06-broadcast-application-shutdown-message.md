@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Broadcast shutdown/restart messages to all users
+title: Broadcast shutdown/restart messages to all application users
 category: blog
 comments: true
 excerpt: Broadcast message to all users before shutdown and post restart (Spring, JSP and JQuery) 
