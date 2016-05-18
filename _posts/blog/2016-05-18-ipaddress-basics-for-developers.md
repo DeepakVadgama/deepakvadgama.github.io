@@ -84,7 +84,7 @@ If you are using cloud services for development, you might need access to operat
   By default, for security purposes access is denied for any external computer. You need to add your IP address explicitly in cloud configuration.
   
   Since you cannot add dynamic IP (it will keep changing) and you don't have static IP you can use intermediate format called [CIDR format](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#IPv4_CIDR_blocks).
-  So if my ISP always assigns me IP address of 20.54.xxx.xxx I can use for 20.54.0.0/16. This says, allow any number is last 16 bits of this IP address starting with 20.54.   
+  So if my ISP always assigns me IP address of 20.54.xxx.xxx I can use format 20.54.0.0/16. This says, allow any IP address starting with 20.54 and ignore last 16 bits.   
 
 <figure>
  <a href="{{ site.url }}/images/blog/ip/sql-cloud.png"><img src="{{ site.url }}/images/blog/ip/sql-cloud.png"></a>
