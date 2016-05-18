@@ -7,8 +7,8 @@ excerpt: Basic understanding of IP addresses, every developer should know.
 tags: networking
 ---
 
-Recently a colleague of mine used IP address of 192.168.0.245 in Google Cloud SQL console, to enable access to cloud instance from his local machine.
-I thought of jotting down few important points that a developer should know about IP addresses. 
+Recently a colleague of mine incorrectly used IP address of 192.168.0.245 in Google Cloud SQL console, to enable access to cloud instance from his local machine.
+ I thought of jotting down few important points that I think a developer should know about IP addresses. 
 
 ### IP Address
 
