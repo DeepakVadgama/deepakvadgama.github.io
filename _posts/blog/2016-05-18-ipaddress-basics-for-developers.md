@@ -96,8 +96,7 @@ Note: As far as possible, using complete IP addresses in such configuration sinc
 
 The number of devices (eg: websites) which need static addresses have increased rapidly over the years. But the number of IPv4 addresses possible though large, are limited (2^32=4.3 billion). 
 
-[IPv6](https://en.wikipedia.org/wiki/IPv6) was created to address this issue. IPv6 uses 128 bit addresses (IPv4=32 bits). 
-This increases the capacity to 2^128, which is a massive number which we will probably never exhaust.
+[IPv6](https://en.wikipedia.org/wiki/IPv6) was created to address this issue. IPv6 uses 128 bit addresses the capacity to 2^128, which is a massive number which we will probably never exhaust.
 
 Then why have we not started using IPv6 everywhere? Thats because each device that participates in flow of internet (routers, proxies, servers, devices), needs
  to be able to understand IPv6. So though the transition to IPv6 has begun, it will take few more years to complete. 
