@@ -3,7 +3,8 @@ layout: post
 title: Polarized expressions of modern civilization
 category: blog
 comments: true
-excerpt: Why we, as a civilization, are becoming more polarized about our opinions?   
+excerpt: Why we, as a civilization, are becoming more polarized about our opinions?
+tags: opinion
 ---
 
 In last few years there has been a tidal wave of polarization sweeping the world. 

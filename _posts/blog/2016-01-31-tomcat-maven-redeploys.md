@@ -4,6 +4,7 @@ title: Redeploy WAR to Tomcat using Maven
 category: blog
 comments: true
 excerpt: Save time during WAR redeploys to Tomcat using Maven
+tags: tomcat, maven
 ---
 
 I have been working on an existing Spring MVC application with relatively large codebase. 

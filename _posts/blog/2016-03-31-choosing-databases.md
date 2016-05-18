@@ -3,7 +3,8 @@ layout: post
 title: Choosing Databases
 category: blog
 comments: true
-excerpt: Brief taxonomy of modern databases.    
+excerpt: Brief taxonomy of modern databases.
+tags: database
 ---
 
 <figure>

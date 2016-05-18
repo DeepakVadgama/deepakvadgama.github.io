@@ -3,7 +3,8 @@ layout: post
 title: Circle onto tangent
 category: blog
 comments: true
-excerpt: Changing direction after 9 years of software development in investment banks  
+excerpt: Changing direction after 9 years of software development in investment banks
+tags: freelancer, consultant
 ---
 
 <figure>
