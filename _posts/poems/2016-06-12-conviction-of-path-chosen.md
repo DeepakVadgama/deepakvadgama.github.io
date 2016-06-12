@@ -36,10 +36,10 @@ Their narrow cone of vision, keeping all fears at bay
 Do they reaffirm that faith by constant discipline and practice..  
 Or is it only natural once the neural paths are established
 
-Are they quick adopters who criss cross these paths upon new information..  
+Are they quick adapters who criss cross these paths upon new information..  
 Or do they sustain against all odds, until within touching distance is their aspiration
 
-Does the environment affect their walk, or instead does it make them leap..  
+Does the environment affect their path, or instead does it make them leap..  
 Does that energy come from a source within, or is it the company they keep
 
 Their drive is an enigma to me, which I hope to unravel..  
