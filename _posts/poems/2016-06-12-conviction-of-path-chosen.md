@@ -30,13 +30,13 @@ Or is it a cold hearted decision drawn with mathematical precision
 After a path is laid out, are they unhinged, unwavered in their quest..  
 Or is there still skepticism about long road ahead, little flutters in the chest
 
-Or Is it the zealousness shown by dreamers of the day..  
+Or is it the zealousness shown by dreamers of the day..  
 Their narrow cone of vision, keeping all fears at bay 
 
 Do they reaffirm that faith by constant discipline and practice..  
-Or is it only natural once the neural paths are established
+Or is it only natural, once the neural paths are established
 
-Are they quick adapters who criss cross these paths upon new information..  
+Are they quick adapters who criss-cross these paths upon new information..  
 Or do they sustain against all odds, until within touching distance is their aspiration
 
 Does the environment affect their path, or instead does it make them leap..  
