@@ -83,5 +83,5 @@ Java is rapidly losing developer mindshare. It is chugging along thanks to large
 I have been looking at Job postings ([1](http://stackoverflow.com/jobs?allowsremote=true), [2](https://remoteok.io/), [3](https://weworkremotely.com/)) and hardly any startups quote Java.
 Probably its too slow and complex for startups, too limiting for intellectuals (Haskell/Scala), old timers (C/C++), clarity seekers (Python), uptime freaks (Erlang), functional zealots (JavaScript/Lisp/Clojure)..  
 
-These languages along with recent popular ones like Go, Rust, Swift, D, Rails, NodeJS have slowly started taking over.
+These languages along with recent popular ones like Go, Rust, Swift, D, Rails/Ruby, NodeJS/JS have slowly started taking over.
 The final nail in the coffin will be the cloud (microservices/serverless/big-query). Java will cease to be prima facie of programming languages, which might be a good thing considering the circumstances. 
