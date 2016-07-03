@@ -3,7 +3,7 @@ layout: post
 title: Oracle's Java and the poor developer
 category: blog
 comments: true
-excerpt: 
+excerpt: Upheaval in Java community about the lack of progress/clarity by Oracle over JEE
 tags: development, java
 ---
 
