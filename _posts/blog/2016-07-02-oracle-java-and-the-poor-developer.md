@@ -32,9 +32,11 @@ It would be unfair to pick on Oracle though. Even before Oracle acquired Sun, th
 
 ## Java SE release train
 
-Java 5 (2004) was he first major release in terms of APIs/language-updates. 
-Java 6 came along couple of years later without adding much to the language.
-The next major release after whopping 7 years as Java 7. Java 8 was released in 2014 while Java 9 itself has been mired in [delays](https://dzone.com/articles/oracle-announces-jigsaw-delays-push-java-9-launch) and is expected to come out in 2017.
+- Java 5 (2004) was first major release in terms of APIs/language-updates.   
+- Java 6 came along couple of years later without adding much to the language.    
+- Java 7, the next major release came after a gap of whopping 7 years.   
+- Java 8 was released in 2014, 3 years later.  
+- Java 9 itself has been mired in [delays](https://dzone.com/articles/oracle-announces-jigsaw-delays-push-java-9-launch) and is expected to come out in 2017.  
 
  <figure>
      <a href="{{ site.url }}/images/blog/java_timeline.png"><img src="{{ site.url }}/images/blog/java_timeline.png"></a>
