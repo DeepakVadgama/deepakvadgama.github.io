@@ -7,10 +7,6 @@ excerpt: Steps to install LetsEncrypt SSL certificate on Wordpress hosted on Goo
 tags: google cloud, wordpress, https, letsencrypt
 ---
 
-## Update
-The steps listed below still work but are outdated. LetsEncrypt now recommends [Certbot](https://certbot.eff.org) which is super easy to install and use. 
-It auto creates the certificates and also deals with renews.  
-
 Steps to install free SSL certificates using [Lets Encrypt](https://letsencrypt.org/) on Google Cloud based Wordpress installation. 
 
 All the paths below are based on assumption that you've used one-click-install Google Launcher version of [Wordpress](https://cloud.google.com/launcher/solution/click-to-deploy-images/wordpress?q=Wordpress). Also, in the steps below replace 'balajiextrusions' with your own site name
@@ -158,3 +154,5 @@ That's it. You are done. Enjoy free https.
  
 Feel free to comment if you need any help with above steps.
 
+**Update (July 2016)**: The steps listed below still work but are outdated. LetsEncrypt now recommends [Certbot](https://certbot.eff.org) which is super easy to install and use. 
+It auto creates the certificates and also deals with renewals.  
