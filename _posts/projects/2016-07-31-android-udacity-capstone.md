@@ -54,6 +54,7 @@ Backend for the app was created using Spring MVC and MySQL. Creating REST APIs i
 ## Content Provider aka The Beast
 This part of the app took the most time to implement. This part was mandated by Udacity. 
 It involves:
+
 - creating table creation/insert/update/delete queries
 - building URIs for all requests expected
 - building contracts for table/columns
@@ -65,8 +66,8 @@ I now understand why services like Firebase are so useful. They can save a lot o
 
 ## SyncAdapter 
 I used SyncAdapter to schedule synchronization with data. 
-Though now, Google recommends using JobScheduler, this part too was mandated by Udacity.   
-SyncAdapter's ability to sync immediately or configure periodic sync came handy. I added settings to choose duration between syncs.  
+Though now, Google recommends using JobScheduler, this part too was mandated by Udacity. 
+SyncAdapter's ability to sync immediately or configure periodic sync came handy. I added settings to choose duration between syncs.
 While, the immediate sync option was useful in implementing 'Pull to refresh' and menu item 'Refresh' to get new data from server. 
 
 ## Recycler View / List View
@@ -76,7 +77,7 @@ I opted for ListView to implement list of items instead of RecyclerView.
 There is native support for CursorAdapter with ListView but not for RecyclerView.    
 
 ## SearchProvider
-All of the Google apps come with beautiful looking search bars, which show suggested/recent queries.  
+All of the Google apps come with beautiful looking search bars, which show suggested/recent queries.
 Its not straight forward to implement such for our app.
 Related [Google article](https://developer.android.com/guide/.../search/adding-recent-query-suggestions.html) details the steps, 
 though I couldn't get it to look as good due to time constraints.  
@@ -88,10 +89,10 @@ though I couldn't get it to look as good due to time constraints.
 
 ## Google Identity
 I used [Google's Identity](https://developers.google.com/identity/sign-in/android/start-integrating) support to retrieve user's email id. 
-This was used to synchronize favorites with the server and across devices. 
+This was used to synchronize favorites with the server and across devices.
 The synchronization of existing favorites from server to app happens during account selection. 
 Sync from app to server happens in batches using SyncAdapter. 
- Google Identity also provides [token based authentication](https://developers.google.com/identity/sign-in/android/backend-auth), which helps in authorizing requests on the server.
+Google Identity also provides [token based authentication](https://developers.google.com/identity/sign-in/android/backend-auth), which helps in authorizing requests on the server.
 
 ## YouTube Embed
 - Setup: I found YouTube library to be difficult to setup. 
