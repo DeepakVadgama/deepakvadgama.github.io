@@ -46,7 +46,7 @@ Backend for the app was created using Spring MVC and MySQL. Creating REST APIs i
 
 - Android Studio: Android tooling has progressed leaps and bounds in just 1 year due to Android Studio. Setup is pain free and works beautifully.
 - Instant Run: Instant run avoid complete rebuild of project in case of minor code changes.   
-- Gradle: Gradle speeds have improved and combined with Android Instant run the app development can be fun.
+- Gradle: Gradle speeds have improved and combined with Android Instant run, development is fun.
 - Use latest SDK and build-tools version, and keep minSDK as 16 to target [90% of Android install base](developer.android.com/about/dashboards/index.html)
 - Keep minSDK version for dev config as 21 to avoid time consuming dex merge process. 
 - [My build.gradle file](https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/build.gradle) 
@@ -62,12 +62,12 @@ It involves:
 - creating cursor adapter to use the data loader
 
 This [whole flow of Loader](http://www.androiddesignpatterns.com/2012/07/loaders-and-loadermanager-background.html) is quite detailed and can be [difficult to understand](https://www.udacity.com/course/viewer#!/c-ud853/l-3681658545/m-1593528720). 
-I now understand why services like Firebase are so useful. They can save a lot of developer time. 
+I now know why services like Firebase are so useful. They help developers save a lot of time. 
 
 ## SyncAdapter 
 I used SyncAdapter to schedule synchronization with data. 
 Though now, Google recommends using JobScheduler, this part too was mandated by Udacity. 
-SyncAdapter's ability to sync immediately or configure periodic sync came handy. I added settings to choose duration between syncs.
+SyncAdapter's ability to sync immediately or configure periodic sync came handy. I added settings, for user to change duration between syncs.
 While, the immediate sync option was useful in implementing 'Pull to refresh' and menu item 'Refresh' to get new data from server. 
 
 ## Recycler View / List View
@@ -78,14 +78,14 @@ There is native support for CursorAdapter with ListView but not for RecyclerView
 
 ## SearchProvider
 All of the Google apps come with beautiful looking search bars, which show suggested/recent queries.
-Its not straight forward to implement such for our app.
-Related [Google article](https://developer.android.com/guide/.../search/adding-recent-query-suggestions.html) details the steps, 
-though I couldn't get it to look as good due to time constraints.  
+I wasn't able to find out-the-box pretty looking search bar for this. 
+Related [Google article](https://developer.android.com/guide/.../search/adding-recent-query-suggestions.html) details the steps. 
+It works, though I couldn't get it to look as good due to time constraints.  
 
 ## Libraries
 - Retrofit: Probably a gold standard for REST calls.
 - Glide: To download, cache and load image into Views.
-- Like button: Animated like button similar to Twitter's. 
+- Like button: Animated 'like' button similar to Twitter's. 
 
 ## Google Identity
 I used [Google's Identity](https://developers.google.com/identity/sign-in/android/start-integrating) support to retrieve user's email id. 
@@ -97,7 +97,7 @@ Google Identity also provides [token based authentication](https://developers.go
 ## YouTube Embed
 - Setup: I found YouTube library to be difficult to setup. 
 - Thumbnails: Once setup, I could not get the thumbnails to work for 2 days straight. I gave up and used YouTube's URL which is used to retrieve thumnails. [Code here](https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/util/YouTubeUtil.java)
-- Videos: Setting up embedded video required very little [code](https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/DetailFragment.java).  
+- Videos: Setting up embedded video on the other hand required very little [code](https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/DetailFragment.java).  
 
 ## Material Design
 - [Icons](https://design.google.com/icons/)
@@ -107,8 +107,8 @@ Google Identity also provides [token based authentication](https://developers.go
 - [Transitions](https://developer.android.com/training/material/animations.html) 
 
 ## Notifications and Sharing
-Creating notifications and sharing for quote/story (having only text) was simple. 
-For pictures/lectures/kirtan (YouTube thumbnail) it requires loading Picture in background thread. 
+Creating notifications and sharing for quote/story (text based) was simple. 
+For pictures/lectures/kirtan (YouTube thumbnail), it requires background thread to download. 
 I used Glide library with AsyncTask to implement 
 both [notifications](https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/util/NotificationUtil.java) and [sharing](https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/util/SharePicturetask.java). 
 
@@ -122,7 +122,7 @@ Extend AppWidgetProvider and use IntentService to get data and bind to widget vi
 I created widget which displays quotes, and configured it to update once every day. 
  
 ## Accessibility, i18n & Corner cases
-- i18n: Externalize all strings in strings.xml and never hard-code. 
+- i18n: Externalize all strings in strings.xml instead of hard-coding them. 
 - Talk back: Mostly requires adding content-description to all ImageViews, buttons and such. 
 - DPad: Requires adding attributes (focusable, descendantFocusability, clickable) in relevant xmls.
 - RTL: Requires adding start/end instead of left/right in layout xmls.
@@ -134,7 +134,8 @@ Signing app was mandated by Udacity and was made easy by this [Google article](h
 ## Final Thoughts
 All in all, creating app was time-consuming but fun. 
 Especially once ContentProvider/Loader/SyncAdapter were implemented, other features were more fun due to quick code-test feedback loop. 
-Finally, my first full-fledged android app is done. 
+I submitted the project and it was reviewed successfully. 
+My next steps would be to polish the app (RecyclerView, Material Design motion, Navigation Drawer) and create Web-Admin to add content dynamically.    
 
 <figure>
  <a href="{{ site.url }}/images/blog/capstone/screenshot1.png"><img src="{{ site.url }}/images/blog/capstone/screenshot1.png"></a>
