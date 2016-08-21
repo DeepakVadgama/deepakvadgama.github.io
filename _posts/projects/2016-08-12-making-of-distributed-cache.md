@@ -26,7 +26,7 @@ while distributing it to clients on need basis.
 - Remote Procedure Call
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache_overview.jpg"><img src="{{ site.url }}/images/blog/cache_overview.jpg"></a>
+    <a href="{{ site.url }}/images/blog/cache/cache_overview.jpg"><img src="{{ site.url }}/images/blog/cache/cache_overview.jpg"></a>
 </figure>
 
 ### TCP Communication - Grizzly
@@ -47,7 +47,7 @@ its own module and exposed via [strategy pattern](https://dzone.com/articles/des
 Interval was configurable based on priority of application.  
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache_connectivity.jpg"><img src="{{ site.url }}/images/blog/cache_connectivity.jpg"></a>
+    <a href="{{ site.url }}/images/blog/cache/cache_connectivity.jpg"><img src="{{ site.url }}/images/blog/cache/cache_connectivity.jpg"></a>
 </figure>
 
 ### Service Discovery
@@ -61,7 +61,7 @@ retry-interval etc.
 we did not create fall back for this. Also, the service was needed only during startup, thus reducing probability of failure.
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache_discovery.jpg"><img src="{{ site.url }}/images/blog/cache_discovery.jpg"></a>
+    <a href="{{ site.url }}/images/blog/cache/cache_discovery.jpg"><img src="{{ site.url }}/images/blog/cache/cache_discovery.jpg"></a>
 </figure>
 
 ### Data serialization - Kryo
@@ -113,11 +113,11 @@ Helpful in services which connect and process trades from multiple markets.
  using 2 server caches off which 1 stores entire copy, while other stores only data requested by client cache using remoting. 
 
 <figure>
-    <a href="{{ site.url }}/images/blog/multiclient_cache.jpg"><img src="{{ site.url }}/images/blog/multiclient_cache.jpg"></a>
+    <a href="{{ site.url }}/images/blog/cache/multiclient_cache.jpg"><img src="{{ site.url }}/images/blog/cache/multiclient_cache.jpg"></a>
 </figure>
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache_lazy.jpg"><img src="{{ site.url }}/images/blog/cache_lazy.jpg"></a>
+    <a href="{{ site.url }}/images/blog/cache/cache_lazy.jpg"><img src="{{ site.url }}/images/blog/cache/cache_lazy.jpg"></a>
 </figure>
 
 
