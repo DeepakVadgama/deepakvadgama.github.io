@@ -49,7 +49,7 @@ Rejoice! No more codebase conflicts amongst developers. As a bonus, we started o
 ### Step 2: Expose the service
 
 + Expose functionality of that component as an API
-+ Expose cache if service deals with data (we used our in-house custom cache)
++ Expose cache if service deals with data (we used our in-house [custom cache]({{ site.url }}/projects/making-of-distributed-cache/))
 + Document the APIs in team wiki
 
 Now for any new code, developer can just refer to the API of dependent services, without worrying about the internals. Though deciding on the API itself should be thorough process. Otherwise dependent services need to keep updating to keep up with API changes. 
