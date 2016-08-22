@@ -4,7 +4,11 @@ title: https using LetsEncrypt on Google Cloud Wordpress
 category: blog
 comments: true
 excerpt: Steps to install LetsEncrypt SSL certificate on Wordpress hosted on Google Cloud
-tags: google cloud, wordpress, https, letsencrypt
+tags: 
+  - google-cloud
+  - wordpress
+  - https
+  - letsencrypt
 ---
 
 Steps to install free SSL certificates using [Lets Encrypt](https://letsencrypt.org/) on Google Cloud based Wordpress installation. 

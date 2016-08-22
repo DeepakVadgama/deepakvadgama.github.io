@@ -4,7 +4,9 @@ title: Broadcast shutdown/restart messages to all application users
 category: blog
 comments: true
 excerpt: Broadcast message to all users before shutdown and post restart (Spring, JSP and JQuery) 
-tags: spring, javascript
+tags: 
+  - spring
+  - javascript
 ---
 
 I have been working on an [ERP software]({{ site.url }}/projects/refactoring-to-sanity/) which is used by ~25 users across departments. 

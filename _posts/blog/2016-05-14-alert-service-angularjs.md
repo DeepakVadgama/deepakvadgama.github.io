@@ -4,7 +4,9 @@ title: AlertService in AngularJS using Bootstrap
 category: blog
 comments: true
 excerpt: Alert service to reduce boilerplate code for creating alerts throughout the application.
-tags: angularjs, javascript
+tags: 
+  - angularjs
+  - javascript
 ---
 
 I've been working on a web application using AngularJS and bootstrap. 

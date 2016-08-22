@@ -4,7 +4,9 @@ title: Database modeling mishaps
 category: blog
 comments: true
 excerpt: How database modelling decisions can hamper or catalyze development and maintenance 
-tags: database, domain
+tags: 
+  - database
+  - domain
 ---
 
 I have been working on an [ERP software]({{ site.url }}/projects/refactoring-to-sanity/) which was created by 3 developers fresh

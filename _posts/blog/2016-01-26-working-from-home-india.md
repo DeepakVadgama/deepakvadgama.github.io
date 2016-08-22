@@ -4,7 +4,9 @@ title: Work from home ergonomics
 category: blog
 comments: true
 excerpt: My Work from home ergonomic setup (India)
-tags: freelancer, consultant
+tags: 
+  - freelancer
+  - consultant
 ---
 
 Being a freelancer and working from home in India turned out to be different than I anticipated, primarily due to 

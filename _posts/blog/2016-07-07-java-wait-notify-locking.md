@@ -14,11 +14,12 @@ Had a fun conversation with a friend recently. It was about how Java's wait/noti
  <a href="{{ site.url }}/images/blog/java-wait-notify.png"><img src="{{ site.url }}/images/blog/java-wait-notify.png"></a>
 </figure>
 
-## The doubt
-
-
+## Doubts
 
 ## How it works
+
+
+
 
 [8:38 PM, 7/5/2016] Prabhat Kuber: Dude!! I was just looking at the wait n notify code and got serious doubt.
 Assume that we have two synchronized functions having lock on same object, once function contains only notify and another contains only wait function. We have two threads calling each function at the same time. Assume that function first( containing wait) got called and get the lock, and function second would be deprived of lock and would be waiting for the lock bt then thread one will call the wait method and lock would be released. Now, thread 2 would acquire the lock of the object and start processing den at the juncture of existing from the function it would call the notify.. till now I am clear .

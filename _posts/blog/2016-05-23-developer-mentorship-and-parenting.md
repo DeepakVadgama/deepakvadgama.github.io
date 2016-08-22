@@ -5,7 +5,9 @@ category: blog
 comments: true
 published: false 
 excerpt: Mentor and developer's roles in improving her skills
-tags: startup, softskills
+tags: 
+  - startup
+  - softskills
 ---
 
 Freshers =

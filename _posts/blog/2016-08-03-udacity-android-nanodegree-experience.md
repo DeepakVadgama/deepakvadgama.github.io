@@ -4,7 +4,9 @@ title: Udacity Android Nanodegree Experience
 category: blog
 comments: true
 excerpt: My experience of Udacity's Android Nanodegree
-tags: development, android
+tags: 
+  - development
+  - android
 ---
 
 <figure>
