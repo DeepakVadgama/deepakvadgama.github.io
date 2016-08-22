@@ -55,10 +55,10 @@ Interval was configurable based on priority of application.
 - **Well known service:** The host-port information of the server caches were not hardcoded. Instead, they were configured with 
 proprietary well-known service similar to zookeeper. 
 - **Naming:** Service configuration look up was done using name of the cache (eg: securities-cache, customer-cache etc)
-- **Configuration:** In addition to the host and port information, the config contained various parameters like connection-pool size,
+- **Configuration:** In addition to the host and port information, the config contains various parameters like connection-pool size,
 retry-interval etc.
 - **Fallback:** The service was created and maintained by Nomura architecture team and hardly ever had downtime. Thus
-we did not create fall back for this. Also, the service was needed only during startup, thus reducing probability of failure.
+we did not create fall back for this. Also, the service was needed only during startup, thus reducing probability of failure further.
 
 <figure>
     <a href="{{ site.url }}/images/blog/cache/cache_discovery.jpg"><img src="{{ site.url }}/images/blog/cache/cache_discovery.jpg"></a>
@@ -67,22 +67,22 @@ we did not create fall back for this. Also, the service was needed only during s
 ### Data serialization - Kryo
 
 - **Speed:** Out of many libraries [available](https://github.com/Vedenin/useful-java-links#serialization-and-io) in java, we chose Kryo mainly because 
-of its speed. 
+of its [serialization speed](https://github.com/EsotericSoftware/kryo#benchmarks). 
 - **Binary:** Though Kryo is fast, it is a binary protocol. This means, during Production issues, the data had to be copied from logs, and run through 
 java deserializer class to make sense of the data. Considering 85% of a project's time is spent in maintenance, this factor weighed heavily
  against us. 
 - **Special classes:** There were a few classes (eg: Joda DateTime) which had to be configured in Kryo configuration to be serialized correctly. 
-- **Kryo Net:** [Kryo Net](https://github.com/EsotericSoftware/kryonet) was soon released as a TCP/UDP networking library which worked excellently 
+- **Kryo Net:** [Kryo Net](https://github.com/EsotericSoftware/kryonet) was soon released as a TCP/UDP networking library which works excellently 
 with Kryo. In hindsight, choosing it would have helped save lot of effort in maintaining TCP communication layer. 
 
 ### Remoting
 
 - **Use case:** Implementing remoting was fairly easy once the building block of TCP connection was established. 
 This utility was necessary to implement Lazy cache detailed below.
-- **Sync:** Synchronous RPC was designed simpler. Every server class which could be called remotely, implemented an interface
-and a method which returned its unique service name. The TCP module created a HashMap of these service names and the class as key-value.
-The client request contains the service name to be called along with method name and parameters. 
-Server's job was then to get class from the HashMap and call the method using reflection. 
+- **Sync:** Synchronous RPC was simple to design. Every server class which could which implemented a specific interface & method could be called remotely. 
+The implemented method returned service-name string. On startup, TCP module created a HashMap of these service-names and the instance as key-value.
+Every client request contains service-name to be called along with method to be called and corresponding parameters. 
+Server's job was then to get instance from the HashMap and call the method with parameters using reflection. 
 - **Async:** Asynchronous RPC call was slightly trickier. It involved exchanging a unquie (UUID) for every method call request. 
  When the method was finished executing, server sends returned response object to the client with the same UUID, so as 
    to map the request-response. 
@@ -93,24 +93,27 @@ Server's job was then to get class from the HashMap and call the method using re
  quite stable and contains lot of good [features](https://github.com/npgall/cqengine#cqengine-overview) like indexing, querying etc and great [speed](https://dzone.com/articles/comparing-search-performance).  
 - **Indexing:** CQEngine allows [indexing](https://github.com/npgall/cqengine#complete-example) objects with particular variables and attains O(1) performance while querying.
 - **Queries:** CQEngine also has querying abilities almost [as feature rich as SQL](https://github.com/npgall/cqengine#string-based-queries-sql-and-cqn-dialects) 
-- **Snapshot ready event:** Once client connects to server cache, it starts receiving the initial snapshot data from server. Once the entire snapshot data is received, a ready event is fired.  
-- **Realtime data:** After initial snapshot is received the client can receive data in real time. 
+- **Snapshot ready event:** Once client connects to server cache, it starts receiving the initial snapshot data from server. 
+Once the entire snapshot data is received, a ready event is fired, allowing application to start its working.   
+- **Realtime data:** After initial snapshot is received, client can start receiving data in real time. 
 Whenever Server cache receives new data it pushes the same to all clients using TCP module. 
 - **Add/Delete/Update events:** The data events are of add/delete/update types.
-- **Dirty cache:** Due to distributed nature of cache, there is a possibility client cache disconnects with server, and still has dirty data in its cache. 
-Such dirty state of cache was acceptable in most cases, and was controlled using connection listeners exposed by TCP module. 
+- **Dirty cache:** Due to distributed nature of cache, there is a possibility client cache disconnects with server (network issues or if server is down), 
+and still has data in its cache (aka dirty cache). Such state of cache was acceptable in most cases, 
+and was known using connection listeners exposed by TCP module. 
 
 ### Application use-cases 
 
-- **Default server client cache:** Default caching which uses server cache which stores golden copy, 
-and a client which receives data in form of initial snapshot and then real-time updates. 
+- **Default server client cache:** Default caching which uses server-cache which stores golden copy, 
+and 1 or more clients which receive data in form of initial snapshot and then real-time updates. 
 - **Filter based cache:** Server client cache which allows client to subscribe to a certain kind of data (based on filter). 
 Though, we implemented this filtering on caching module in client cache, thus it did not save bandwidth though it made client code cleaner.  
 - **Streaming cache:** Form of client which does not store data in CQEngine, it just receives data from server. Helpful in services like auditing. 
-- **Multi client cache  (Downstream feeds):** Form of client which connects to multiple cache servers at once. 
+- **Multi cache:** Form of client which connects to multiple cache servers at once. 
 Helpful in services which connect and process trades from multiple markets.  
 - **Lazy cache:** Form of cache where if server cache shares only requested data with client. This is implemented simply by
- using 2 server caches off which 1 stores entire copy, while other stores only data requested by client cache using remoting. 
+ using 2 server caches off which 1 stores entire copy, while other stores only data requested by client cache. 
+  Client requested the required data using remoting. 
 
 <figure>
     <a href="{{ site.url }}/images/blog/cache/multiclient_cache.jpg"><img src="{{ site.url }}/images/blog/cache/multiclient_cache.jpg"></a>
@@ -124,9 +127,8 @@ Helpful in services which connect and process trades from multiple markets.
 ### IKVM experiment
  
 This Java based system of distributed cache formed a strong base for our microservices. 
-Since our UI was implemented in .NET we could not extend this system to trader UI. 
+Though, since our UI was implemented in .NET we could not extend this system to trader UI. 
 We attempted to fix this by using [IKVM](https://www.ikvm.net/), which converts Java classes into dot NET ones.
- Unfortunately IKVM was not mature and stable enough to convert all JARs/modules in .NET
- 
- 
+ Unfortunately IKVM was not mature and stable enough to convert all JARs/modules in .NET. Thus the experiment remained unsuccessful.
+
  
