@@ -48,3 +48,4 @@ Now doubt start engulfing me...
 [11:25 PM, 7/5/2016] +91 99201 22644: JVM will try to run it again since it's runnable but immediately see the synchronized block and wait for the object lock
 [11:25 PM, 7/5/2016] Prabhat Kuber: Dude!! Thread already bypassed it and called wait method and released d lock
 [11:27 PM, 7/5/2016] +91 99201 22644: Yeah, but even took continue after wait() line of code, since while method is synchronized.. JVM will remember the line to resume from but will still wait for the lock
+
