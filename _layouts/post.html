@@ -51,10 +51,10 @@
       </footer>
     </div><!-- /.article-wrap -->
 
+    
+   {% include _page_taxonomy.html  %}	
    {% include _social.html  %}	
-
-
-
+    
   {% if site.owner.disqus-shortname and page.comments == true %}
     <section id="disqus_thread"></section><!-- /#disqus_thread -->
   {% endif %}

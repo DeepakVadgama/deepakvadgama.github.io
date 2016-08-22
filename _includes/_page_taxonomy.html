@@ -1,0 +1,13 @@
+<p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    {% for hash in tag_hashes %}
+      {% assign keyValue = hash | split: '#' %}
+      {% capture tag_word %}{{ keyValue[1] | strip_newlines }}{% endcapture %}
+      <a href="{{ site.url }}{{ tag_word | slugify | prepend: path_type | prepend: site.tag_archive.path }}" class="page__taxonomy-item" rel="tag">{{ tag_word }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+    {% endfor %}
+    {% for tag in page.tags %}
+      <a href="{{ site.url }}/tags/#{{ tag | slugify }}" class="page__taxonomy-item" rel="tag">{{ tag }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+    {% endfor %}
+    </span>
+</p>
