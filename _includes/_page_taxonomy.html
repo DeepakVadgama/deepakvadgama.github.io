@@ -7,7 +7,7 @@
       <a href="{{ site.url }}{{ tag_word | slugify | prepend: path_type | prepend: site.tag_archive.path }}" class="page__taxonomy-item" rel="tag">{{ tag_word }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
     {% endfor %}
     {% for tag in page.tags %}
-      <a href="{{ site.url }}/tags/#{{ tag | slugify }}" class="page__taxonomy-item" rel="tag">{{ tag }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+      <a href="{{ site.url }}/tags/#{{ tag | slugify }}" class="page__taxonomy-item" rel="tag">{{ tag }}</a>
     {% endfor %}
     </span>
 </p>
