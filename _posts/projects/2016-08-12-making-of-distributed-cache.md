@@ -6,7 +6,7 @@ comments: true
 excerpt: How we built distributed cache as foundation for our microservices architecture.
 ---
 
-### Summary
+## Summary
 During my tenure at my previous company, we [converted]({{site.url}}/projects/accidental-microservices) a big monolith based trading system into micro-services based architecture. 
  It required a base infrastructure to orchestrate communication between all services. 
 Instead of using an out-of-the-box solution like [Redis](https://redis.io), we created our own distributed 
@@ -17,7 +17,7 @@ while distributing it to clients on need basis.
     <a href="{{ site.url }}/images/blog/microservices.png"><img src="{{ site.url }}/images/blog/microservices.png"></a>
 </figure>
 
-### Building blocks
+## Building blocks
 
 - Connectivity (TCP based)
 - Service Discovery
@@ -29,7 +29,7 @@ while distributing it to clients on need basis.
     <a href="{{ site.url }}/images/blog/cache/cache_overview.jpg"><img src="{{ site.url }}/images/blog/cache/cache_overview.jpg"></a>
 </figure>
 
-### TCP Communication - Grizzly
+## TCP Communication - Grizzly
 
 The base of the communication infrastructure, TCP library was needed to establish and maintain connections
 between 2 or more services. We chose [Grizzly](https://grizzly.java.net/) out of many [networking libraries available for java](https://github.com/Vedenin/useful-java-links#2-networking).
@@ -50,7 +50,7 @@ Interval was configurable based on priority of application.
     <a href="{{ site.url }}/images/blog/cache/cache_connectivity.jpg"><img src="{{ site.url }}/images/blog/cache/cache_connectivity.jpg"></a>
 </figure>
 
-### Service Discovery
+## Service Discovery
 
 - **Well known service:** The host-port information of the server caches were not hardcoded. Instead, they were configured with 
 proprietary well-known service similar to zookeeper. 
@@ -64,7 +64,7 @@ we did not create fall back for this. Also, the service was needed only during s
     <a href="{{ site.url }}/images/blog/cache/cache_discovery.jpg"><img src="{{ site.url }}/images/blog/cache/cache_discovery.jpg"></a>
 </figure>
 
-### Data serialization - Kryo
+## Data serialization - Kryo
 
 - **Speed:** Out of many libraries [available](https://github.com/Vedenin/useful-java-links#serialization-and-io) in java, we chose Kryo mainly because 
 of its [serialization speed](https://github.com/EsotericSoftware/kryo#benchmarks). 
@@ -75,7 +75,7 @@ java deserializer class to make sense of the data. Considering 85% of a project'
 - **Kryo Net:** [Kryo Net](https://github.com/EsotericSoftware/kryonet) was soon released as a TCP/UDP networking library which works excellently 
 with Kryo. In hindsight, choosing it would have helped save lot of effort in maintaining TCP communication layer. 
 
-### Remoting
+## Remoting
 
 - **Use case:** Implementing remoting was fairly easy once the building block of TCP connection was established. 
 This utility was necessary to implement Lazy cache detailed below.
@@ -87,7 +87,7 @@ Server's job was then to get instance from the HashMap and call the method with 
  When the method was finished executing, server sends returned response object to the client with the same UUID, so as 
    to map the request-response. 
 
-### Caching
+## Caching
 
 - **CQ Engine:** We chose [CQEngine](https://github.com/npgall/cqengine) instead of normal HashMap for saving data. CQEngine is
  quite stable and contains lot of good [features](https://github.com/npgall/cqengine#cqengine-overview) like indexing, querying etc and great [speed](https://dzone.com/articles/comparing-search-performance).  
@@ -102,7 +102,7 @@ Whenever Server cache receives new data it pushes the same to all clients using 
 and still has data in its cache (aka dirty cache). Such state of cache was acceptable in most cases, 
 and was known using connection listeners exposed by TCP module. 
 
-### Application use-cases 
+## Application use-cases 
 
 - **Default server client cache:** Default caching which uses server-cache which stores golden copy, 
 and 1 or more clients which receive data in form of initial snapshot and then real-time updates. 
@@ -124,7 +124,7 @@ Helpful in services which connect and process trades from multiple markets.
 </figure>
 
 
-### IKVM experiment
+## IKVM experiment
  
 This Java based system of distributed cache formed a strong base for our microservices. 
 Though, since our UI was implemented in .NET we could not extend this system to trader UI. 

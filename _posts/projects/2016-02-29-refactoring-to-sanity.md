@@ -11,7 +11,7 @@ The software is used by all departments to manage end-to-end flow from Sales Ord
 While it has been very interesting working on new features, I had to spend 50% of the effort on refactoring the code back to healthy state. 
 Fun snippets of code I started with can be found at the end of the post. 
 
-### Making of chaos
+## Making of chaos
 The client initially opted for SAP based solution which turned out to be too expensive a proposition to maintain. They lost close to INR 12 lakhs.
 Later, they gave the project to a large Indian services company. The project was delivered 6 months late, with cost of INR 15 lakhs (~$22,000).
 Sadly the project was run in its entirety by 3 developers fresh out of college.
@@ -20,7 +20,7 @@ Suffice to say by the time the project came to me, though it was in working stat
 Since most of the issues could've been easily avoided with proper guidance to these freshers, 
 let me jot down *instead-do-this* advice-list for issues I encountered.
 
-### Setup of Project
+## Setup of Project
 - Ensure codebase is maintained in some external & private repository. [BitBucket](http://bitbucket.org) and [Gitlab](http://gitlab.com) provide it for free.
 - Setup logging. Java's logging ecosystem is a mess. Use [this chart](http://www.slf4j.org/images/legacy.png) for guidance, or better yet, use out-of-the-box solutions like [Spring Boot](http://projects.spring.io/spring-boot/).
 - Ensure logging is setup using appropriate rollovers and max-file-sizes while retaining atleast 2 weeks of history. [Log4j](https://logging.apache.org/log4php/docs/appenders/rolling-file.html) or [Logback](http://stackoverflow.com/a/14199642/3494368) references. 
@@ -28,7 +28,7 @@ let me jot down *instead-do-this* advice-list for issues I encountered.
 - For new projects, make it mandatory to have test cases, and schedule deliverables accordingly.
 - Create [profiles](https://docs.spring.io/spring-boot/docs/.../boot-features-profiles.html) in code, to avoid accidentally connecting to Prod/UAT database.
 
-### Coding
+## Coding
 - Use enums instead of Strings when possible. They restrict values and reduce equals errors, especially case sensitive ones.
 - Prefer primitives over wrapper class if possible. Otherwise stick to wrapper classes, avoid mixing them too much.
 - Object conversions (eg: POJO to DTO) should be done within owner classes. If done outside, it needs to be repeated. Also, if a new field is added to the class, every copy of conversion code needs to be updated.
@@ -40,7 +40,7 @@ let me jot down *instead-do-this* advice-list for issues I encountered.
 - Use ID fields/columns to uniquely identify the record. Avoid using any other fields, especially free-text fields. These may contain special characters (like &) whose meaning changes the context across UI (JS/AJAX), Java and DB.
 - [IDE](http://jetbrains.com/idea) is your friend. It is excellent at pointing out inefficient code and ways to resolve it. 
 
-### Spring/Hibernate
+## Spring/Hibernate
 - Be careful about enabling Hibernate SQL logging, it is helpful but too verbose. 
 I had to update logging config to log only insert/updates, though even that is sometimes too much logging due to Hibernate's SQL Binder.
 - Prefer Spring annotations over XML for setup.  
@@ -50,7 +50,7 @@ This helps in testing services without mocking servlet containers, and services 
 - Use @Transactional annotation for controllers and services which perform multiple DB updates. Transactions are critical to maintain integrity to data, when a business functionality needs updates to multiple tables.   
 - @Transactional used for code which inserts/updates single record is redundant.  
 
-### Terse code
+## Terse code
 Unfortunately, Java is too verbose. Thus, special care needs to be taken to write succinct code. This helps make business logic more readable (easy to understand).
 
 - If using Java 8 take advantage of [Lambdas](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) and [Streams](https://docs.oracle.com/javase/tutorial/collections/streams/).
@@ -58,7 +58,7 @@ Unfortunately, Java is too verbose. Thus, special care needs to be taken to writ
  They provide excellent APIs for routine everyday tasks.
 - Annotations are better than XML. In addition, they allow code & corresponding metadata to stay together.
 
-### Processes / Team decisions
+## Processes / Team decisions
 - No direct manual changes to production files/codebase. Even minor bug fixes should go through build, tag, deploy process.
 - Add version numbers to the UI. This can be a small number in the footer or hidden inside HTML.
 - Use automated deployment and rollback processes. I created 200 line Java class to do this. Over time, this effort pays off many times over.
@@ -71,7 +71,7 @@ Unfortunately, Java is too verbose. Thus, special care needs to be taken to writ
 Comments like '// end of if', '// end of for', etc. are nothing but distractions.
 - Write comments for documenting domain/business logic, especially for unique/not-obvious use-cases. Eg: Calculations of sales taxes. 
 
-### Performance
+## Performance
 - Track [memory load](https://docs.oracle.com/javase/8/docs/technotes/guides/management/jconsole.html) during startup and idle state. 
 If memory keeps on increasing, its a red flag. Check if any service is constantly allocating objects. 
 - Use pagination instead of loading all data onto UI page. 
@@ -92,7 +92,7 @@ Based on the steps mentioned above, the current state of the project is much hea
 - Delivered several feature requests over 5 months (most were small, except one which took 2 months of coding).
 - Happy client
 
-### Code snippets of legacy code (a.k.a what to avoid) 
+## Code snippets of legacy code (a.k.a what to avoid) 
 Click on image to enlarge and navigate using swipe/keyboard.
 
 <figure>

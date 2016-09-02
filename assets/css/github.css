@@ -696,4 +696,6 @@
 
 .headline-wrap h1 {
     margin-top: 0;
+    border-bottom: 1px solid #eee;
+    line-height: 1.5em;
 }
