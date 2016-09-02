@@ -6,7 +6,6 @@ comments: true
 excerpt: How we built distributed cache as foundation for our microservices architecture.
 ---
 
-## Summary
 During my tenure at my previous company, we [converted]({{site.url}}/projects/accidental-microservices) a big monolith based trading system into micro-services based architecture. 
  It required a base infrastructure to orchestrate communication between all services. 
 Instead of using an out-of-the-box solution like [Redis](https://redis.io), we created our own distributed 
