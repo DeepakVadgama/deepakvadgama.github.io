@@ -10,7 +10,7 @@ tags: networking
 Recently a colleague of mine incorrectly used IP address of 192.168.0.245 in Google Cloud SQL console, to enable access to cloud instance from his local machine.
 The change did not work since it is local IP and not an external one. I thought of jotting down few important points that I think a developer should know about IP addresses. 
 
-### IP Address
+## IP Address
 
 IP address is in the form n.n.n.n where each n can range from 0 to 255. 
 Whole IP address composes of 32 bits, divided into 4 groups of 8 bits each.
@@ -29,7 +29,7 @@ It assigns our devices distinct IP addresses as shown in the picture below.
 
 Side note: Mac address on the other hand are identifiers assigned to the hardware device and are unique across all computers and networks. 
  
-### Internal IP vs external IP
+## Internal IP vs external IP
 
 Each leader (eg: Wifi router) of a network which assigns IP address to computer, is itself just a recipient/client for leader of a larger network (eg: ISP).
 
@@ -48,7 +48,7 @@ This is because it is not aware of computers/phones behind your router.
   <a href="{{ site.url }}/images/blog/ip/ipaddress-external.png"><img src="{{ site.url }}/images/blog/ip/ipaddress-external.png"></a>
 </figure>
  
-### Internet = network of networks
+## Internet = network of networks
  
 This recursive hierarchy can keep growing and each level has its own name, which we need not remember. 
   If you look at the whole internet, its consists of billions of nodes in a hierarchy of few core large networks connected to each other using what's called Internet Backbone.  
@@ -58,7 +58,7 @@ This recursive hierarchy can keep growing and each level has its own name, which
 </figure>
 
 
-### Dynamic vs static IP address
+## Dynamic vs static IP address
 
 The IP addresses are typically dynamic. Every time you reconnect to your WiFi and check your IP address it is different. This is okay, since it is only
 the leader (in our case, the router) that needs to know a computer's IP address. 
@@ -75,7 +75,7 @@ The solution to this problem, is to map names of websites to the IP addresses of
 Thus our devices only need to know the IP address of DNS server (this is also configurable in your router). We can contact the DNS server, ask it to give us IP address of say, Google.com and it returns 
 IP address of Google.com, which we can connect directly to.
 
-### CIDR format - Midway of static vs dynamic
+## CIDR format - Midway of static vs dynamic
 
 Such cases of static IP addresses are rare for personal computers like ours. Though, some ISPs do 
 provide static IP address if requested. 
@@ -92,7 +92,7 @@ If you are using cloud services for development, you might need access to operat
 
 Note: As far as possible, using complete IP addresses in such configuration since open access, or access to complete range of IP increases security risk.
 
-### IPv6
+## IPv6
 
 The number of devices (eg: websites) which need static addresses have increased rapidly over the years. But the number of IPv4 addresses possible though large, are limited (2^32=4.3 billion). 
 

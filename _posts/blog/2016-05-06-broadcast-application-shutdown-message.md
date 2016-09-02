@@ -23,7 +23,7 @@ I started looking into websockets and other forms of push communication, though 
 Since there are only 25 users polling becomes the simplest solution. 
 
 
-### Server side - APIs for checking current status and updating status to 'shutdown'
+## Server side - APIs for checking current status and updating status to 'shutdown'
 
 - API for shutdown can either be based on authentication or a secret token so that its not misused (mine is on a self-contained LAN and not internet, so I used token)    
 - API for startup can be added if required. Considering, once deployed, the atomic boolean will be reinitialized automatically.  
@@ -63,7 +63,7 @@ public class MetaController {
 
 {% endhighlight%}
 
-### Server side - Permissions
+## Server side - Permissions
 
 - Ensure the status check URL is open for all (no authentication).   
 - This will depend on your session implementation. In our case once server is restarted, the sessions are invalidated (user checking status after server restart will be redirected to login in that case, which we want to avoid).
@@ -81,7 +81,7 @@ public class MetaController {
 {% endhighlight%}
 
 
-### UI side - Poll for status and alert if shutdown message received
+## UI side - Poll for status and alert if shutdown message received
 
 - Use $.ajax call to check for status, and alert user accordingly.  
 - Use JQuery's timeout to periodically call the same method. This is done by calling timeout in onComplete callback (avoid calling timeout in success callback, because once server shuts down, the ajax call will fail and next timeout will not be set).  
@@ -132,17 +132,17 @@ function worker() {
 ## Test and Confirm 
 
 
-#### Call shutdown using URL and secret token.
+### Call shutdown using URL and secret token.
 <figure>
  <a href="{{ site.url }}/images/blog/broadcast/shutdown.png"><img src="{{ site.url }}/images/blog/broadcast/shutdown.png"></a>
 </figure>
 
-#### Check if UI receives shutdown message and alerts the user.
+### Check if UI receives shutdown message and alerts the user.
 <figure>
  <a href="{{ site.url }}/images/blog/broadcast/ui-shutdown.png"><img src="{{ site.url }}/images/blog/broadcast/ui-shutdown.png"></a>
 </figure>
 
-#### Wait for 5 minutes, restart server and check if UI alerts user of restart.
+### Wait for 5 minutes, restart server and check if UI alerts user of restart.
 <figure>
  <a href="{{ site.url }}/images/blog/broadcast/ui-restart.png"><img src="{{ site.url }}/images/blog/broadcast/ui-restart.png"></a>
 </figure>

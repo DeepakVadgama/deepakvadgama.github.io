@@ -17,13 +17,13 @@ Being a freelancer and working from home in India turned out to be different tha
 
 After months of tweaking, I settled on following setup:
 
-### Desk
+## Desk
 
 I found only [one](http://www.primaplastics.com/images/product-trolleys/trolleys_computer_big.png) in India fitting my needs. It is cheap (2,000 INR) and narrow (helps with my limited bedroom space). More importantly, it has keyboard deck much lower than monitor base (ergonomically correct). I still had to use books to further increase this distance.
 
 One I have: [Prima Plastics](http://www.primaplastics.com/images/product-trolleys/trolleys_computer_big.png) (Not available online)    
 
-### Chair
+## Chair
 I cannot understate importance of getting this right. I started experiencing lower back pain within few weeks. These injuries are recurrent and can last decades. 
 
 + Ensure good lower back support. I use an extra cushion for this. 
@@ -34,7 +34,7 @@ I cannot understate importance of getting this right. I started experiencing low
 Budget option: Similar to [this](http://www.pepperfry.com/ergonomic-chairs-by-emperor-1104811.html)  
 The best: [Aeron](http://store.hermanmiller.com/Products/Aeron-Chair)
 
-### Monitor
+## Monitor
 
 + Opt for a monitor with matte display, it reduces the glare. The colors are not as bright as glossy screens, but hey, for a developer it shouldn't matter. 
 + IPS displays are better than TFT displays for color reproduction.
@@ -47,21 +47,21 @@ The best: [Aeron](http://store.hermanmiller.com/Products/Aeron-Chair)
 Budget option: [Dell E1916H](http://www.flipkart.com/dell-18-5-inch-led-e1916h-monitor/p/itmeazguwfsp5htv) with [CNT Wall mount](http://www.amazon.in/CNCT-Displays-genuine-Product-picture/dp/B00N6PH6GW/)    
 The best: [Dell UltraSharp series](http://www.amazon.in/Dell-UltraSharp-U2412M-24-inch-Monitor/dp/B009X6FFSY?tag=googinhydr18418-21) with [Ergotron desk mount](http://www.amazon.com/LX-Desk-Mount-LCD-Arm/dp/B00358RIRC) 
 
-### Mouse
+## Mouse
 
 I started developing wrist pain due to sideways movements. I bought this vertical mouse, and though its not perfect, it helped a lot to alleviate the pain.
   
 Budget option: [Circle Sniper](http://www.amazon.in/Circle-Sniper-Gaming-Mouse/dp/B00EZONAA4), [Mousepad](http://www.amazon.in/gp/product/B00GA2EWM4)  
 The best: [Evoluent Vertical Mouse](http://www.amazon.in/Evoluent-Vertical-Mouse-V4-Right/dp/B00427TAIK)
 
-### Keyboard
+## Keyboard
 
 I have a split keyboard, though expensive, has been serving me well for years now. Thus, I am not aware of a good budget keyboard. I'd suggest ones with soft keys and a good wristpad.  
 
 One I have: [Kinesys Freestyle 2](http://www.kinesis-ergo.com/shop/freestyle2-for-pc-us/), [Wristpad](http://www.amazon.in/gp/product/B0013CF4FK)  
 The best: [Das keyboard 4](http://www.daskeyboard.com/daskeyboard-4-professional/)
 
-### Webcam
+## Webcam
 
 There is not much to the webcams. They are cheap and they do their job well.
 

@@ -15,7 +15,7 @@ Steps to install free SSL certificates using [Lets Encrypt](https://letsencrypt.
 
 All the paths below are based on assumption that you've used one-click-install Google Launcher version of [Wordpress](https://cloud.google.com/launcher/solution/click-to-deploy-images/wordpress?q=Wordpress). Also, in the steps below replace 'balajiextrusions' with your own site name
  
-# Installation
+## Installation
 
 Login to your Compute instance using SSH
 
@@ -45,14 +45,14 @@ The above command will guide you through the steps (will ask for email and other
 If it asks to select the .conf file, select `default-ssl.conf`
 
 
-# Error in selecting ssl conf file
+## Error in selecting ssl conf file
 
 In my case, after selection it gave error similar to `server name not found`.  I reselected the same `default-ssl.conf` file couple of times and that error went away.  
   
 It expects ServerName to be present in default-ssl.conf. I am not sure whats the purpose of this field. Anyways, I was able to work through the problem without adding ServerName.
 
 
-# Error in installation
+## Error in installation
 
 After the installation you might see this error  
 {% highlight console %}
@@ -99,7 +99,7 @@ Add the lines from `DocumentRoot` until `</Directory>` at appropriate position
 {% endhighlight %}
 
 
-# Redirect all http links to https
+## Redirect all http links to https
 
 Open default-ssl.conf file  
 {% highlight bash %}$ sudo nano /etc/apache2/sites-available/default-ssl.conf{% endhighlight %}
@@ -116,7 +116,7 @@ Add new VirtualHost tag as below, after existing VirtualHost tag and before </If
 {% endhighlight %}
 
 
-# Wordpress configuration
+## Wordpress configuration
 
 Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin -> Settings -> General
  
@@ -127,13 +127,13 @@ Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin 
  Note: Once URL is updated and apache is restarted, your wordpress admin URL will change from IP based (xxx.xx.xx.xx/wp-admin) to domain based (balajiextrusions.com/wp-admin) 
 
 
-# Restart apache
+## Restart apache
 
 Restart apache service for changes to take effect
 {% highlight bash %}$ service apache2 restart{% endhighlight %}
 
 
-# Certificate auto-renewal 
+## Certificate auto-renewal 
 
 LetsEncrypt certificate expire every 90 days. So schedule cronjob to auto-renew it say every month.
 
@@ -148,7 +148,7 @@ Add this line to the file (update your letsencrypt directory path as applicable)
 This new command is saved to a temp file (it will ask you for location), and then add it to [actual cron](http://unix.stackexchange.com/a/197506)
 
 
-# Confirm and rejoice
+## Confirm and rejoice
 
  <figure>
      <a href="{{ site.url }}/images/blog/https-balajiextrusions-site.png"><img src="{{ site.url }}/images/blog/https-balajiextrusions-site.png"></a>

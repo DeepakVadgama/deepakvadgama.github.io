@@ -38,7 +38,7 @@ using that service.
 
 Let's walk through the solution code.
 
-### Step 1: Create AlertService
+## Step 1: Create AlertService
 
 Create alert service to be used across the application. 
 
@@ -96,7 +96,7 @@ The event to listen for is $stateChangeSuccess (since I am using State Router).
 Note: Please add the file in index.html script tag. 
 
 
-### Step 2: HTML code to display alerts
+## Step 2: HTML code to display alerts
 
 {% highlight html %}
 
@@ -120,7 +120,7 @@ Notice the filter pipe of the div tag above. It filters out the alerts only for 
 Thus if your page has 2 separate sections for alerts, use second div mentioned above. 
 In fact you can keep adding sections, but practically 2 should suffice. 
 
-### Step 3: Create alerts from your controllers or services
+## Step 3: Create alerts from your controllers or services
 
 Add alerts from your controllers/services 
 {% highlight javascript %}
@@ -147,7 +147,7 @@ app.controller('SearchController',
     ]);
 {% endhighlight%}
     
-### Step 4: Confirm
+## Step 4: Confirm
 <figure>
  <a href="{{ site.url }}/images/blog/sejal/search-results.png"><img src="{{ site.url }}/images/blog/sejal/search-results.png"></a>
 </figure>

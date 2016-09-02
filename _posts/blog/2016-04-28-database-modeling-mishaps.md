@@ -13,7 +13,7 @@ I have been working on an [ERP software]({{ site.url }}/projects/refactoring-to-
 out of college. Suffice to say, code base I got was inefficient. Though code in itself can be refactored, correcting the 
  database structure post production is quite difficult. 
  
-### Domain
+## Domain
 
 Balaji Wires and Cables company creates wires using simple process flow of 4 steps - make, check-quality, store, deliver
 
@@ -26,7 +26,7 @@ Balaji Wires and Cables company creates wires using simple process flow of 4 ste
     <a href="{{ site.url }}/images/blog/balaji/balaji-flow.png"><img src="{{ site.url }}/images/blog/balaji/balaji-flow.png"></a>
 </figure>
 
-### Database tables
+## Database tables
 
 Notice that during the flow, a *single* item goes through these 4 *states*. Thus it would make sense to have single database table
 representing that item. This is called object oriented modelling, where-in all real life object types are distinct tables in DB. 
@@ -38,7 +38,7 @@ Instead, currently, each one of the states has a corresponding table!
     <a href="{{ site.url }}/images/blog/balaji/database-modeling.png"><img src="{{ site.url }}/images/blog/balaji/database-modeling.png"></a>
 </figure>
 
-#### Problems
+### Problems
 
 - Each of these tables cover roughly 90% of the same fields. So each item is represented thrice in DB.
 - To avoid this, the previous team retained only Stock-In table records, and deleted records from other tables as flow proceeds.
