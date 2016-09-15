@@ -23,7 +23,7 @@ Balaji Wires and Cables company creates wires using simple process flow of 4 ste
 - Stock Out = Once quality is tested, the item can be 'Stocked out' and is ready for delivery
 
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/balaji-flow.png"><img src="{{ site.url }}/images/blog/balaji/balaji-flow.png"></a>
+    <a href="/images/blog/balaji/balaji-flow.png"><img src="/images/blog/balaji/balaji-flow.png"></a>
 </figure>
 
 ## Database tables
@@ -35,7 +35,7 @@ This way of modelling DB structure works for most of the cases.
 Instead, currently, each one of the states has a corresponding table!
 
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/database-modeling.png"><img src="{{ site.url }}/images/blog/balaji/database-modeling.png"></a>
+    <a href="/images/blog/balaji/database-modeling.png"><img src="/images/blog/balaji/database-modeling.png"></a>
 </figure>
 
 ### Problems

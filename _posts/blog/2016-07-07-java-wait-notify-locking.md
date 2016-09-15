@@ -11,7 +11,7 @@ tags: development, java, concurrency
 Had a fun conversation with a friend recently. It was about how Java's wait/notify affects thread locking. 
 
 <figure>
- <a href="{{ site.url }}/images/blog/java-wait-notify.png"><img src="{{ site.url }}/images/blog/java-wait-notify.png"></a>
+ <a href="/images/blog/java-wait-notify.png"><img src="/images/blog/java-wait-notify.png"></a>
 </figure>
 
 ## Doubts

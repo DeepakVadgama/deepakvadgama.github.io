@@ -6,7 +6,7 @@ modified: 2016-08-02
 ---
 
 <figure>
-    <a href="http://plus.google.com/+DeepakVadgama/photos"><img src="{{ site.url }}/images/aboutpage-image.jpg"></a>
+    <a href="http://plus.google.com/+DeepakVadgama/photos"><img src="/images/aboutpage-image.jpg"></a>
 </figure>
 
 Hey there.. 

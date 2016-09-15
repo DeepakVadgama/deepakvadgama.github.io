@@ -67,6 +67,6 @@ Our book stays open, I’m only turning pages, not saying good-bye
 
 
 <figure>
-    <a href="{{ site.url }}/images/k-and-n.jpg"><img src="{{ site.url }}/images/k-and-n.jpg"></a>
+    <a href="/images/k-and-n.jpg"><img src="/images/k-and-n.jpg"></a>
 </figure>
 

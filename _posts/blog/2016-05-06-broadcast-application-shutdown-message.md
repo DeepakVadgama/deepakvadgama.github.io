@@ -134,16 +134,16 @@ function worker() {
 
 ### Call shutdown using URL and secret token.
 <figure>
- <a href="{{ site.url }}/images/blog/broadcast/shutdown.png"><img src="{{ site.url }}/images/blog/broadcast/shutdown.png"></a>
+ <a href="/images/blog/broadcast/shutdown.png"><img src="/images/blog/broadcast/shutdown.png"></a>
 </figure>
 
 ### Check if UI receives shutdown message and alerts the user.
 <figure>
- <a href="{{ site.url }}/images/blog/broadcast/ui-shutdown.png"><img src="{{ site.url }}/images/blog/broadcast/ui-shutdown.png"></a>
+ <a href="/images/blog/broadcast/ui-shutdown.png"><img src="/images/blog/broadcast/ui-shutdown.png"></a>
 </figure>
 
 ### Wait for 5 minutes, restart server and check if UI alerts user of restart.
 <figure>
- <a href="{{ site.url }}/images/blog/broadcast/ui-restart.png"><img src="{{ site.url }}/images/blog/broadcast/ui-restart.png"></a>
+ <a href="/images/blog/broadcast/ui-restart.png"><img src="/images/blog/broadcast/ui-restart.png"></a>
 </figure>
 

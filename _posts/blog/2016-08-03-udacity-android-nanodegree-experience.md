@@ -10,7 +10,7 @@ tags:
 ---
 
 <figure>
- <a href="{{ site.url }}/images/blog/capstone/certificate.png"><img style="border: 1px solid gray" src="{{ site.url }}/images/blog/capstone/certificate.png"></a>
+ <a href="/images/blog/capstone/certificate.png"><img style="border: 1px solid gray" src="/images/blog/capstone/certificate.png"></a>
 </figure>
 
 ## TLDR;

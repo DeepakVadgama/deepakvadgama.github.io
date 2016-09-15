@@ -24,7 +24,7 @@ This router itself assigns itself well-known address of 192.168.0.1 so that we c
 It assigns our devices distinct IP addresses as shown in the picture below.
 
 <figure>
-  <a href="{{ site.url }}/images/blog/ip/router-ip.png"><img src="{{ site.url }}/images/blog/ip/router-ip.png"></a>
+  <a href="/images/blog/ip/router-ip.png"><img src="/images/blog/ip/router-ip.png"></a>
 </figure>
 
 Side note: Mac address on the other hand are identifiers assigned to the hardware device and are unique across all computers and networks. 
@@ -39,13 +39,13 @@ Thus your ISP may think you are using Google, YouTube, Facebook all at the same 
 This is because it is not aware of computers/phones behind your router.
  
 <figure>
-  <a href="{{ site.url }}/images/blog/ip/router-isp.png"><img src="{{ site.url }}/images/blog/ip/router-isp.png"></a>
+  <a href="/images/blog/ip/router-isp.png"><img src="/images/blog/ip/router-isp.png"></a>
 </figure>
 
  This is precisely why external IP (your IP as seen by external network) is different.
  
 <figure>
-  <a href="{{ site.url }}/images/blog/ip/ipaddress-external.png"><img src="{{ site.url }}/images/blog/ip/ipaddress-external.png"></a>
+  <a href="/images/blog/ip/ipaddress-external.png"><img src="/images/blog/ip/ipaddress-external.png"></a>
 </figure>
  
 ## Internet = network of networks
@@ -54,7 +54,7 @@ This recursive hierarchy can keep growing and each level has its own name, which
   If you look at the whole internet, its consists of billions of nodes in a hierarchy of few core large networks connected to each other using what's called Internet Backbone.  
 
 <figure>
- <a href="{{ site.url }}/images/blog/ip/internet.png"><img src="{{ site.url }}/images/blog/ip/internet.png"></a>
+ <a href="/images/blog/ip/internet.png"><img src="/images/blog/ip/internet.png"></a>
 </figure>
 
 
@@ -69,7 +69,7 @@ On the otherhand, we cannot store and remember IP addresses of all the websites 
 The solution to this problem, is to map names of websites to the IP addresses of computers. This is called DNS - Domain Naming System.
 
 <figure>
- <a href="{{ site.url }}/images/blog/ip/dns.png"><img src="{{ site.url }}/images/blog/ip/dns.png"></a>
+ <a href="/images/blog/ip/dns.png"><img src="/images/blog/ip/dns.png"></a>
 </figure>
 
 Thus our devices only need to know the IP address of DNS server (this is also configurable in your router). We can contact the DNS server, ask it to give us IP address of say, Google.com and it returns 
@@ -87,7 +87,7 @@ If you are using cloud services for development, you might need access to operat
   So if my ISP always assigns me IP address of 20.54.xxx.xxx I can use format 20.54.0.0/16. This says, allow any IP address starting with 20.54 and ignore last 16 bits.   
 
 <figure>
- <a href="{{ site.url }}/images/blog/ip/sql-cloud.png"><img src="{{ site.url }}/images/blog/ip/sql-cloud.png"></a>
+ <a href="/images/blog/ip/sql-cloud.png"><img src="/images/blog/ip/sql-cloud.png"></a>
 </figure>
 
 Note: As far as possible, using complete IP addresses in such configuration since open access, or access to complete range of IP increases security risk.

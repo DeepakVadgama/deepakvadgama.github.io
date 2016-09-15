@@ -20,7 +20,7 @@ These opinions are formed and reinforced by [court case claiming $8 billion for 
 [stifling alternate JVM implementations](http://arstechnica.com/information-technology/2010/10/ibm-joins-openjdk-as-oracle-shuns-apache-harmony/).. the list goes on and on. 
 
  <figure>
-     <a href="http://www.bonkersworld.net/organizational-charts/"><img src="{{ site.url }}/images/blog/oracle_chart.png"></a>
+     <a href="http://www.bonkersworld.net/organizational-charts/"><img src="/images/blog/oracle_chart.png"></a>
  </figure> 
 Image Source - http://www.bonkersworld.net/organizational-charts/
 
@@ -41,7 +41,7 @@ It would be unfair to pick on Oracle though. Even before Oracle acquired Sun, th
 - Java 9 itself has been mired in [delays](https://dzone.com/articles/oracle-announces-jigsaw-delays-push-java-9-launch) and is expected to come out in 2017.  
 
  <figure>
-     <a href="{{ site.url }}/images/blog/java_timeline.png"><img src="{{ site.url }}/images/blog/java_timeline.png"></a>
+     <a href="/images/blog/java_timeline.png"><img src="/images/blog/java_timeline.png"></a>
  </figure> 
 
 ## Java Logging
@@ -55,7 +55,7 @@ The community though, due to lack of consensus, created multiple competing wrapp
 The apparent mess is depicted below. While the official Java [solution](http://docs.oracle.com/javase/7/docs/technotes/guides/logging/) came years later with Java 7.
 
  <figure>
-     <a href="{{ site.url }}/images/blog/logging.png"><img src="{{ site.url }}/images/blog/logging.png"></a>
+     <a href="/images/blog/logging.png"><img src="/images/blog/logging.png"></a>
  </figure> 
 
 Try setting up log4j or logback with Tomcat, Spring MVC and varied bunch of 3rd party libraries. It can be a really painful experience. 

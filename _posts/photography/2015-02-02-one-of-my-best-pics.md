@@ -15,9 +15,9 @@ Wonderfully dressed young girl, peering into the tower viewer, looking far off a
 Click to enlarge.
 
 <figure>
-    <a  href="{{ site.url }}/images/photography/nyc-best/nyc_best_2.jpg" data-lightbox><img src="{{ site.url }}/images/photography/nyc-best/nyc_best_2.jpg"></a>
+    <a  href="/images/photography/nyc-best/nyc_best_2.jpg" data-lightbox><img src="/images/photography/nyc-best/nyc_best_2.jpg"></a>
 </figure>
 
 <figure>
-    <a  href="{{ site.url }}/images/photography/nyc-best/nyc_best_1.jpg" data-lightbox><img src="{{ site.url }}/images/photography/nyc-best/nyc_best_1.jpg"></a>
+    <a  href="/images/photography/nyc-best/nyc_best_1.jpg" data-lightbox><img src="/images/photography/nyc-best/nyc_best_1.jpg"></a>
 </figure>

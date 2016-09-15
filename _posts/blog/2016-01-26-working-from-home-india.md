@@ -97,12 +97,12 @@ Remember, wish is different than reality, and that is okay :)
 
 __Wish__ (Photo credit: [acflynn flickr](https://www.flickr.com/photos/acflynn/3787513726))
  <figure>
-     <a href="{{ site.url }}/images/blog/triple-monitor.jpg"><img src="{{ site.url }}/images/blog/triple-monitor.jpg"></a>
+     <a href="/images/blog/triple-monitor.jpg"><img src="/images/blog/triple-monitor.jpg"></a>
  </figure>
 
 __Reality__
  <figure>
-     <a href="{{ site.url }}/images/blog/home-desk-setup2.jpg"><img src="{{ site.url }}/images/blog/home-desk-setup2.jpg"></a>
+     <a href="/images/blog/home-desk-setup2.jpg"><img src="/images/blog/home-desk-setup2.jpg"></a>
  </figure>
 
  

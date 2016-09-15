@@ -14,7 +14,7 @@ Most pages have forms that must be validated and user actions to be acknowledged
 [Bootstrap](http://getbootstrap.com/) provides [simple way](http://getbootstrap.com/components/#alerts) to add alerts for achieve this.
      
 <figure>
- <a href="{{ site.url }}/images/blog/sejal/login-alert.png"><img src="{{ site.url }}/images/blog/sejal/login-alert.png"></a>
+ <a href="/images/blog/sejal/login-alert.png"><img src="/images/blog/sejal/login-alert.png"></a>
 </figure>
 
 Easiest way to add these alerts dynamically (with AngularJS) is to create a boolean flag in $scope, and use ng-if in html to display the alert.
@@ -149,7 +149,7 @@ app.controller('SearchController',
     
 ## Step 4: Confirm
 <figure>
- <a href="{{ site.url }}/images/blog/sejal/search-results.png"><img src="{{ site.url }}/images/blog/sejal/search-results.png"></a>
+ <a href="/images/blog/sejal/search-results.png"><img src="/images/blog/sejal/search-results.png"></a>
 </figure>
 
 Thats it. Now in every page you want alerts, just add <alert-service> directive in html and use AlertService in corresponding Controller.

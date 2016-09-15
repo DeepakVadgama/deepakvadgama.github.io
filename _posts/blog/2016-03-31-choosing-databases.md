@@ -8,7 +8,7 @@ tags: database
 ---
 
 <figure>
- <a href="{{ site.url }}/images/blog/database.jpg"><img src="{{ site.url }}/images/blog/database.jpg"></a>
+ <a href="/images/blog/database.jpg"><img src="/images/blog/database.jpg"></a>
 </figure>
  
 In last 5-10 years there has been huge wave of startups attempting to re-invent databases. This re-invention is justified by advent of

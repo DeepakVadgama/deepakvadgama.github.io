@@ -72,6 +72,6 @@ Catching up is only moments away, so sayonara.. until next time
 
 
 <figure>
-    <a href="{{ site.url }}/images/poem-one-last-time.jpg"><img src="{{ site.url }}/images/poem-one-last-time.jpg"></a>
+    <a href="/images/poem-one-last-time.jpg"><img src="/images/poem-one-last-time.jpg"></a>
 </figure>
 

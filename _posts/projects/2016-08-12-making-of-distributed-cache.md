@@ -13,7 +13,7 @@ cache from scratch. This cache was primarily a server-client cache, where-in ser
 while distributing it to clients on need basis. 
 
 <figure>
-    <a href="{{ site.url }}/images/blog/microservices.png"><img src="{{ site.url }}/images/blog/microservices.png"></a>
+    <a href="/images/blog/microservices.png"><img src="/images/blog/microservices.png"></a>
 </figure>
 
 ## Building blocks
@@ -25,7 +25,7 @@ while distributing it to clients on need basis.
 - Remote Procedure Call
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache/cache_overview.jpg"><img src="{{ site.url }}/images/blog/cache/cache_overview.jpg"></a>
+    <a href="/images/blog/cache/cache_overview.jpg"><img src="/images/blog/cache/cache_overview.jpg"></a>
 </figure>
 
 ## TCP Communication - Grizzly
@@ -46,7 +46,7 @@ its own module and exposed via [strategy pattern](https://dzone.com/articles/des
 Interval was configurable based on priority of application.  
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache/cache_connectivity.jpg"><img src="{{ site.url }}/images/blog/cache/cache_connectivity.jpg"></a>
+    <a href="/images/blog/cache/cache_connectivity.jpg"><img src="/images/blog/cache/cache_connectivity.jpg"></a>
 </figure>
 
 ## Service Discovery
@@ -60,7 +60,7 @@ retry-interval etc.
 we did not create fall back for this. Also, the service was needed only during startup, thus reducing probability of failure further.
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache/cache_discovery.jpg"><img src="{{ site.url }}/images/blog/cache/cache_discovery.jpg"></a>
+    <a href="/images/blog/cache/cache_discovery.jpg"><img src="/images/blog/cache/cache_discovery.jpg"></a>
 </figure>
 
 ## Data serialization - Kryo
@@ -115,11 +115,11 @@ Helpful in services which connect and process trades from multiple markets.
   Client requested the required data using remoting. 
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache/multiclient_cache.jpg"><img src="{{ site.url }}/images/blog/cache/multiclient_cache.jpg"></a>
+    <a href="/images/blog/cache/multiclient_cache.jpg"><img src="/images/blog/cache/multiclient_cache.jpg"></a>
 </figure>
 
 <figure>
-    <a href="{{ site.url }}/images/blog/cache/cache_lazy.jpg"><img src="{{ site.url }}/images/blog/cache/cache_lazy.jpg"></a>
+    <a href="/images/blog/cache/cache_lazy.jpg"><img src="/images/blog/cache/cache_lazy.jpg"></a>
 </figure>
 
 

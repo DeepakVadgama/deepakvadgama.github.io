@@ -138,9 +138,9 @@ I submitted the project and it was reviewed successfully.
 My next steps would be to polish the app (RecyclerView, Material Design motion, Navigation Drawer) and create Web-Admin to add content dynamically.    
 
 <figure>
- <a href="{{ site.url }}/images/blog/capstone/screenshot1.png"><img src="{{ site.url }}/images/blog/capstone/screenshot1.png"></a>
+ <a href="/images/blog/capstone/screenshot1.png"><img src="/images/blog/capstone/screenshot1.png"></a>
 </figure>
 
 <figure>
- <a href="{{ site.url }}/images/blog/capstone/screenshot2.png"><img src="{{ site.url }}/images/blog/capstone/screenshot2.png"></a>
+ <a href="/images/blog/capstone/screenshot2.png"><img src="/images/blog/capstone/screenshot2.png"></a>
 </figure>

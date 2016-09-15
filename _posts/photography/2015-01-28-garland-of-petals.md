@@ -13,17 +13,17 @@ Taken at 40mm, F5, 1/640
 Click to enlarge.
 
 <figure>
-    <a  href="{{ site.url }}/images/photography/petal-garland/IMG_8714.jpg" data-lightbox="image-1"><img src="{{ site.url }}/images/photography/petal-garland/IMG_8714.jpg"></a>
+    <a  href="/images/photography/petal-garland/IMG_8714.jpg" data-lightbox="image-1"><img src="/images/photography/petal-garland/IMG_8714.jpg"></a>
 </figure>
 
 <figure>
-    <a  href="{{ site.url }}/images/photography/petal-garland/IMG_8715.jpg" data-lightbox="image-1"><img src="{{ site.url }}/images/photography/petal-garland/IMG_8715.jpg"></a>
+    <a  href="/images/photography/petal-garland/IMG_8715.jpg" data-lightbox="image-1"><img src="/images/photography/petal-garland/IMG_8715.jpg"></a>
 </figure>
 
 <figure>
-    <a  href="{{ site.url }}/images/photography/petal-garland/IMG_8717.jpg" data-lightbox="image-1"><img src="{{ site.url }}/images/photography/petal-garland/IMG_8717.jpg"></a>
+    <a  href="/images/photography/petal-garland/IMG_8717.jpg" data-lightbox="image-1"><img src="/images/photography/petal-garland/IMG_8717.jpg"></a>
 </figure>
 
 <figure>
-    <a  href="{{ site.url }}/images/photography/petal-garland/IMG_8718.jpg" data-lightbox="image-1"><img src="{{ site.url }}/images/photography/petal-garland/IMG_8718.jpg"></a>
+    <a  href="/images/photography/petal-garland/IMG_8718.jpg" data-lightbox="image-1"><img src="/images/photography/petal-garland/IMG_8718.jpg"></a>
 </figure>

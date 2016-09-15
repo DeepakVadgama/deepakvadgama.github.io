@@ -69,11 +69,11 @@ Since we added this new plugin, your IDe should download this automatically and 
 Ensure tomcat is started and the run task 'tomcat:redeploy' from Maven Projects window and check console for corresponding status
 
  <figure>
-     <a href="{{ site.url }}/images/blog/maven-tasks-tomcat.png"><img src="{{ site.url }}/images/blog/maven-tasks-tomcat.png"></a>
+     <a href="/images/blog/maven-tasks-tomcat.png"><img src="/images/blog/maven-tasks-tomcat.png"></a>
  </figure>
  
   <figure>
-      <a href="{{ site.url }}/images/blog/maven-tomcat-redeploy.png"><img src="{{ site.url }}/images/blog/maven-tomcat-redeploy.png"></a>
+      <a href="/images/blog/maven-tomcat-redeploy.png"><img src="/images/blog/maven-tomcat-redeploy.png"></a>
   </figure>
 
 If all goes well, WAR will be redeployed and will be reflected on browser http://localhost:8080/you-context-path; in this case http://localhost:8080/salesmanager 

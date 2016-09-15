@@ -96,47 +96,47 @@ Based on the steps mentioned above, the current state of the project is much hea
 Click on image to enlarge and navigate using swipe/keyboard.
 
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/1-string-format-abuse.png"><img src="{{ site.url }}/images/blog/balaji/1-string-format-abuse.png"></a>
+    <a href="/images/blog/balaji/1-string-format-abuse.png"><img src="/images/blog/balaji/1-string-format-abuse.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/2-conversions-to-set-single-field.png"><img src="{{ site.url }}/images/blog/balaji/2-conversions-to-set-single-field.png"></a>
+    <a href="/images/blog/balaji/2-conversions-to-set-single-field.png"><img src="/images/blog/balaji/2-conversions-to-set-single-field.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/3-year-joda-time-repitition.png"><img src="{{ site.url }}/images/blog/balaji/3-year-joda-time-repitition.png"></a>
+    <a href="/images/blog/balaji/3-year-joda-time-repitition.png"><img src="/images/blog/balaji/3-year-joda-time-repitition.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/4-string-equals-multiple.png"><img src="{{ site.url }}/images/blog/balaji/4-string-equals-multiple.png"></a>
+    <a href="/images/blog/balaji/4-string-equals-multiple.png"><img src="/images/blog/balaji/4-string-equals-multiple.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/5-method-arguments.png"><img src="{{ site.url }}/images/blog/balaji/5-method-arguments.png"></a>
+    <a href="/images/blog/balaji/5-method-arguments.png"><img src="/images/blog/balaji/5-method-arguments.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/6-date-mess.png"><img src="{{ site.url }}/images/blog/balaji/6-date-mess.png"></a>
+    <a href="/images/blog/balaji/6-date-mess.png"><img src="/images/blog/balaji/6-date-mess.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/7-comments-in-if-end.png"><img src="{{ site.url }}/images/blog/balaji/7-comments-in-if-end.png"></a>
+    <a href="/images/blog/balaji/7-comments-in-if-end.png"><img src="/images/blog/balaji/7-comments-in-if-end.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/8-no-code-in-if.png"><img src="{{ site.url }}/images/blog/balaji/8-no-code-in-if.png"></a>
+    <a href="/images/blog/balaji/8-no-code-in-if.png"><img src="/images/blog/balaji/8-no-code-in-if.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/9-incorrect-month-and-verbose.png"><img src="{{ site.url }}/images/blog/balaji/9-incorrect-month-and-verbose.png"></a>
+    <a href="/images/blog/balaji/9-incorrect-month-and-verbose.png"><img src="/images/blog/balaji/9-incorrect-month-and-verbose.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/10-everyline-a-comment.png"><img src="{{ site.url }}/images/blog/balaji/10-everyline-a-comment.png"></a>
+    <a href="/images/blog/balaji/10-everyline-a-comment.png"><img src="/images/blog/balaji/10-everyline-a-comment.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/11-iteration-set-order.png"><img src="{{ site.url }}/images/blog/balaji/11-iteration-set-order.png"></a>
+    <a href="/images/blog/balaji/11-iteration-set-order.png"><img src="/images/blog/balaji/11-iteration-set-order.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/12-actual-code-vs-useless-code.png"><img src="{{ site.url }}/images/blog/balaji/12-actual-code-vs-useless-code.png"></a>
+    <a href="/images/blog/balaji/12-actual-code-vs-useless-code.png"><img src="/images/blog/balaji/12-actual-code-vs-useless-code.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/13-hibernate-constraints.png"><img src="{{ site.url }}/images/blog/balaji/13-hibernate-constraints.png"></a>
+    <a href="/images/blog/balaji/13-hibernate-constraints.png"><img src="/images/blog/balaji/13-hibernate-constraints.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/14-is-number-check.png"><img src="{{ site.url }}/images/blog/balaji/14-is-number-check.png"></a>
+    <a href="/images/blog/balaji/14-is-number-check.png"><img src="/images/blog/balaji/14-is-number-check.png"></a>
 </figure>
 <figure>
-    <a href="{{ site.url }}/images/blog/balaji/15-mess.png"><img src="{{ site.url }}/images/blog/balaji/15-mess.png"></a>
+    <a href="/images/blog/balaji/15-mess.png"><img src="/images/blog/balaji/15-mess.png"></a>
 </figure>

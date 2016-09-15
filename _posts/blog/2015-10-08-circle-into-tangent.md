@@ -8,7 +8,7 @@ tags: freelancer, consultant
 ---
 
 <figure>
-    <a href="{{ site.url }}/images/blog/today.jpg"><img src="{{ site.url }}/images/blog/today.jpg"></a>
+    <a href="/images/blog/today.jpg"><img src="/images/blog/today.jpg"></a>
 </figure>
 
 A friend once told me, 9 years of software development in an investment bank feels like 1st year repeated 9 times. This statement was lost on me until today. As I ponder over my future, no longer being part of Nomura as of today, I am beginning to feel the same. 
@@ -52,7 +52,7 @@ They are still stuck in era of
 
 
 <figure>
-    <a href="{{ site.url }}/images/blog/agile.jpg"><img src="{{ site.url }}/images/blog/agile.jpg"></a>
+    <a href="/images/blog/agile.jpg"><img src="/images/blog/agile.jpg"></a>
 </figure>
 
 ## Speed and customer partnership
