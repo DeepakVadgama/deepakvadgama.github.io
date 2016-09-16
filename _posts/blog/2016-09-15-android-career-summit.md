@@ -93,4 +93,4 @@ As with most Google events, there were lot of goodies shared. I love my new Goog
 </figure>
 
 ## Final thoughts
-I feel very grateful to have been part of such a wonderful event hosted by Google, Udacity and Tata Trusts. There was a sense of community inculcated by excellent group of fellow students and facilitators. I went into the event with different expectations, but came back with equivalent value nonetheless. 
+I feel very grateful to have been part of such a wonderful event. There was a sense of community inculcated by excellent group of fellow students and facilitators. I went into the event with different expectations, but came back with equivalent value nonetheless. 
