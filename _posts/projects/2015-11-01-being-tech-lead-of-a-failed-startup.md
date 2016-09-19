@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Tech Lead of a failed startup - Chat2get.com
+title: Perils of startup world
 category: projects
 comments: true
 published: false
-excerpt: My experience working on a startup which did not pan out.
+excerpt: My experience working on a failed startup chat2get.com.
 ---
