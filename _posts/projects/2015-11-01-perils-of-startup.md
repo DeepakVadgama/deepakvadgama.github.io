@@ -82,6 +82,11 @@ Once the Angular and Servlets core flows were set up, implementing these flows w
    <img src="{{ site.url }}/images/blog/chat2get/user-chat.png">
  </a>
 </figure>
+<figure>
+ <a href="{{ site.url }}/images/blog/chat2get/mobile-combine2.png">
+   <img src="{{ site.url }}/images/blog/chat2get/mobile-combine2.png">
+ </a>
+</figure>
 
 
 ## Startup struggles
@@ -94,6 +99,12 @@ It was a chicken and egg problem for the product to take off. Without enough use
 
 ## Doctive.de - Another opening
 We got another opportunity to progress the platform when a german company started by German doctors asked to create a prototype of our product for them. They wanted to use our product to connect Medical Practitioners with Doctors. We charged a reasonable amount and rebranded the app for them. Alas, they never replied back.
+
+<figure>
+ <a href="{{ site.url }}/images/blog/chat2get/doctive-home.png">
+   <img src="{{ site.url }}/images/blog/chat2get/doctive-home.png">
+ </a>
+</figure>
 
 ## Startup Learnings
 
