@@ -37,7 +37,7 @@
     {% for post in site.posts limit:7 %}
     <article>
       {% assign category = post.url | split:"/" %}
-      {% if category[1] != 'personal' and category[1] != 'interview' and category[1] != 'photography %}
+      {% if category[1] != 'personal' and category[1] != 'interview' and category[1] != 'photography' %}
           {% if post.link %}
             <h2 class="link-post"><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ category[1] | capitalize }}: {{ post.title }}</a> <a href="{{ post.link }}" target="_blank" title="{{ post.title }}"><i class="fa fa-link"></i></h2>
           {% else %}
