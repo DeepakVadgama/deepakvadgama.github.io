@@ -3,8 +3,8 @@ layout: post
 title: Java HashMap internals
 category: blog
 comments: true
-published: false 
-excerpt: Grokking over Java's HashMap implementation
+published: true 
+excerpt: Grokking over Java 8 HashMap implementation
 tags: 
   - development
   - java
@@ -19,8 +19,7 @@ I love ['Concurrency in Practice'](https://g.co/kgs/WT7WVy). Its a Java concurre
 considered a definitive guide on the subject. These fine folks were also involved in [JSR166](https://jcp.org/en/jsr/detail?id=166) 
 and have authored many of the concurrency/collection classes in JDK. It is fascinating to walk through their code. There is lot to learn about code structure, performance, trade-offs etc. 
 
-Let's start with HashMap (and its cousins).
-
+Let's start with HashMap and its cousin LinkedHashMap.
 
 ## Basics
 
@@ -34,14 +33,16 @@ explaining Go's HashMap](https://www.youtube.com/watch?v=Tl7mi9QmLns)
 In short, HashMap is backed by an array. During put operation, hashcode of key is calculated, and Entry (key+value) is 
 inserted in array (based on hashcode % array's size). If more keys are added with same hashcode, linkedlist is formed with previously added keys. 
 
-Let's focus on the interesting parts of the class (whole code [here]()) 
+Let's focus on the interesting parts of the class (whole code here: [HashMap](https://github.com/openjdk-mirror/jdk/blob/jdk8u/jdk8u/master/src/share/classes/java/util/HashMap.java) & [LinkedHashMap](https://github.com/openjdk-mirror/jdk/blob/jdk8u/jdk8u/master/src/share/classes/java/util/LinkedHashMap.java)) 
 
 ## Initialization
 
 - If the initial capacity and load-factors are not provided, they default to 16 and 0.75 respectively.
 - **Closest factor of 2**
 If initial capacity is given, it is increased to the closest factor of 2 by using this [bit twiddling algorithm](http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float). 
-- **Why factor of 2:**
+- **Why factor of 2:** When table is resized (doubled), the elements in linked list can easily be assigned to new indexes 
+without performing modulo operation. This is awesome!
+Eg: If hash=9, oldTableSize=8, oldIndex=1 (8%9), newTableSize=16, newIndex=9 (16%9) = oldTableSize + oldIndex
 - **Table not initialized yet**: Interesting that the array (variable table) is not initialized in constructor. So no memory allocated yet. 
 
 {% highlight java %}
@@ -164,7 +165,7 @@ binary values of 2, 18 and 215 all have same lower bits.
 
 - Lets skip hash function for now.
 - *(n - 1) & hash* is same as *hash % n*, who knew!
-- Added comments inline
+- Code comments inline
 
 {% highlight java %}
 
@@ -249,6 +250,10 @@ binary values of 2, 18 and 215 all have same lower bits.
 {% endhighlight %}
 
 ## Tree
+
+- A linked list is converted to Red-Black tree only if list's size exceeds threshold (8) and 
+table size is greater than threshold (64).
+- Code comments inline
 
 {% highlight java %}
 
@@ -339,11 +344,12 @@ binary values of 2, 18 and 215 all have same lower bits.
             }
         }
         
-        // 14. 
+        // 14. If during balancing root node changed, then table[hash % size] != root, 
+        // fix this by change table's index to root
         moveRootToFront(tab, root);
     }
 
-    // Called when number of elements in tree are less than threshold
+    // 15. Called when number of elements in tree are less than threshold
     final Node<K,V> untreeify(HashMap<K,V> map) {
         Node<K,V> hd = null, tl = null;
         for (Node<K,V> q = this; q != null; q = q.next) {
@@ -356,23 +362,15 @@ binary values of 2, 18 and 215 all have same lower bits.
         }
         return hd;
     }
-
     
 {% endhighlight %}
-
-Trees possibility of loosing root node during iterator.remove(). What about lists?
-
-Treeify 
-Untreeify 
-MinTableForTreeify
-
 
 ## Get value from key
 
 Not much to see here. Straight forward code. 
 
 - If its a list traverse till the end (if its a tree, traverse the tree).
-- Few code comments added.
+- Code comments inline.
 
 {% highlight java %}
     
@@ -461,23 +459,189 @@ Not much to see here. Straight forward code.
 
 ## Resizing table
 
-Threshold (aka Load Factor) of 0.75 for resizing the array. 
-It basically allocates new array with twice the size, repopulates the new array (Does it synchronize during this operation?)
-using modulo operator. 
+- Used for both resizing and initializing table for first time. 
+- Code Comments inline
+
+{% highlight java %}
+
+    final Node<K,V>[] resize() {
+        Node<K,V>[] oldTab = table;
+        int oldCap = (oldTab == null) ? 0 : oldTab.length;
+        int oldThr = threshold;
+        int newCap, newThr = 0;
+
+        if (oldCap > 0) {
+            // 1. Validate less than MAX
+            if (oldCap >= MAXIMUM_CAPACITY) {
+                threshold = Integer.MAX_VALUE;
+                return oldTab;
+            }
+            
+            // 2. Double capacity and threshold
+            else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
+                     oldCap >= DEFAULT_INITIAL_CAPACITY)
+                newThr = oldThr << 1; // double threshold
+        }
+        else if (oldThr > 0) // initial capacity was placed in threshold
+            newCap = oldThr;
+        else {               // zero initial threshold signifies using defaults
+            newCap = DEFAULT_INITIAL_CAPACITY;
+            newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (newThr == 0) {
+            float ft = (float)newCap * loadFactor;
+            newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?
+                      (int)ft : Integer.MAX_VALUE);
+        }
+        threshold = newThr;
+        @SuppressWarnings({"rawtypes","unchecked"})
+        // 3. Create table 
+        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+        table = newTab;
+        if (oldTab != null) {
+        
+            // 4. Loop through old table to reassign all elements
+            for (int j = 0; j < oldCap; ++j) {
+                Node<K,V> e;
+                if ((e = oldTab[j]) != null) {
+                    oldTab[j] = null;
+                    
+                    // 5. Just assign for single element
+                    if (e.next == null)
+                        newTab[e.hash & (newCap - 1)] = e;
+                        
+                    // 6. Split the tree in 2 if a TreeNode
+                    else if (e instanceof TreeNode)
+                        ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
+                        
+                    // 7. Split the linked list
+                    else { // preserve order
+                        Node<K,V> loHead = null, loTail = null;
+                        Node<K,V> hiHead = null, hiTail = null;
+                        Node<K,V> next;
+                        do {
+                            next = e.next;
+                            
+                            // 8. Take advantage of factor of 2 size of table
+                            // Either new index of element will be the same, or oldTableSize + oldIndex
+                            // Assign to appropriate list
+                            if ((e.hash & oldCap) == 0) {
+                                if (loTail == null)
+                                    loHead = e;
+                                else
+                                    loTail.next = e;
+                                loTail = e;
+                            }
+                            else {
+                                if (hiTail == null)
+                                    hiHead = e;
+                                else
+                                    hiTail.next = e;
+                                hiTail = e;
+                            }
+                        } while ((e = next) != null);
+                        
+                        // 9. Attach list to appropriate table indexes
+                        if (loTail != null) {
+                            loTail.next = null;
+                            newTab[j] = loHead;
+                        }
+                        if (hiTail != null) {
+                            hiTail.next = null;
+                            newTab[j + oldCap] = hiHead;
+                        }
+                    }
+                }
+            }
+        }
+        return newTab;
+    }
+
+{% endhighlight %}
+
 
 ## LinkedHashMap
 
+- Its Node extends HashMap node and adds before, after Entry references to keep track of insertion order.
+- Note that these new references form a doubly linked list, and is completely unrelated to the HashMap's list,
+which keeps track of all elements with same hashcode. 
+- Code comments inline
 
-## ConcurrentHashMap
+{% highlight java %}
 
+   // 1. Extra references to keep track of insertion order. 
+   static class Entry<K,V> extends HashMap.Node<K,V> {
+        Entry<K,V> before, after;
+        Entry(int hash, K key, V value, Node<K,V> next) {
+            super(hash, key, value, next);
+        }
+    }
+    
+    // 2. Adjust doubly linked list once a node is removed
+    void afterNodeRemoval(Node<K,V> e) { // unlink
+        LinkedHashMap.Entry<K,V> p =
+            (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
+        p.before = p.after = null;
+        if (b == null)
+            head = a;
+        else
+            b.after = a;
+        if (a == null)
+            tail = b;
+        else
+            a.before = b;
+    }
+    
+    // 2. Adjust doubly linked list once a node is added
+    void afterNodeInsertion(boolean evict) { // possibly remove eldest
+        LinkedHashMap.Entry<K,V> first;
+        if (evict && (first = head) != null && removeEldestEntry(first)) {
+            K key = first.key;
+            removeNode(hash(key), key, null, false, true);
+        }
+    }
+    
+    // 3. If a node is replaced, move it to the end (its treated as newly added node)
+    void afterNodeAccess(Node<K,V> e) { 
+        LinkedHashMap.Entry<K,V> last;
+        if (accessOrder && (last = tail) != e) {
+            LinkedHashMap.Entry<K,V> p =
+                (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
+            p.after = null;
+            if (b == null)
+                head = a;
+            else
+                b.after = a;
+            if (a != null)
+                a.before = b;
+            else
+                last = b;
+            if (last == null)
+                head = p;
+            else {
+                p.before = last;
+                last.after = p;
+            }
+            tail = p;
+            ++modCount;
+        }
+    }
 
+{% endhighlight %}
 
-## Alternate ways of collision resolution
-https://en.wikipedia.org/wiki/Hash_table#Collision_resolution
+## Skipped 
 
-## Learnings
+- Iterators
+- Serialization
+- Red-Black Tree balancing
+- Splitting the Tree
+- EntrySet and Values methods
+
+## Conclusion
 
 - For a core data structure being used billions (probably trillions) of times, its okay to introduce complexity
 to gain extra performance. 
 - There are always trade offs between performance and space overhead
-- 
+- Bitwise operators are performant and powerful
+- HashMap class has 2734 lines of code (& comments)!
+- Seemingly simple looking operations can involve huge amount of code
