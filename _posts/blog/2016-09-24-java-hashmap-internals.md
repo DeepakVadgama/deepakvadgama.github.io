@@ -641,7 +641,19 @@ which keeps track of all elements with same hashcode.
 
 - For a core data structure being used billions (probably trillions) of times, its okay to introduce complexity
 to gain extra performance. 
-- There are always trade offs between performance and space overhead
-- Bitwise operators are performant and powerful
+- There are always trade offs between performance and space overhead.
+- Bitwise operators are performant and powerful.
 - HashMap class has 2734 lines of code (& comments)!
-- Seemingly simple looking operations can involve huge amount of code
+- Seemingly simple looking operations can involve huge amount of code.
+
+## Cake and the cherry
+
+I got the following Twitter reply from Joshua Bloch which just made my day.   
+
+Goes to show the power of Twitter in democratizing communication (eg: between rockstar and average programmers) and 
+also that programmer community at large is kind, helpful and generous.
+
+<figure style="max-width: 600px; margin-left: auto; margin-right: auto">
+    <a href="{{ site.url }}/images/blog/Joshua_Bloch_twitter.png"><img src="{{ site.url }}/images/blog/Joshua_Bloch_twitter.png"></a>
+</figure>
+
