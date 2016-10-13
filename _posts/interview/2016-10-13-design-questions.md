@@ -76,4 +76,26 @@ Thus better option is LinkedList.
  
  - Updates in real-time or batching is okay?
  - Updates based on popularity or sales or what criteria?
- - 
+
+
+
+## Sample question 3: Paste bin
+
+Design a system like Pastebin, where a user can enter a piece of text and get a randomly generated URL for public access.
+ 
+### Assumptions
+
+- No user accounts. Open to all
+- No Edit access
+- Delete LRU Urls?
+- Cache for frequently accessed ones
+- API as well as front-end
+- Track IP address for abuse (as well as a front-end server and such)
+- Analytics for each URL
+- UUID so that people cannot guess URLs. 
+
+### Generating
+
+While generating create UUID, trigger link to site/uuid to confirm there is no existing URL with that ID (even though chances are rare) 
+
+
