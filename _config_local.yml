@@ -3,7 +3,7 @@
 title: Thoughts, filtered 
 locale:           en_US
 url: http://localhost:4000
-
+base: 
 
 # Jekyll configuration
 

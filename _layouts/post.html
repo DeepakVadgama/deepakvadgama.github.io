@@ -66,7 +66,10 @@
   <h4>You might also enjoy <small class="pull-right">(<a href="{{ site.url }}/posts/">View all posts</a>)</small></h4>
     <ul>
     {% for post in site.related_posts limit:3 %}
+      {% assign category = post.url | split:"/" %}
+      {% if category[1] != 'personal' and category[1] != 'interview' %}
       <li><a href="{{ site.url }}{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
+      {% endif %}
     {% endfor %}
     </ul>
     <hr />

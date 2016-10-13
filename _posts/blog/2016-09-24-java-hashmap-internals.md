@@ -42,7 +42,7 @@ Let's focus on the interesting parts of the class (whole code here: [HashMap](ht
 If initial capacity is given, it is increased to the closest factor of 2 by using this [bit twiddling algorithm](http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float). 
 - **Why factor of 2:** When table is resized (doubled), the elements in linked list can easily be assigned to new indexes 
 without performing modulo operation. This is awesome!
-Eg: If hash=9, oldTableSize=8, oldIndex=1 (8%9), newTableSize=16, newIndex=9 (16%9) = oldTableSize + oldIndex
+Eg: If hash=9, oldTableSize=8, oldIndex=1 (9%8), newTableSize=16, newIndex=9 (16%9) = oldTableSize + oldIndex
 - **Table not initialized yet**: Interesting that the array (variable table) is not initialized in constructor. So no memory allocated yet. 
 
 {% highlight java %}
@@ -103,10 +103,10 @@ space is generally twice as slow.
 
 - Worst Case (Trees): O(log(n)). Hashcodes of all keys are same then same operations can take O(log(n)) time (n = number of keys in the map).
 
-String class hashcode: [Special hash function](http://docs.oracle.com/javase/7/docs/technotes/guides/collections/changes7.html) of was added to String class in Java 7 to to use more complex hashing to generate unique hashes. 
+**Note:** Technically *hashcode % table-length* need to be distinct, because even distinct hashcodes can end up in same bin/tree i.e. collide.
 
-After implementing Trees (see section below), the field was removed. Since now the worst case operations take O(log(n))
-instead of O(n).
+String class: [Special hash function](http://docs.oracle.com/javase/7/docs/technotes/guides/collections/changes7.html) and a new private field hash32 (to cache the hashcode) was added to String class in Java 7 to to use more complex hashing to generate unique hashes. This was specifically to improve performance in HashMaps (all variants). After implementing Trees instead of Bins (see section below), the field [was removed](http://hg.openjdk.java.net/jdk8/jdk8/jdk/rev/43bd5ee0205e) since now the worst case operations take O(log(n)) instead of O(n).
+                                                                                                                              
 
 ## Probability of list of size k
 
@@ -153,7 +153,11 @@ Example of such floats:
 
 {% highlight java %}
 
-binary values of 2, 18 and 215 all have same lower bits. 
+binary values of 2.0f, 18.0f and 215.0f all have same lower bits.
+ 
+System.out.println(Long.toBinaryString(Float.floatToRawIntBits(2.0f)));
+System.out.println(Long.toBinaryString(Float.floatToRawIntBits(18.0f)));
+System.out.println(Long.toBinaryString(Float.floatToRawIntBits(215.0f)));
 
 1000000000000000000000000000000
 1000001100100000000000000000000
@@ -657,3 +661,5 @@ also that programmer community at large is kind, helpful and generous.
     <a href="{{ site.url }}/images/blog/Joshua_Bloch_twitter.png"><img src="{{ site.url }}/images/blog/Joshua_Bloch_twitter.png"></a>
 </figure>
 
+
+**Thanks:** Special thanks to my friend [Neerav Vadodaria](https://twitter.com/neeravsv) for proof-reading the article.
