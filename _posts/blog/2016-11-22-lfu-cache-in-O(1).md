@@ -314,8 +314,9 @@ We can go one step further (code not written) to remove this extra data structur
 This is precisely the algorithm implemented in [this paper](http://dhruvbird.com/lfu.pdf)
 
 <figure>
-    <a href="{{ site.url }}/images/blog/lfu/lfu-cache-6.png"><img src="{{ site.url }}/images/blog/lfu/lfu-cache-6.png"></a>
+    <a href="{{ site.url }}/images/blog/lfu/lfu-cache-7.png"><img src="{{ site.url }}/images/blog/lfu/lfu-cache-7.png"></a>
 </figure>
+*[Image Source](http://www.laurentluce.com/posts/least-frequently-used-cache-eviction-scheme-with-complexity-o1-in-python/)*
 
 
 ## Conclusion
