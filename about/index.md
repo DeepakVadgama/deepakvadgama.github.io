@@ -22,6 +22,6 @@ I have experience working with Spring Boot, AngularJS and have completed [Udacit
 
 I like to keep abreast with technology news, and I'm passionate about photography. I am also a fan of Roger Federer, Heath Ledger and Google.
 
-Hit me up on [Twitter](https://twitter.com/deepakvadgama) or [e-mail](mailto:vadgama.deepak@gmail.com) 
+Feel free hit me up on [Twitter](https://twitter.com/deepakvadgama) or [e-mail](mailto:vadgama.deepak@gmail.com) 
 
 Thanks for stopping by.. 
