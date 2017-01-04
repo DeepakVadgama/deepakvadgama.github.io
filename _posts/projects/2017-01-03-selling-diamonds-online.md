@@ -174,3 +174,10 @@ The decision making and paperwork process took whole 6 months before we could re
 I think we as developers have responsibility of helping customers understand the importance of Agile and its benefits. 
 Failing this, it becomes troublesome for both the parties involved. 
 
+### Learnings
+
+- After creating a subsequent project (post coming soon) completely based on Spring Boot and Hibernate, I regret 
+not using full power of Spring Boot in this project. I had to spend lot of time developing functionalities and fixing issues. 
+- I also regret using template instead of creating site from basic components. It saved time initially, but 
+in the long run, was too time consuming. 
+- On positive note, I learned lot of new things like OC.Lazyload, diamond industry workings, Spring filters, Angular digest cycle etc. 
