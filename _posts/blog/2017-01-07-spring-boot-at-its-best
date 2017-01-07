@@ -1,0 +1,60 @@
+---
+layout: post
+title: Spring Boot at its best
+category: blog
+comments: true
+published: false
+excerpt: Using Spring Boot 1.4 at its fullest for web applications (with MVC, JPA, Flyway)
+tags:
+  - development
+  - java
+  - spring
+---
+
+Massive learning. I have learned more in last 2 months about Spring than in last 10 years!
+I am very excited to share my findings. I hope there are a couple of new things in this article for you too.
+
+TODO: Create this table at the top, then start the lengthy article.
+
+Spring Env:
+- Profiles
+- Flyway
+- Default - Embedded tomcat, Logging,
+
+Architecture:
+- DTO Mappers
+- Logging
+- Spring auto constructor inject (good for testing)
+
+
+Spring Security
+- Spring User vs Custom User
+- Auth with CSRF, CORS, CSP, X-Auth-Token etc built-in
+- Encoding passwords - BCrypt
+- URL based security
+- Method based security
+- Update hasAuthority from Role to fine-grained Permissions (custom)
+- @CurrentUser (same as AuthenticationPrincipal)
+
+Controllers:
+- Exception handling (Controller Advices)
+- DTO Validation
+- JSON Conversions (@JSONIgnore)
+
+
+JPA / Hibernate
+- ID generation (types)
+- JPA Repository
+- Transactional (w/ readyonly)
+- Version (for optimistic locking)
+- Validation
+- Date time, Duration java 8
+- CreatedBy, ModifiedBy
+- Auditing (w/ Revision repo)
+- Create SQL
+
+Testing
+- Slices
+- Security
+- JPA testing (Repo, Auditing etc)
+- MockMVC and RestTemplates
