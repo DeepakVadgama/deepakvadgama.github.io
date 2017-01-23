@@ -143,15 +143,20 @@ Since JS world is moving at a breakneck pace it was not an option to learn Gulp 
   + Server
   + Live Reload
 
-- **Angular Datatables** This library is a wrapper on famous [JS only datatables](https://datatables.net/). 
+- **Angular Datatables** [This library](l-lin.github.io/angular-datatables/) is a wrapper on famous [JS only datatables](https://datatables.net/). 
 It sufficed to provide sorting, searching, pagination, fixed header, scrolling etc.  
  
 <figure>
  <a href="{{ site.url }}/images/blog/sejalgems/sejalgems-search-2.png"><img src="{{ site.url }}/images/blog/sejalgems/sejalgems-search-2.png"></a>
 </figure>
 
+- **Dynamic Reports** [This library](www.dynamicreports.org/) is a wrapper over open source version of Jasper Reports. It helped us [create invoices](http://www.dynamicreports.org/examples/invoice) in PDF format.
 
-- **Dynamic Reports** This is wrapper over open source version of Jasper Reports. It helped us [create invoices](http://www.dynamicreports.org/examples/invoice) in PDF format. 
+<figure>
+ <a href="{{ site.url }}/images/blog/sejalgems/sejalgems-invoice.png"><img src="{{ site.url }}/images/blog/sejalgems/sejalgems-invoice.png"></a>
+</figure>
+
+- **Apache POI** [This library](https://poi.apache.org/) helped us create excel based reports. There were numerous reports required for things like customers, orders, inventory, average pricing etc. 
 
 - **Payment Gateway integration** Writeup coming soon. Yet to implement. 
 
