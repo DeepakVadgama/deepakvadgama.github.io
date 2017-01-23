@@ -153,11 +153,6 @@ It sufficed to provide sorting, searching, pagination, fixed header, scrolling e
 
 - **Dynamic Reports** This is wrapper over open source version of Jasper Reports. It helped us [create invoices](http://www.dynamicreports.org/examples/invoice) in PDF format. 
 
-<figure>
- <a href="{{ site.url }}/images/blog/sejalgems/sejalgems-sample-invoice.png"><img src="{{ site.url }}/images/blog/sejalgems/sejalgems-sample-invoice.png"></a>
-</figure>
-
-
 - **Payment Gateway integration** Writeup coming soon. Yet to implement. 
 
 ### List of functionalities
