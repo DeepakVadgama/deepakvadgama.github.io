@@ -21,14 +21,14 @@ We faced lot of issues due to the monolithic nature of our architecture
 It was easy to step on each other’s shoes when multiple developers access the same codebase. Creating branches can be helpful in such cases, but using Subversion (instead of Git) can make the merging complicated especially at scale. 
 
 ## Build and deploy
-+ Testing fixes in an environment, say UAT, required building entire codebase. For us, this meant close to 30 minutes of coffee break. 
-+ This did not scale well. 12 developers multi-tasking bug-fixes and features additions, lead to huge number of concurrent builds and serious coffee addiction.
++ Testing fixes in an environment, say UAT, required building entire codebase. For us, this meant 30 minutes of coffee break. 
++ This did not scale well. 12 developers multi-tasking bug-fixes and features additions, lead to huge number of concurrent builds  (along with serious coffee addiction).
 + Deploying a complete fix, might accidentally deploy other developer's partial fix. All the code needed to be checked-in atomically (which was difficult to enforce). 
 + It became terribly important to know state of codebase, and schedule of building it; which meant lot of communication overhead within the team.
 
 ## Latency
 + To reduce the latency of accessing external systems we wanted to cache reference data.
-+ Was not possible with Java 6, 32-bit (yeah, tell me about it) i.e. 1.8GB heap space.
++ Was not possible with  32-bit Java (tell me about it!) i.e. 1.8GB heap space.
 + Alternative was to use external caching solutions, but our manager insisted on creating an in-house distributed cache, which we did (I’m sorry Redis, my hands were tied).
 
 These issues called for drastic change in architecture and processes. We had never heard the term microservices before, but that’s what we ended up with. If you are new to the term microservices, please read [Martin Fowler’s excellent introduction](http://martinfowler.com/articles/microservices.html).
@@ -42,7 +42,7 @@ These issues called for drastic change in architecture and processes. We had nev
 ## Step 1: Identify independent pieces of the application
 
 + Break down application into components, each responsible for single unit of functionality. For us, it translated to ‘sub-system connecting to a single external system’
-+ Create separate subversion (or your VCS) tree for each component
++ Create separate subversion (VCS) tree for each component
 
 Rejoice! No more codebase conflicts amongst developers. As a bonus, we started owning components instead of code packages. 
 
@@ -52,7 +52,7 @@ Rejoice! No more codebase conflicts amongst developers. As a bonus, we started o
 + Expose cache if service deals with data (we used our in-house [custom cache]({{ site.url }}/projects/making-of-distributed-cache/))
 + Document the APIs in team wiki
 
-Now for any new code, developer can just refer to the API of dependent services, without worrying about the internals. Though deciding on the API itself should be thorough process. Otherwise dependent services need to keep updating to keep up with API changes. 
+Now for any new code, developer can just refer to the API of dependent services, without worrying about the internals. Though deciding on the API itself should be a thorough process. Otherwise, dependent services may need to keep updating the code, to keep up with API changes. 
 
 ## Step 3: Make service discoverable
 
@@ -66,7 +66,7 @@ Zookeeper might be an overkill for an application with limited scalability requi
 
 We made a mistake of using [Kryo](https://github.com/EsotericSoftware/kryo) as our serializer instead of JSON/XML. Having to maintain same version of JARs across the services proved difficult and we had to revamp our entire build system [detailed in another post](http://www.deepakvadgama.com/projects/build-automation).
 
-Alternative was to split the POJO JAR itself into multiple subsets, but it wasn't feasible at the time.
+Alternative was to split the JAR (holding data classes) itself into multiple subsets, but it was not feasible at the time.
 
 Choosing serialization format can be tricky.
 
@@ -74,9 +74,9 @@ Choosing serialization format can be tricky.
 + Pros: Readable. Makes debugging easy. Backwards compatible.
 + Cons: Network overhead. Slow. Maintenance of serializer and deserializer every time a data class updates.
 
-#### Kryo (or similar)
+#### Kryo (binary format)
 + Pros: Concise. Fast. 
-+ Cons: Needs same version of POJO on both ends. Not backwards compatible. Debugging and replay of messages difficult.
++ Cons: Needs same version of POJO on both ends. Not backwards compatible. Debugging and replay of messages is difficult.
 
 ## Step 5: Address failure of services
 
