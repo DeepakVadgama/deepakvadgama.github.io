@@ -40,7 +40,7 @@ Though we made the pool size configurable, we didn't ever need to tweak it for a
 its own module and exposed via [strategy pattern](https://dzone.com/articles/design-patterns-strategy). 
 - **Data Listeners:** Once data was unmarshalled, it was passed to caching layer using data listeners.  
 - **Heartbeats:** Connectivity status was monitored in real-time using heartbeats mechanism. 
-- **Connetion Listeners:** We added listeners for disconnect, re-connect, and heart-beat events. These listeners
+- **Connection Listeners:** We added listeners for disconnect, re-connect, and heart-beat events. These listeners
  was exposed to the top most module (caching) using delegation. This was especially useful in alerting services disconnected from market.
 - **Retries:** If disconnected, retries were done at regular intervals (of 5 seconds). 
 Interval was configurable based on priority of application.  
@@ -106,7 +106,7 @@ and was known using connection listeners exposed by TCP module.
 - **Default server client cache:** Default caching which uses server-cache which stores golden copy, 
 and 1 or more clients which receive data in form of initial snapshot and then real-time updates. 
 - **Filter based cache:** Server client cache which allows client to subscribe to a certain kind of data (based on filter). 
-Though, we implemented this filtering on caching module in client cache, thus it did not save bandwidth though it made client code cleaner.  
+Though, we implemented this filtering on caching module in client cache, thus it did not save bandwidth though it made server code cleaner.  
 - **Streaming cache:** Form of client which does not store data in CQEngine, it just receives data from server. Helpful in services like auditing. 
 - **Multi cache:** Form of client which connects to multiple cache servers at once. 
 Helpful in services which connect and process trades from multiple markets.  
