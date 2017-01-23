@@ -150,6 +150,14 @@ It sufficed to provide sorting, searching, pagination, fixed header, scrolling e
  <a href="{{ site.url }}/images/blog/sejalgems/sejalgems-search-2.png"><img src="{{ site.url }}/images/blog/sejalgems/sejalgems-search-2.png"></a>
 </figure>
 
+
+- **Dynamic Reports** This is wrapper over open source version of Jasper Reports. It helped us [create invoices](http://www.dynamicreports.org/examples/invoice) in PDF format. 
+
+<figure>
+ <a href="{{ site.url }}/images/blog/sejalgems/sejalgems-sample-invoice.png"><img src="{{ site.url }}/images/blog/sejalgems/sejalgems-sample-invoice.png"></a>
+</figure>
+
+
 - **Payment Gateway integration** Writeup coming soon. Yet to implement. 
 
 ### List of functionalities
@@ -159,8 +167,10 @@ It sufficed to provide sorting, searching, pagination, fixed header, scrolling e
 - Search/Results/Download-to-excel
 - Cart
 - Checkout/Enquiry
+- Invoice
+- Tracking delivery
 - Excel based Reports
-- Admin (to manage users/dealers, prices etc)
+- Admin (to manage inventory, users/dealers, prices, delivery etc)
 - Misc (Google maps, general enquiry etc) 
 
 ### Business decisions
