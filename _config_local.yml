@@ -4,6 +4,10 @@ title: Thoughts, filtered
 locale:           en_US
 url: http://localhost:4000
 base: 
+show_drafts: true
+unpublished: true
+future: true
+
 
 # Jekyll configuration
 

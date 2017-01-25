@@ -110,7 +110,7 @@ String class: [Special hash function](http://docs.oracle.com/javase/7/docs/techn
 
 ## Probability of list of size k
 
-Unless programming mistakes or malicious code, the hashcodes follow a [poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
+Unless there are programming mistakes or malicious code, hashcodes generally follow [poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
 
 In layman terms, typical keys inserted in the HashMap have hashcodes which are generally unique. 
 The probability of 2 elements having same hashcode is low, 3 of them having same is even lower, 

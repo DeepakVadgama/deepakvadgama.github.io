@@ -117,7 +117,7 @@ public class LFUCache {
             return -1;
         }
 
-        // Move item from one frequency list to next. Not O(n) due to list iteration.
+        // Move item from one frequency list to next. Not O(1) due to list iteration.
         int frequency = counts.get(key);
         frequencies.get(frequency).remove(new Integer(key));
         if (frequencies.get(frequency).size() == 0) {

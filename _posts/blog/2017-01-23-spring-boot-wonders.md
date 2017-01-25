@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Spring Boot at its best
+title: Spring Boot Wonders
 category: blog
 comments: true
 published: false
@@ -10,9 +10,11 @@ tags:
   - java
   - spring
 ---
-
-Massive learning. I have learned more in last 2 months about Spring than in last 10 years!
-I am very excited to share my findings. I hope there are a couple of new things in this article for you too.
+ 
+I recently started using Spring Boot (1.4) for a new project. 
+I learned so much. Its like I have never understood full power of Spring until now. 
+I was able to create many orthogonal functionalities (logging, security, auditing etc) 
+in the project with minimal amount of code. 
 
 TODO: Create this table at the top, then start the lengthy article.
 
@@ -37,13 +39,16 @@ Spring Security
 - @CurrentUser (same as AuthenticationPrincipal)
 
 Controllers:
-- Exception handling (Controller Advices)
+- Exception handling (@RestControllerAdvices)
 - DTO Validation
 - JSON Conversions (@JSONIgnore)
 
 
 JPA / Hibernate
-- ID generation (types)
+- ID generation (types = AUTO, IDENTITY, SEQUENCE, TABLE)
+http://www.thoughts-on-java.org/jpa-generate-primary-keys/
+https://en.wikibooks.org/wiki/Java_Persistence/Identity_and_Sequencing#Identity
+
 - JPA Repository
 - Transactional (w/ readyonly)
 - Version (for optimistic locking)
@@ -58,3 +63,8 @@ Testing
 - Security
 - JPA testing (Repo, Auditing etc)
 - MockMVC and RestTemplates
+- Active Profile
+- DirtiesContext
+- TestPropertySource
+- AutoConfigureTestDatabase + @Sql(mock-users.sql)
+- 
