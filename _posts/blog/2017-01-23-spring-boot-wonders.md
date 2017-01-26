@@ -3,7 +3,6 @@ layout: post
 title: Spring Boot Wonders
 category: blog
 comments: true
-published: true
 excerpt: Using Spring Boot 1.4 at its fullest for web applications (with MVC, JPA, Flyway)
 tags:
   - development
