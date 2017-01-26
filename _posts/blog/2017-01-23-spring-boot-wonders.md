@@ -35,7 +35,7 @@ Spring Boot allows configuration through [application.properties](https://docs.s
 </figure>
 
 
-### Auto constructor injection
+### Dependency injection without annotations
 
 Spring Boot [recommends](https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3) using constructors for injecting dependencies. If you have single constructor, all the dependencies are auto injected. No need to have @AutoWired or @Inject annotations. As a bonus, this also helps easily mock dependencies in tests. 
 
@@ -62,11 +62,11 @@ Check out this [documentation](http://docs.spring.io/spring-boot/docs/current/re
 
 ## Spring Security
 
-### Spring User & Authorities
+### Spring User & Roles
 
 Spring Security requires implementing UserDetailsService, and it uses its own POJO of User (with [limited variables](http://docs.spring.io/spring-security/site/docs/current/apidocs/org/springframework/security/core/userdetails/User.html)). 
 If you require more variables you can easily extend the User class and convert instances when required by Spring Security.
- 
+ Side note: In Spring Security terminology user role is called Authority.
  
 {% highlight java %}
 
@@ -110,25 +110,76 @@ URL based security can be very easily setup with few lines of code using WebSecu
  
 {% highlight java %}
 
-@Override
-protected void configure(HttpSecurity http) throws Exception {
+@Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
- http
-     .authorizeRequests()
-        .antMatchers("/","/static/**").permitAll()
-        .mvcMatchers("/admin").access("hasAuthority('ROLE_ADMIN')")
-        .mvcMatchers("/employees").access("hasAuthority('ROLE_STAFF')")
-        .anyRequest().authenticated();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+    
+     http
+         .authorizeRequests()
+            .antMatchers("/","/static/**").permitAll()
+            .mvcMatchers("/admin").access("hasAuthority('ROLE_ADMIN')")
+            .mvcMatchers("/employees").access("hasAuthority('ROLE_STAFF')")
+            .anyRequest().authenticated();
+    }
 }
  
 {% endhighlight %}
 
 ### Method level security 
 
+Individual methods of controllers/services can be restricted too.  
+ 
+{% highlight java %}
 
-### Spring Expressions 
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-We can also use Spring expressions 
+}
+
+@RestController 
+@PreAuthorize("hasAuthority('READ_MACHINE')")   // Applies to all methods
+public class MachineController {
+    
+    @GetMapping("/id/{machineId}")
+    public MachineDto getById(@PathVariable Long machineId) {
+        return machineMapper.toDto(machineService.getById(machineId));
+    }
+    @PostMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('DELETE_MACHINE')")
+    public boolean delete(@PathVariable Long id) {
+        return machineService.delete(id);
+    }
+}
+{% endhighlight %}
+
+### Spring Expressions based authorization
+
+These restrictions need not be just based on authorities. With use of [Spring Expressions](https://docs.spring.io/spring/docs/current/spring-framework.../html/expressions.html) 
+it can trigger a method, access parameters, access return value, access a bean etc. This can be useful for requests 
+which depend on the actual data, or where authorization code is dynamic and is implemented in separate service. 
+
+{% highlight java %}
+public class IBookService {
+	@PreAuthorize ("hasRole('ROLE_WRITE')")
+	public void addBook(Book book){
+	    //..
+	}
+
+	@PostAuthorize ("returnObject.owner == authentication.name")
+	public Book getBook(){
+	    //.. 
+	}
+
+	@PreAuthorize ("#book.owner == authentication.name")
+	public void deleteBook(Book book){
+	    //..
+	}
+}
+{% endhighlight %}
 
 ### Login, Logout, CORS, CSRF, CSP
 
@@ -144,8 +195,8 @@ protected void configure(HttpSecurity http) throws Exception {
     http
         .authorizeRequests()
             .antMatchers("/","/static/**").permitAll()
-            .antMatchers("/test/freeaccess").permitAll()
-            .mvcMatchers("/admin").denyAll()
+            .mvcMatchers("/admin").access("hasAuthority('ROLE_ADMIN')")
+            .mvcMatchers("/employees").access("hasAuthority('ROLE_STAFF')")
             .anyRequest().authenticated()
             .and()
         .httpBasic()
@@ -165,13 +216,40 @@ protected void configure(HttpSecurity http) throws Exception {
     
 {% endhighlight %}
 
- 
 
-### AuthenticationPrincipal
+### Accessing current user (anywhere in request flow)
 
-- @CurrentUser (same as AuthenticationPrincipal)
+Spring can tell which user the request belongs to. This can be acheived by only using annotation 
+@AuthenticationPrincipal in the method parameter of type User. If @AuthenticationPrincipal is not very readable, then custom annotation can be created which does the same thing. 
 
-## Controllers:
+{% highlight java %}
+
+// Controller method
+@PostMapping("/edit/password/self")
+public void updatePassword(@RequestParam String updatedPassword, @AuthenticationPrincipal User user) {
+    userService.updatePassword(user.getUsername(), updatedPassword);
+}
+
+OR 
+
+// Custom annotation class for AuthenticationPrincipal
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@AuthenticationPrincipal
+public @interface CurrentUser {
+
+}
+
+// Controller method
+@PostMapping("/edit/password/self")
+public void updatePassword(@RequestParam String updatedPassword, @CurrentUser User user) {
+    userService.updatePassword(user.getUsername(), updatedPassword);
+}
+
+{% endhighlight %}
+
+## Controllers
 
 ### Input validation
 
@@ -215,13 +293,13 @@ based on types of exceptions.
 {% highlight java %}
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
+    
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = BadInputException.class)
     public String badRequest(BadInputException e) {
         return e.getMessage();
     }
-
+    
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public String badRequest(Exception e) {
@@ -243,21 +321,158 @@ There are multiple ways to achieve this:
 
 ## Databases / JPA / Hibernate
 
+### General
+
+Spring Boot (and Spring Data JPA) allows for lot of basic functionalities with minimal code: 
+
+- @Column and @Table annotation for entity is optional, naming strategies have [sensible defaults](https://docs.jboss.org/hibernate/orm/5.1/userguide/html_single/chapters/domain/naming.html). 
+- Lazy fetching of nested object [hierarchy](https://dzone.com/articles/jpa-lazy-loading)
+- Field validations as mentioned above
+- [DDL validation](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html) during startup
+- Transactions with annotations [@transactional and @transactional(readonly = true)](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions)
+- JPA Repositories for [CRUD and Paging/Sorting](https://docs.spring.io/spring-data/data-commons/docs/1.6.1.RELEASE/reference/html/repositories.html)
+- Optimistic locking with [single field/annotation of @version](http://www.byteslounge.com/tutorials/jpa-entity-versioning-version-and-optimistic-locking)
+
 ### Flyway - Database migrations
-- ID generation (types = AUTO, IDENTITY, SEQUENCE, TABLE)
-http://www.thoughts-on-java.org/jpa-generate-primary-keys/
-https://en.wikibooks.org/wiki/Java_Persistence/Identity_and_Sequencing#Identity
 
-- JPA Repository
-- Transactional (w/ readyonly)
-- Version (for optimistic locking)
-- Validation
-- Date time, Duration java 8
-- CreatedBy, ModifiedBy
-- Auditing (w/ Revision repo)
-- Create SQL
+We have ample resources for deployments and rollback of the code, but very limited tools for doing the same
+for database changes done during the release. Flyway is an excellent tool which does just that.
+Spring Boot integrates nicely with Flyway. 
 
-Testing
+It requires SQL scripts to follow a naming convention. During first application startup, flyway creates its 
+ own table for tracking which version of script is run. During subsequent startups, the latest script 
+ file version is compared to version in the database table, and script is ran accordingly.
+ 
+ Check out [this sample repository](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html)
+ 
+ <figure style="max-width: 300px" >
+  <a href="{{ site.url }}/images/blog/spring-boot/flyway.png"><img src="{{ site.url }}/images/blog/spring-boot/flyway.png"></a>
+ </figure> 
+
+### Primary key (ID generation)
+ 
+ Primary key for records can be generated using one of these types (IDENTITY, SEQUENCE, TABLE).
+ Each has pros and cons. For most use cases AUTO will do Check out [more details here](http://www.thoughts-on-java.org/jpa-generate-primary-keys/) and [here](https://en.wikibooks.org/wiki/Java_Persistence/Identity_and_Sequencing#Identity)
+The default value for @GeneratedValue is AUTO. 
+
+{% highlight java %}
+    @Entity
+    public class User {
+    
+        @Id
+        @GeneratedValue
+        private Long id;
+    }
+{% endhighlight %}
+
+### Java 8 date, time and duration
+
+Remember the days when Java or Joda's date had to be converted to java.sql.Date before persisting. 
+This manual conversion can be avoided by adding a converter in configuration. Thats it. 
+Now all entities can use Java 8's Date, Time and Duration classes and the values are stored and retrieved
+correctly from database. 
+
+{% highlight java %}
+@EntityScan(basePackageClasses = {MyApplication.class, Jsr310JpaConverters.class})
+@SpringBootApplication
+public class MyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MachineMaintenanceApplication.class, args);
+    }
+}
+{% endhighlight %}
+
+### Auditing (partial)
+
+Auditing the metadata of creates & updates is supported out of the box. 
+
+- Using @CreatedDate and @ModifiedDate annotations on entity fields is enough for those columns to be 
+ populated each time a record is created or updated. 
+- Using @CreatedBy and @ModifiedBy annotations allow to insert which user created/updated the records. For this
+Spring needs to know who is the auditor, which needs to be configured.
+- Ofcourse, the modified fields only store data related to latest update. 
+
+{% highlight java %}
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+public class Person {
+    
+    @Column(columnDefinition = "DATETIME", nullable = false, updatable = false)
+    @CreatedDate
+    protected LocalDateTime createdDate;
+    
+    @Column(columnDefinition = "DATETIME")
+    @LastModifiedDate
+    protected LocalDateTime modifiedDate;
+    
+    @CreatedBy
+    protected String createdBy;
+    
+    @LastModifiedBy
+    protected String modifiedBy;
+}
+
+// Auditor Config
+@Configuration
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+public class PersistenceConfig {
+
+    @Bean
+    AuditorAware<String> auditorProvider() {
+        return new AuditorAwareImpl();
+    }
+
+    // This class is used for Spring JPA entities to get & populate createdBy and modifiedBy username strings
+    private class AuditorAwareImpl implements AuditorAware<String> {
+        @Override
+        public String getCurrentAuditor() {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return null;
+            }
+            return ((User) authentication.getPrincipal()).getUsername();
+        }
+    }
+}
+
+{% endhighlight %}
+
+### Auditing (full records)
+
+[Hibernate envers](hibernate.org/orm/envers/) is a project created to audit entire records, i.e. it stores full copy of each edit made to the record. [Spring-data-envers](https://github.com/spring-projects/spring-data-envers) is a small wrapper on top it. This auditing comes extremely handy, we can just query the database rather than scan through 
+the logs to try and understand what part of record was updated and by whom.
+
+{% highlight java %}
+@Entity
+@Audited
+public class Person {
+    //...fields...    
+}
+
+@Configuration
+@EnableJpaRepositories(repositoryFactoryBeanClass = EnversRevisionRepositoryFactoryBean.class)
+public class PersistenceConfig {
+  //.... 
+}
+{% endhighlight %}
+
+### SQL creation
+
+In application-dev.properties add the following
+
+{% highlight properties %}
+spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
+spring.jpa.properties.javax.persistence.schema-generation.scripts.action=create
+spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=create.sql
+{% endhighlight %}
+
+<figure style="max-width: 600px">
+ <a href="{{ site.url }}/images/blog/spring-boot/create-sql.png"><img src="{{ site.url }}/images/blog/spring-boot/create-sql.png"></a>
+</figure>
+
+## Testing
 - Slices
 - Security
 - JPA testing (Repo, Auditing etc)
@@ -266,13 +481,13 @@ Testing
 - DirtiesContext
 - TestPropertySource
 - AutoConfigureTestDatabase + @Sql(mock-users.sql)
-- 
+
+## Actuator and Metrics
+
+
 
 ## Conclusion
 
-Phew! That's a long list, and there is so much more to explore in Spring Boot. 
-I am amazed at how far Java development has come, let alone considering Spring Boot is completely
-free and open-source. Go Spring!!
-
+Phew! That's a long list, and yet it does not cover all the features Spring Boot has to offer. I am amazed at how far Java development has come, let alone considering Spring Boot (& family) is completely free and open-source. Good times.
 
 Hit me up in the comments if I missed anything or if you have any queries. 
