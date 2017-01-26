@@ -3,7 +3,7 @@ layout: post
 title: Spring Boot Wonders
 category: blog
 comments: true
-published: false
+published: true
 excerpt: Using Spring Boot 1.4 at its fullest for web applications (with MVC, JPA, Flyway)
 tags:
   - development
@@ -11,13 +11,42 @@ tags:
   - spring
 ---
  
-Spring Boot is a powerful framework. 
-It allows for multitude of functionalities with minimal code (thanks to annotation processing & sensible defaults).
+Spring Boot is mighty powerful. It allows for multitude of functionalities with minimal code (thanks to annotation processing & sensible defaults).
   
-Listed below are a few features I've been using in a project. 
-If you want to start with pre-configured scaffolded code, checkout [this repository]() 
+Listed below are a few features I've been using in a new project. I am creating a pre-configured scaffolded code repository, will share the same with you soon. 
 
-TODO: Create this table at the top, then start the lengthy article.
+- [General](#general)
+  * [Profiles](#profiles)
+  * [Dependency injection without annotations](#dependency-injection-without-annotations)
+  * [Hot reload of code changes](#hot-reload-of-code-changes)
+- [Spring Security](#spring-security)
+  * [Spring User & Roles](#spring-user---roles)
+  * [Password encoding](#password-encoding)
+  * [URL based security](#url-based-security)
+  * [Method level security](#method-level-security)
+  * [Spring Expressions based authorization](#spring-expressions-based-authorization)
+  * [Login, Logout, CORS, CSRF, CSP](#login--logout--cors--csrf--csp)
+  * [Accessing current user](#accessing-current-user)
+- [Controllers](#controllers)
+  * [Input validation](#input-validation)
+  * [Exception handling](#exception-handling)
+  * [Entity to JSON conversion](#entity-to-json-conversion)
+- [Databases / JPA / Hibernate](#databases---jpa---hibernate)
+  * [General](#general-1)
+  * [Flyway - Database migrations](#flyway---database-migrations)
+  * [Primary key](#primary-key)
+  * [Java 8 date, time and duration](#java-8-date--time-and-duration)
+  * [Auditing record metadata](#auditing-record-metadata)
+  * [Auditing full records](#auditing-full-records)
+  * [SQL creation](#sql-creation)
+- [Testing](#testing)
+  * [General](#general-2)
+  * [Slices](#slices)
+  * [Security](#security)
+  * [JPA testing](#jpa-testing)
+  * [MockMVC and RestTemplates](#mockmvc-and-resttemplates)
+- [Conclusion](#conclusion)
+
 
 ## General
 
@@ -217,7 +246,7 @@ protected void configure(HttpSecurity http) throws Exception {
 {% endhighlight %}
 
 
-### Accessing current user (anywhere in request flow)
+### Accessing current user
 
 Spring can tell which user the request belongs to. This can be acheived by only using annotation 
 @AuthenticationPrincipal in the method parameter of type User. If @AuthenticationPrincipal is not very readable, then custom annotation can be created which does the same thing. 
@@ -349,7 +378,7 @@ It requires SQL scripts to follow a naming convention. During first application 
   <a href="{{ site.url }}/images/blog/spring-boot/flyway.png"><img src="{{ site.url }}/images/blog/spring-boot/flyway.png"></a>
  </figure> 
 
-### Primary key (ID generation)
+### Primary key
  
  Primary key for records can be generated using one of these types (IDENTITY, SEQUENCE, TABLE).
  Each has pros and cons. For most use cases AUTO will do Check out [more details here](http://www.thoughts-on-java.org/jpa-generate-primary-keys/) and [here](https://en.wikibooks.org/wiki/Java_Persistence/Identity_and_Sequencing#Identity)
@@ -383,7 +412,7 @@ public class MyApplication {
 }
 {% endhighlight %}
 
-### Auditing (partial)
+### Auditing record metadata
 
 Auditing the metadata of creates & updates is supported out of the box. 
 
@@ -439,16 +468,21 @@ public class PersistenceConfig {
 
 {% endhighlight %}
 
-### Auditing (full records)
+### Auditing full records
 
 [Hibernate envers](hibernate.org/orm/envers/) is a project created to audit entire records, i.e. it stores full copy of each edit made to the record. [Spring-data-envers](https://github.com/spring-projects/spring-data-envers) is a small wrapper on top it. This auditing comes extremely handy, we can just query the database rather than scan through 
-the logs to try and understand what part of record was updated and by whom.
+the logs to try and understand what part of record was updated and by whom. Repository interfaces can extend 
+RevisionRepository for accessing history of the records (audit history). 
 
 {% highlight java %}
 @Entity
 @Audited
 public class Person {
     //...fields...    
+}
+
+public interface PersonRepository extends RevisionRepository<Machine, Long, Integer>, JpaRepository<Machine, Long> {
+    //..extra methods.. 
 }
 
 @Configuration
@@ -473,21 +507,121 @@ spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=
 </figure>
 
 ## Testing
-- Slices
-- Security
-- JPA testing (Repo, Auditing etc)
-- MockMVC and RestTemplates
-- Active Profile
-- DirtiesContext
-- TestPropertySource
-- AutoConfigureTestDatabase + @Sql(mock-users.sql)
 
-## Actuator and Metrics
+### General
+
+- @ActiveProfile: Chooses the profile specific for that test  
+- @DirtiesContext: Resets context after every test
+- @TestPropertySource: Chooses extra test properties files
+- @ComponentScan: Scan only specific package classes
+
+### Slices
+ 
+ Spring Boot allows to test each individual layer (DAO, Controller etc) separately. 
+ Each layer has corresponding has annotations (@WebMvcTest, @DataJpaTest) to be used.
+  Check [this article](https://www.google.co.in/search?client=safari&rls=en&q=spring+boot+1.4+testing&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=5z2KWPvrJtP08wft55qABA) for more details. 
+  
+### Security
+
+If application is configured to use authentication and authorization, users can be configured per test class or per test method. Also, user can set with specific authorities, or an existing DB user can be used.
+
+{% highlight java %}
+@Sql("classpath:mock-user.sql")   // Insert test data
+@WithUserDetails("user1")     // Run all methods of class with user1
+public class AuditingTests {
+    
+    @Test
+    @WithAnonymousUser   // Run with anonymous user
+    public void testUnAuthenticated() throws Exception {
+        mvc.perform(get("/test/freeaccess"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Working"));
+    }
+
+    @Test
+    @WithMockUser(username = "testUser", authorities = {"ANY_PERMISSION"})
+    public void testAuthenticatedSuccess() throws Exception {
+        mvc.perform(get("/test/authenticated"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Authenticated"));
+    }
+}
+{% endhighlight %}
 
 
+### JPA testing 
+
+During JPA testing, 
+
+- @AutoConfigureTestDatabase can be used to auto-configure test database (requires h2 or similar DB in classpath)
+- @Sql can be used to insert mock data
+- @EnableJpaAuditing can be used to well, enable auditing
+- @AutoConfigureTestEntityManager can be used to auto-configure entity manager for persisting entities
+
+
+{% highlight java %}
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestEntityManager
+@AutoConfigureTestDatabase
+@EnableJpaAuditing
+@Sql("classpath:mock-user.sql")
+public class AuditingTests {
+
+}
+{% endhighlight %}
+
+### MockMVC and RestTemplates
+
+The controllers can be tested using either mock-mvc or with rest templates.
+ 
+ {% highlight java %}
+ @RunWith(SpringRunner.class)
+ @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
+ public class MyTest {
+    
+    @Autowired
+    private TestRestTemplate restTemplate;
+    
+    @Test
+    public void test() {
+        this.restTemplate.getForEntity(
+            "/{username}/vehicle", String.class, "Phil");
+    }
+ }
+ 
+ OR
+ 
+ @RunWith(SpringRunner.class)
+ @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+ @TestPropertySource(locations = "classpath:test.properties")
+ @AutoConfigureTestDatabase
+ public class MachineIntegrationTests {
+ 
+     @Autowired
+     private WebApplicationContext context;
+ 
+     private MockMvc mvc;
+ 
+     @Before
+     public void setup() {
+         mvc = MockMvcBuilders
+                 .webAppContextSetup(context)
+                 .apply(springSecurity())
+                 .build();
+     }
+    
+     @Test
+     public void testUnAuthenticated() throws Exception {
+         mvc.perform(get("/test/freeaccess"))
+                 .andExpect(status().isOk())
+                 .andExpect(content().string("Working"));
+     }
+ }
+ {% endhighlight %}
 
 ## Conclusion
 
-Phew! That's a long list, and yet it does not cover all the features Spring Boot has to offer. I am amazed at how far Java development has come, let alone considering Spring Boot (& family) is completely free and open-source. Good times.
+Phew! That's a long list, and yet it does not cover all the features Spring Boot has to offer (eg: Actuators and metrics). I am amazed at how far Java development has come in last few years. Even more amazing considering Spring Boot (& family) is completely free and open-source. Good times.
 
 Hit me up in the comments if I missed anything or if you have any queries. 
