@@ -33,7 +33,7 @@
     {% include _author-bio.html %}
   </div>
   <div id="index">
-    <h3><a href="{{ site.url}}/posts/">Recent Posts</a></h3>
+    <h3 style="font-size: 1.5em;"><a href="{{ site.url}}/posts/">Recent Posts</a></h3>
     {% for post in site.posts limit:7 %}
     <article>
       {% assign category = post.url | split:"/" %}
@@ -46,7 +46,7 @@
           {% endif %}
       {% endif %}
     </article>
-    {% endfor %}
+    {% endfor %} <a href="{{ site.url}}/blog/">all blog posts here</a>
   </div><!-- /#index -->
 </div><!-- /#main -->
 
