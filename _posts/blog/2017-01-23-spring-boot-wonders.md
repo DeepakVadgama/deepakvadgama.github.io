@@ -118,8 +118,8 @@ public class UserService implements UserDetailsService {
 
 ### Password encoding
 
-With Spring Security encoding passwords is as easy as writing one line of bean configuration. 
-BCrypt is recommended option over MD5 and other hashing algorithms. 
+With Spring Security, encrypting passwords stored in DB, is as easy as writing one line of bean configuration. 
+BCrypt is [recommended](https://en.wikipedia.org/wiki/Bcrypt) option over MD5 and other hashing algorithms. 
 
 {% highlight java %}
 
@@ -281,8 +281,8 @@ public void updatePassword(@RequestParam String updatedPassword, @CurrentUser Us
 
 ### Input validation
 
-Spring Boot support [JSR 303](http://beanvalidation.org/1.0/spec/)which is bean validation API. 
-This can be used to validate inputs. 
+Spring Boot support [JSR 303](http://beanvalidation.org/1.0/spec/) which is a bean validation API. 
+This is useful in validating user inputs. 
 It also supports additional hibernate validators, for values to be validated from database (eg: unique email)
 
 {% highlight java %}
@@ -316,7 +316,7 @@ public String add(@Valid Person person, BindingResult bindingResult) {
 
 When exceptions are not handled in Controllers, they are returned to the caller as exception stack traces. 
 Spring Boot supports Global exception handling, where-in we can choose the message and http status to return, 
-based on types of exceptions. 
+based on type of exceptions. 
 
 {% highlight java %}
 @RestControllerAdvice
@@ -342,7 +342,7 @@ public class GlobalExceptionHandler {
 Spring Boot uses Jackson to convert entity/domain objects into JSON for consumption by clients (UI).
 There are multiple ways to achieve this:
 
-- Let Spring convert whole class instance (along with its nested hierarchy)
+- Let Spring convert whole class instance (along with its nested hierarchy) into JSON
 - Use [annotation @JsonIgnore](http://docs.spring.io/spring-data/rest/docs/current/reference/html/#projections-excerpts.projections.hidden-data) to hide some fields from conversion. Eg: for password field, which should not be sent to UI
 - Use [JSON views](https://spring.io/blog/2014/12/02/latest-jackson-integration-improvements-in-spring), to contextually convert entities based on requests. 
 - Use [separate DTO classes](https://en.wikipedia.org/wiki/Data_transfer_object), and write mappers to convert entity to DTO and vice-versa. DTO pattern is [controversial](https://martinfowler.com/bliki/LocalDTO.html), but the overhead of mappers can be reduced by [BeanUtils.copyProperties()](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/BeanUtils.html)
@@ -364,12 +364,11 @@ Spring Boot (and Spring Data JPA) allows for lot of basic functionalities with m
 ### Flyway - Database migrations
 
 We have ample resources for deployments and rollback of the code, but very limited tools for doing the same
-for database changes done during the release. Flyway is an excellent tool which does just that.
+for database changes done during the release. [Flyway](https://flywaydb.org/) is an excellent tool which does just that.
 Spring Boot integrates nicely with Flyway. 
 
-It requires SQL scripts to follow a naming convention. During first application startup, flyway creates its 
- own table for tracking which version of script is run. During subsequent startups, the latest script 
- file version is compared to version in the database table, and script is ran accordingly.
+Check out [this page](https://flywaydb.org/getstarted/how) for how flyway works. It is quite useful and effective
+for DB upgrades and rollbacks. 
  
  Check out [this sample repository](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html)
  
@@ -469,9 +468,8 @@ public class PersistenceConfig {
 
 ### Auditing full records
 
-[Hibernate envers](hibernate.org/orm/envers/) is a project created to audit entire records, i.e. it stores full copy of each edit made to the record. [Spring-data-envers](https://github.com/spring-projects/spring-data-envers) is a small wrapper on top it. This auditing comes extremely handy, we can just query the database rather than scan through 
-the logs to try and understand what part of record was updated and by whom. Repository interfaces can extend 
-RevisionRepository for accessing history of the records (audit history). 
+[Hibernate envers](hibernate.org/orm/envers/) is typically used to audit entire records, i.e. to store full copy of each edit made to the record. [Spring-data-envers](https://github.com/spring-projects/spring-data-envers) is a small wrapper on top it, which needs to be added to the classpath. The auditing comes extremely handy. The database can be just 
+queries for changes instead of digging through the logs (or using log parsers). The audited records can also be accessed programmatically by extending RevisionRepository. 
 
 {% highlight java %}
 @Entity
@@ -493,7 +491,9 @@ public class PersistenceConfig {
 
 ### SQL creation
 
-In application-dev.properties add the following
+In application-dev.properties add the following. Now whenever the application is started, hibernate will generate
+all the DDL queries (along with constraints, indexes and joins) based on the entities. Ofcourse, this is required
+ since we are using [Flyway DB](https://flywaydb.org/). Otherwise, hibernate itself can [create the missing tables on startup](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html) 
 
 {% highlight properties %}
 spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
@@ -509,20 +509,21 @@ spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=
 
 ### General
 
-- @ActiveProfile: Chooses the profile specific for that test  
+- @ActiveProfile: Chooses the profile to be used (for all tests in that class)
 - @DirtiesContext: Resets context after every test
-- @TestPropertySource: Chooses extra test properties files
-- @ComponentScan: Scan only specific package classes
+- @TestPropertySource: Adds extra test properties configuration
+- @ComponentScan: Scan only specific package classes to speeden up the process
 
 ### Slices
  
  Spring Boot allows to test each individual layer (DAO, Controller etc) separately. 
- Each layer has corresponding has annotations (@WebMvcTest, @DataJpaTest) to be used.
-  Check [this article](https://www.google.co.in/search?client=safari&rls=en&q=spring+boot+1.4+testing&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=5z2KWPvrJtP08wft55qABA) for more details. 
+ Each layer has corresponding has annotations (@WebMvcTest, @DataJpaTest) to be used. 
+ This helps in fast execution of tests, and the initialization of layers unrelated to the tests
+ can be avoided, making code more succinct. Check [this article](https://www.google.co.in/search?client=safari&rls=en&q=spring+boot+1.4+testing&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=5z2KWPvrJtP08wft55qABA) for more details. 
   
 ### Security
 
-If application is configured to use authentication and authorization, users can be configured per test class or per test method. Also, user can set with specific authorities, or an existing DB user can be used.
+If application is configured to use authentication and authorization, users can be configured per test class or per test method. Also, user can be set with specific authorities, or an existing DB user can be used.
 
 {% highlight java %}
 @Sql("classpath:mock-user.sql")   // Insert test data
@@ -552,6 +553,7 @@ public class AuditingTests {
 
 During JPA testing, 
 
+- @DataJpaTest can be used for testing just JPA layer
 - @AutoConfigureTestDatabase can be used to auto-configure test database (requires h2 or similar DB in classpath)
 - @Sql can be used to insert mock data
 - @EnableJpaAuditing can be used to well, enable auditing
