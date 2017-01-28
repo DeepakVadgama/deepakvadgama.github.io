@@ -10,9 +10,9 @@ tags:
   - spring
 ---
  
-Spring Boot is mighty powerful. It allows for multitude of functionalities with minimal code (thanks to annotation processing & sensible defaults).
+Spring Boot is mighty powerful. It enables multitude of functionalities with minimal amount of code (thanks to annotation processing & sensible defaults).
   
-Listed below are a few features I've been using in a new project. I am creating a pre-configured scaffolded code repository, will share the same with you soon. 
+Listed below are a few features I've been using in a new project. I am creating a pre-configured scaffold code repository, will share the same soon. 
 
 - [General](#general)
   * [Profiles](#profiles)
@@ -51,7 +51,7 @@ Listed below are a few features I've been using in a new project. I am creating 
 
 ### Profiles
 
-Spring Boot allows configuration through [application.properties](https://docs.spring.io/spring-boot/docs/current/.../common-application-properties.html). We can have multiple profiles (application.properties), each for a distinct environment and a developer. Profile can chosen during application start using [vm argument or system property](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html#howto-set-active-spring-profiles) or even set it in supporting IDE like Intellij IDEA.
+Spring Boot allows configuration through [application.properties](https://docs.spring.io/spring-boot/docs/current/.../common-application-properties.html). We can have multiple profiles (application.properties), each for a distinct environment and a developer. Specific profile can chosen during application startup using [vm argument or system property](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html#howto-set-active-spring-profiles) or even set it in supporting IDE like Intellij IDEA.
 
 
 <figure>
@@ -65,7 +65,7 @@ Spring Boot allows configuration through [application.properties](https://docs.s
 
 ### Dependency injection without annotations
 
-Spring Boot [recommends](https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3) using constructors for injecting dependencies. If you have single constructor, all the dependencies are auto injected. No need to have @AutoWired or @Inject annotations. As a bonus, this also helps easily mock dependencies in tests. 
+Spring Boot [recommends](https://spring.io/blog/2016/03/04/core-container-refinements-in-spring-framework-4-3) using constructors for injecting dependencies. If you have single constructor, all the dependencies are auto injected. No need to have @AutoWired or @Inject annotations. As a bonus, this also helps mocking dependencies in tests (without using Spring constructs). 
 
 {% highlight java %}
 
@@ -83,10 +83,9 @@ public class FooService {
 
 ### Hot reload of code changes
 
-Spring Boot has fantastic ability to auto-reload changes made to the code. 
-If code changes are done within the method, it is auto reloaded. 
-Though if there are changes to method parameters, or add/delete of methods/classes, then application needs to be restarted. Even this can be minimized by using [this maven plugin](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-hotswapping.html#howto-reload-springloaded-maven) which restarts the application, and is faster than cold restarts. 
-Check out this [documentation](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-hotswapping.html) for more details.
+Spring Boot has fantastic ability to auto-reload changes made to the code without restarting the server. 
+If code changes are done within the method, that code snippet is auto reloaded. 
+Though if there are changes to method parameters, or add/delete of methods/classes, then application needs to be restarted. Even this can be minimized by using [this maven plugin](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-hotswapping.html#howto-reload-springloaded-maven) which detects changes and restarts the application. It is faster than 'cold' restarts. Check out this [documentation](http://docs.spring.io/spring-boot/docs/current/reference/html/howto-hotswapping.html) for more details.
 
 ## Spring Security
 
@@ -94,7 +93,7 @@ Check out this [documentation](http://docs.spring.io/spring-boot/docs/current/re
 
 Spring Security requires implementing UserDetailsService, and it uses its own POJO of User (with [limited variables](http://docs.spring.io/spring-security/site/docs/current/apidocs/org/springframework/security/core/userdetails/User.html)). 
 If you require more variables you can easily extend the User class and convert instances when required by Spring Security.
- Side note: In Spring Security terminology user role is called Authority.
+ Side note: In Spring Security terminology a user-role is called Authority.
  
 {% highlight java %}
 
@@ -118,7 +117,7 @@ public class UserService implements UserDetailsService {
 
 ### Password encoding
 
-With Spring Security, encrypting passwords stored in DB, is as easy as writing one line of bean configuration. 
+With Spring Security, encrypting passwords (to be persisted in DB), is as easy as writing one line of bean configuration. 
 BCrypt is [recommended](https://en.wikipedia.org/wiki/Bcrypt) option over MD5 and other hashing algorithms. 
 
 {% highlight java %}
@@ -187,8 +186,7 @@ public class MachineController {
 ### Spring Expressions based authorization
 
 These restrictions need not be just based on authorities. With use of [Spring Expressions](https://docs.spring.io/spring/docs/current/spring-framework.../html/expressions.html) 
-it can trigger a method, access parameters, access return value, access a bean etc. This can be useful for requests 
-which depend on the actual data, or where authorization code is dynamic and is implemented in separate service. 
+it can trigger any service method, access parameters, access return value, access a bean etc. This can be useful for requests which depend on data, or where authorization code is dynamic and is implemented in separate service. 
 
 {% highlight java %}
 public class IBookService {
@@ -211,7 +209,7 @@ public class IBookService {
 
 ### Login, Logout, CORS, CSRF, CSP
 
-All the security measures for web-based application is covered by default in Spring Boot. Here's where 
+All the security measures for web-based application are covered by default in Spring Boot. Here's where 
 Spring Boot shines with sensible defaults. I highly recommend watching [videos from Spring Security lead 
 Rob Winch](https://www.infoq.com/profile/Rob-Winch). 
 
@@ -247,8 +245,8 @@ protected void configure(HttpSecurity http) throws Exception {
 
 ### Accessing current user
 
-Spring can tell which user the request belongs to. This can be acheived by only using annotation 
-@AuthenticationPrincipal in the method parameter of type User. If @AuthenticationPrincipal is not very readable, then custom annotation can be created which does the same thing. 
+Spring can tell which user the request belongs to. This can be achieved by only using annotation 
+@AuthenticationPrincipal with the method parameter (of type User). If @AuthenticationPrincipal is not very readable, then custom annotation can be created which does the same thing. 
 
 {% highlight java %}
 
@@ -281,8 +279,8 @@ public void updatePassword(@RequestParam String updatedPassword, @CurrentUser Us
 
 ### Input validation
 
-Spring Boot support [JSR 303](http://beanvalidation.org/1.0/spec/) which is a bean validation API. 
-This is useful in validating user inputs. 
+Spring Boot supports [JSR 303](http://beanvalidation.org/1.0/spec/) bean validation API. 
+This is very useful in validating user inputs. 
 It also supports additional hibernate validators, for values to be validated from database (eg: unique email)
 
 {% highlight java %}
@@ -344,7 +342,7 @@ There are multiple ways to achieve this:
 
 - Let Spring convert whole class instance (along with its nested hierarchy) into JSON
 - Use [annotation @JsonIgnore](http://docs.spring.io/spring-data/rest/docs/current/reference/html/#projections-excerpts.projections.hidden-data) to hide some fields from conversion. Eg: for password field, which should not be sent to UI
-- Use [JSON views](https://spring.io/blog/2014/12/02/latest-jackson-integration-improvements-in-spring), to contextually convert entities based on requests. 
+- Use [JSON views](https://spring.io/blog/2014/12/02/latest-jackson-integration-improvements-in-spring), to contextually convert entities based on requests 
 - Use [separate DTO classes](https://en.wikipedia.org/wiki/Data_transfer_object), and write mappers to convert entity to DTO and vice-versa. DTO pattern is [controversial](https://martinfowler.com/bliki/LocalDTO.html), but the overhead of mappers can be reduced by [BeanUtils.copyProperties()](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/BeanUtils.html)
 
 ## Databases / JPA / Hibernate
@@ -394,8 +392,8 @@ The default value for @GeneratedValue is AUTO.
 
 ### Java 8 date, time and duration
 
-Remember the days when Java or Joda's date had to be converted to java.sql.Date before persisting. 
-This manual conversion can be avoided by adding a converter in configuration. Thats it. 
+Earlier Joda Date (& Java 8 date) had to be converted to java.sql.Date to persist into DB. 
+This manual conversion can be avoided by adding only a converter in configuration. 
 Now all entities can use Java 8's Date, Time and Duration classes and the values are stored and retrieved
 correctly from database. 
 
@@ -416,9 +414,9 @@ Auditing the metadata of creates & updates is supported out of the box.
 
 - Using @CreatedDate and @ModifiedDate annotations on entity fields is enough for those columns to be 
  populated each time a record is created or updated. 
-- Using @CreatedBy and @ModifiedBy annotations allow to insert which user created/updated the records. For this
-Spring needs to know who is the auditor, which needs to be configured.
-- Ofcourse, the modified fields only store data related to latest update. 
+- Using @CreatedBy and @ModifiedBy annotations allow to insert user who created/updated the record. For this, 
+Spring needs to know who is the auditor. This auditor can be configured with few lines of code.
+- The modified-date and modified-by fields only store data related to latest update. 
 
 {% highlight java %}
 
@@ -468,8 +466,8 @@ public class PersistenceConfig {
 
 ### Auditing full records
 
-[Hibernate envers](hibernate.org/orm/envers/) is typically used to audit entire records, i.e. to store full copy of each edit made to the record. [Spring-data-envers](https://github.com/spring-projects/spring-data-envers) is a small wrapper on top it, which needs to be added to the classpath. The auditing comes extremely handy. The database can be just 
-queries for changes instead of digging through the logs (or using log parsers). The audited records can also be accessed programmatically by extending RevisionRepository. 
+[Hibernate envers](hibernate.org/orm/envers/) allows to audit entire row of the database each time it is updated. It can be easily used in Spring Boot by using a lightweight wrapper project called [Spring-data-envers](https://github.com/spring-projects/spring-data-envers). The auditing comes extremely handy. The database can be just 
+queried for changes instead of digging through the logs (or using log parsers). The audited records can also be accessed programmatically by extending RevisionRepository. 
 
 {% highlight java %}
 @Entity
@@ -491,9 +489,7 @@ public class PersistenceConfig {
 
 ### SQL creation
 
-In application-dev.properties add the following. Now whenever the application is started, hibernate will generate
-all the DDL queries (along with constraints, indexes and joins) based on the entities. Ofcourse, this is required
- since we are using [Flyway DB](https://flywaydb.org/). Otherwise, hibernate itself can [create the missing tables on startup](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html) 
+Hibernate can [create the missing tables on application startup](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html) (based on the entity classes in the application). If [Flyway DB](https://flywaydb.org/) is being used, we need to have create/update queries (DDL) in flyway SQL scripts. These queries need not be written manually. They can be generated by Hibernate on application startup. Once configured, all the DDL queries (along with constraints, indexes and joins) are dumped into the specific file from which we can copy-paste to Flyway SQL scripts file.
 
 {% highlight properties %}
 spring.jpa.properties.javax.persistence.schema-generation.create-source=metadata
@@ -517,13 +513,13 @@ spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target=
 ### Slices
  
  Spring Boot allows to test each individual layer (DAO, Controller etc) separately. 
- Each layer has corresponding has annotations (@WebMvcTest, @DataJpaTest) to be used. 
- This helps in fast execution of tests, and the initialization of layers unrelated to the tests
- can be avoided, making code more succinct. Check [this article](https://www.google.co.in/search?client=safari&rls=en&q=spring+boot+1.4+testing&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=5z2KWPvrJtP08wft55qABA) for more details. 
+ Each layer has corresponding annotations (@WebMvcTest, @DataJpaTest) to be used. 
+ This helps in fast execution of tests, (initialization of layers unrelated to the tests
+ are be avoided), also making code more succinct. Check [this article](https://www.google.co.in/search?client=safari&rls=en&q=spring+boot+1.4+testing&ie=UTF-8&oe=UTF-8&gfe_rd=cr&ei=5z2KWPvrJtP08wft55qABA) for more details. 
   
 ### Security
 
-If application is configured to use authentication and authorization, users can be configured per test class or per test method. Also, user can be set with specific authorities, or an existing DB user can be used.
+If application is configured to use authentication and authorization, users (for the requests) can be configured per test-class or per test-method. Also, user can be set with specific authorities, or an existing DB user can be used.
 
 {% highlight java %}
 @Sql("classpath:mock-user.sql")   // Insert test data
@@ -554,8 +550,8 @@ public class AuditingTests {
 During JPA testing, 
 
 - @DataJpaTest can be used for testing just JPA layer
-- @AutoConfigureTestDatabase can be used to auto-configure test database (requires h2 or similar DB in classpath)
-- @Sql can be used to insert mock data
+- @AutoConfigureTestDatabase can be used to auto-configure test database (requires H2 or similar DB in classpath)
+- @Sql can be used to insert mock data before tests run
 - @EnableJpaAuditing can be used to well, enable auditing
 - @AutoConfigureTestEntityManager can be used to auto-configure entity manager for persisting entities
 
@@ -574,7 +570,7 @@ public class AuditingTests {
 
 ### MockMVC and RestTemplates
 
-The controllers can be tested using either mock-mvc or with rest templates.
+The controllers can be tested using either mock-mvc or with rest templates. MockMVC as name suggests only mocks the network calls. With rest-templates, server needs to be started and [network calls are made](http://stackoverflow.com/a/25902063/3494368) for testing.  
  
  {% highlight java %}
  @RunWith(SpringRunner.class)
@@ -623,6 +619,6 @@ The controllers can be tested using either mock-mvc or with rest templates.
 
 ## Conclusion
 
-Phew! That's a long list, and yet it does not cover all the features Spring Boot has to offer (eg: Actuators and metrics). I am amazed at how far Java development has come in last few years. Even more amazing considering Spring Boot (& family) is completely free and open-source. Good times.
+Phew! That's a long list, and yet it does not cover all the features Spring Boot has to offer (eg: [Actuators and metrics](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html)). It amazes me that Java development has come this far. I still remember reinventing the wheel (& writing too much code for it) for every project, not to mention the testing required. This is even more amazing considering Spring Boot (& family) is completely free and open-source. Good times!
 
 Hit me up in the comments if I missed anything or if you have any queries. 
