@@ -58,7 +58,7 @@ I'd suggest candidates to follow these tips to make their resumes stand out:
 - Don't write summary section. 1 page resume itself is summary of your skills & career.
 - Don't write objectives. I have observed that all candidates write similar objective. 
 - Don't write detailed description about client companies. It is your resume not the client's. 
-- Don't write detailed description about project itself. Whatever the project, we are more interested in your individual contribution.  
+- Don't write detailed description about project itself. Whatever the project, your individual contribution to it is more important.  
 - Write about tasks you performed, and not about roles & responsibilities you had. 
 - Write about impact of the tasks you performed (preferably with some statistics). Eg: Improved performance of application by 15% by re-architecting the cache layer. 
 - Don't write your detailed address (though do mention the city), marital status, religion, passport details etc. These details will be asked for by HR during onboarding process. 
