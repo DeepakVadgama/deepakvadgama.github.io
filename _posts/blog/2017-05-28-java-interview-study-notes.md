@@ -10,8 +10,6 @@ tags:
   - java
 ---
 
-## Introduction
-
 I created some study notes for my interviews. They were just lying there in my Google Drive. I have posted them to [Github](https://github.com/DeepakVadgama/java-interview) so that others can benefit from it. The notes are specifically for theory based Java interviews, typically done in service based companies (as opposed to coding based interviews done in product companies). Hope it helps. 
 
 Hit me up in the comments for if you wish to have more topics added, or for any updates.
