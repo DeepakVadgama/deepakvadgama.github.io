@@ -10,7 +10,7 @@ tags:
   - java
 ---
 
-I created some study notes for my interviews. They were just lying there in my Google Drive. I have posted them to [Github](https://github.com/DeepakVadgama/java-interview) so that others can benefit from it. The notes are specifically for theory based Java interviews, typically done in service based companies (as opposed to coding based interviews done in product companies). Hope it helps. 
+I created some study notes for my interviews in early 2017. I've posted them to [Github](https://github.com/DeepakVadgama/java-interview) so that others can benefit from it. These notes are specifically for theory based Java interviews, typically done in service based companies (as opposed to coding based interviews done in product companies). Hope it helps. 
 
 Hit me up in the comments for if you wish to have more topics added, or for any updates.
 
@@ -46,13 +46,13 @@ Hit me up in the comments for if you wish to have more topics added, or for any 
 
 ## Experience hosting interviews
 
-I recently joined JPMorgan & Chase as Associate VP. In that capacity, I have been tasked with filling ~4 open positions in our team. I have filtered 100s of resumes, have had ~20 telephonic interviews and ~4 face-to-face interviews.  
+In my current organization, I have been taking interviews for last 3 months to fill a few open positions in our team. I have filtered 100s of resumes, have had ~20 telephonic interviews and ~4 face-to-face interviews. 
 
 ### Resume tips
 
-From the statistics mentioned above, the ratio of the resumes filtered seems very low. One of primary reasons for that is the way candidates write resumes. If you go through 100s of resumes, they start blending together.
+As it might be clear from the statistics mentioned above, the ratio of the resumes filtered seems very low. After going through 100s of resumes, they start blending together. One of primary reasons for that is the way candidates write resumes. 
 
-Follow these tips to make your resume stand out: 
+I'd suggest candidates to follow these tips to make their resumes stand out: 
 
 - Resume length should ideally be 1 page, maximum 2 pages. Most of resumes I see are more than 4 pages!
 - Don't write summary section. 1 page resume itself is summary of your skills & career.
@@ -61,7 +61,8 @@ Follow these tips to make your resume stand out:
 - Don't write detailed description about project itself. Whatever the project, we are more interested in your individual contribution.  
 - Write about tasks you performed, and not about roles & responsibilities you had. 
 - Write about impact of the tasks you performed (preferably with some statistics). Eg: Improved performance of application by 15% by re-architecting the cache layer. 
-- Don't write your detailed address (though do mention the city), marital status, religion, passport details etc. These details will be asked for by HR during onboarding process.  
+- Don't write your detailed address (though do mention the city), marital status, religion, passport details etc. These details will be asked for by HR during onboarding process. 
+- Education and Projects should be mentioned in reverse chronological order (with more information about recent projects and least about the oldest ones).
 - Check for spelling mistakes, spacing errors, case issues. It should be apparent how much care and effort you have put into it. 
 - Share your resume as PDF to retain your formatting. Different versions of MS Word will screw up the formatting. 
 
