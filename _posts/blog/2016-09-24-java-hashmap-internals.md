@@ -42,7 +42,7 @@ Let's focus on the interesting parts of the class (whole code here: [HashMap](ht
 If initial capacity is given, it is increased to the closest factor of 2 by using this [bit twiddling algorithm](http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float). 
 - **Why factor of 2:** When table is resized (doubled), the elements in linked list can easily be assigned to new indexes 
 without performing modulo operation. This is awesome!
-Eg: If hash=9, oldTableSize=8, oldIndex=1 (9%8), newTableSize=16, newIndex=9 (16%9) = oldTableSize + oldIndex
+Eg: If hash=9, oldTableSize=8, oldIndex=1 (9%8), newTableSize=16, newIndex=9 (9%16) = oldTableSize + oldIndex
 - **Table not initialized yet**: Interesting that the array (variable table) is not initialized in constructor. So no memory allocated yet. 
 
 {% highlight java %}
