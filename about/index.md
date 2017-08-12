@@ -11,16 +11,16 @@ modified: 2016-12-30
 
 Hey there
 
-I am primarily a Java developer with 10.5 years of experience, having worked with HSBC, JPMorgan and Nomura for 9 years. 
+I am primarily a Java developer with 10.5 years of experience, having worked with HSBC, JPMorgan and Nomura for ~10 years. 
  I also worked as tech lead in a 4 person *failed* start-up [chat2get.com]({{ site.url }}/projects/perils-of-startup) for span of 10 months. 
 
-Since Oct-2015, I've been working as a freelancer/consultant. 
-In that capacity, I have created a Wordpress [website](https://balajiextrusions.com), consulted a [cable manufacturing company](https://balajiextrusions.com) on it's ERP software, and currently working on 2 other projects. List of all
- my projects can be found [here]({{ site.url }}/projects/). 
- 
-I have experience working with Spring Boot, AngularJS and have completed [Udacity Android Nanodegree](https://www.udacity.com/course/android-developer-nanodegree--nd801) course. [My resume](https://docs.google.com/document/d/1LgFWkJshx94o0DCmTvFmd_dlUNva9Vc4W7PAchhh3q4/edit?usp=sharing) (as of Dec-2016).  
+From October-2015 until March-2017, I was CTO and co-founder of services company 'Mindfort Tech'. During this time, I primarily worked with cable/wire manufacturing company called [Balaji Wires](https://balajiextrusions.com). As a sole developer, I created their [website](https://balajiextrusions.com) based on wordpress, and enhanced their [ERP software]({{ site.url }}/projects/refactoring-to-sanity/). 
 
-I like to keep abreast with technology news, and I'm passionate about photography. I am also a fan of Roger Federer, Heath Ledger and Google.
+List of most of my projects can be found [here]({{ site.url }}/projects/). 
+ 
+I have experience working with Spring Boot, AngularJS, Google Cloud and have completed [Udacity Android Nanodegree](https://www.udacity.com/course/android-developer-nanodegree--nd801) course. [My resume](https://docs.google.com/document/d/1LgFWkJshx94o0DCmTvFmd_dlUNva9Vc4W7PAchhh3q4/edit?usp=sharing) (as of August-2017).  
+
+I like to keep abreast with technology news. I am also a fan of Roger Federer, Heath Ledger and Google.
 
 Feel free hit me up on [Twitter](https://twitter.com/deepakvadgama) or [e-mail](mailto:vadgama.deepak@gmail.com) 
 
