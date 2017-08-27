@@ -10,7 +10,7 @@ excerpt: Wordpress website for Balaji Extrusions
     <a href="{{ site.url }}/images/blog/balaji-site.png"><img src="{{ site.url }}/images/blog/balaji-site.png"></a>
 </figure>
 
-I recently created a Wordpress based website [Balaji Extrusions](http://balajiextrusions.com). It was one of my first projects as a freelancer/consultant.
+I recently created a Wordpress based website [Balaji Wires](http://balajiwires.in). It was one of my first projects as a freelancer/consultant.
  
 ## Wordpress installation mess
 It took me 2 days to get Wordpress working on my desktop (Linux Mint). Ironic, considering Wordpress promises installation in [5 minutes](http://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Install). 

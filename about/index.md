@@ -2,7 +2,7 @@
 layout: about
 title: About myself
 tags: [about, deepakvadgama, deepak vadgama]
-modified: 2017-08-18
+modified: 2017-08-27
 ---
 
 <figure>
@@ -14,7 +14,7 @@ Hey there
 I am primarily a Java developer with 11 years of experience, having worked with HSBC, J.P.Morgan and Nomura for ~10 years. 
  I also worked as tech lead in a 4 person *failed* start-up [chat2get.com]({{ site.url }}/projects/perils-of-startup) for span of 10 months. 
 
-From October-2015 until March-2017, I was CTO and co-founder of services company 'Mindfort Tech'. During this time, I primarily worked with cable/wire manufacturing company called [Balaji Wires](https://balajiextrusions.com). As a sole developer, I created their [website](https://balajiextrusions.com) based on wordpress, and enhanced their [ERP software]({{ site.url }}/projects/refactoring-to-sanity/). 
+From October-2015 until March-2017, I was CTO and co-founder of services company 'Mindfort Tech'. During this time, I primarily worked with cable/wire manufacturing company called [Balaji Wires](https://balajiwires.in). As a sole developer, I created their [website](https://balajiwires.in) based on wordpress, and enhanced their [ERP software]({{ site.url }}/projects/refactoring-to-sanity/).
 
 Details of most of my projects can be found [here]({{ site.url }}/projects/). 
  
