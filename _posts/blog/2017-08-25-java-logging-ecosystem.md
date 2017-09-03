@@ -88,7 +88,7 @@ public class LogExample {
 Unfortunately the community could not standardize on single facade to use.
 Many Java libraries used different facades (eg: ```JCL``` aka Jakarta Commons Logging) or in many cases direct implementations (ignoring the tight coupling problem).
 
-This creates a very hairy issue.
+This created a very hairy issue.
 Suppose you want to create a project and log with combination of ```slf4j``` and ```logback```.
 So far so good.
 But what if you want to import a library say, Guava, and that in turn uses ```java.util.logging```
