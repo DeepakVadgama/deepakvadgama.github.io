@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Cloud Native Java Study Notes
+title: Spring Cloud Wonders
 category: blog
 comments: true
 published: false 
-excerpt: Notes from Spring/Cloud-Foundry book by Josh Long
+excerpt: Spring features useful for building Cloud Native applications
 tags: 
   - java
   - spring
@@ -14,15 +14,18 @@ tags:
 
 ## Overview
 
-Excellent book. Highly Recommended. 
+My post on [Spring Boot]({{site.url}}/post/spring-boot-wonders) is the most popular article on this blog.
+So I decided to write more about Spring. This post details some additional aspects of Spring
+from perspective of creating Cloud Native applications.
 
-I predominantly use Spring Boot for my projects. 
-Thus, where possible, I've only added Spring Boot way of configuration.
- 
-Also, I have added topics/items I find interesting from excellent Spring and Cloud-Foundry documentation, which 
-are not discussed in the book. 
+I used the following resources to write this article.
 
-You might also enjoy 'Spring Boot Wonders'.
+- Cloud Native Java Book - Highly Recommended.
+- PluralSight Course for Spring Cloud
+- Cloud Foundry Documentation
+- Spring Documentation
+
+I predominantly use Spring Boot for my projects. Thus, where possible, I've only added Spring Boot way of configuration.
 
 ## Table of contents
 
@@ -34,9 +37,16 @@ You might also enjoy 'Spring Boot Wonders'.
 - To run: ```./mvnw spring-boot:run```
 - Spring Boot configures h2 (if present in classpath) and project doesn't contain SQL datasource properties.
 - IoC (Inversion of Control) helps with testing (mock injection) and centralizing resource creation & initialization, instead of doing it at call-site (eg: DataSource).
- 
+
+<figure>
+    <a href="{{ site.url }}/images/blog/spring-boot/spring-starter.png">
+   <img src="{{ site.url }}/images/blog/spring-boot/spring-starter.png">
+    </a>
+</figure>
+
 ## Properties
 
+- Accessible by [Website](https://start.spring.io), [IDE](https://www.jetbrains.com/help/idea/2017.1/creating-spring-boot-projects.html) or [Command Line](https://github.com/spring-io/initializr#generating-a-project)
 - Externalize properties. Inject in code using ```@Value = "${property.key:defaultValueIfNotFound}"```
 - Spring Boot looks for ```application.properties```
 - Choose different name using ```--spring.config.name```
@@ -178,3 +188,114 @@ public void refresh(RefreshScopeRefreshEvent event){
 }
 {% endhighlight %}
 
+## Session Replication
+
+Session replication doesn't work properly on Cloud platforms.
+Spring Session resolves this by replacing Servlet HTTP Session API and storing the session information in Redis/Hazelcast etc.
+Spring Boot makes this configuration dead simple.
+Read more about it [here](https://spring.io/blog/2015/03/01/the-portable-cloud-ready-http-session)
+
+{% highlight xml %}
+// application.properties
+spring.session.store-type=redis
+server.session.timeout=5
+
+// pom.xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.session</groupId>
+    <artifactId>spring-session</artifactId>
+</dependency>
+{% endhighlight %}
+
+## Async Controller
+
+Spring MVC (or any servlet container) creates a thread-pool to handle servlet requests.
+There is still a possibility of thread being occupied for too long by some expensive operation.
+Simply wrapping the response in a ```Callable``` makes the code run in a separate thread-pool (can be overridden by creating a TaskExecutor bean) there by
+freeing the servlet thread-pool to accept more requests.
+
+{% highlight java %}
+@Controller
+public class MyController {
+
+    @RequestMapping("/username")
+    public @ResponseBody Callable<String> getUsername() {
+        return () -> {
+                // time-consuming operation
+                return getUsername();
+            }
+        };
+    }
+}
+{% endhighlight %}
+
+## Async Service
+
+Same concept can be extended to service calls by using ```@Async``` and Java's ```CompletableFuture```.
+
+{% highlight java %}
+@SpringBootApplication
+@EnableAsync
+public class ApplicationMain {
+    // standard main
+}
+
+@Service
+public class SearchService {
+
+	@Async
+	public Future<SearchResult> search(String keyword) {
+		SearchResult result = ... // time-consuming operation
+		return new AsyncResult<SearchResult>(result);
+	}
+}
+{% endhighlight %}
+
+## Service Discovery
+
+- Service discovery is the life line of a microservices based application.
+- It typically contains a well-known registry service. Components use this service to register themselves and discover other components.
+- Recommended to use ```spring.application.name``` for all client components to allow registry/discovery using logical names.
+- [Spring article](https://spring.io/guides/gs/service-registration-and-discovery/)
+
+{% highlight java %}
+
+// server
+@EnableEurekaServer
+@SpringBootApplication
+public class ServerApplication {
+    // standard main
+}
+
+// server application.properties
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+// client
+@EnableDiscoveryClient
+@SpringBootApplication
+public class EurekaClientApplication {
+    // standard main
+}
+
+@RestController
+class ServiceInstanceRestController {
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    public void validateInstance() {
+        Assert.notNull(discoveryClient.getInstances("dependent-service-id"));
+    }
+}
+// client bootstrap.properties (for registering self)
+spring.application.name=user-service
+
+// client application.properties
+
+
+{% endhighlight %}
