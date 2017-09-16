@@ -3,31 +3,37 @@ layout: post
 title: Spring Cloud Wonders
 category: blog
 comments: true
-published: false 
+published: true
 excerpt: Spring features useful for building Cloud Native applications
 tags: 
   - java
   - spring
-  - cloud-foundry
+  - spring-cloud
 ---
-
-
-## Overview
 
 My post on [Spring Boot]({{site.url}}/post/spring-boot-wonders) is the most popular article on this blog.
 So I decided to write more about Spring. This post details some additional aspects of Spring
 from perspective of creating Cloud Native applications.
 
-I used the following resources to write this article.
-
-- Cloud Native Java Book - Highly Recommended.
-- PluralSight Course for Spring Cloud
-- Cloud Foundry Documentation
-- Spring Documentation
-
-I predominantly use Spring Boot for my projects. Thus, where possible, I've only added Spring Boot way of configuration.
 
 ## Table of contents
+
+- [Spring Starter](#spring-starter)
+- [Properties](#properties)
+- [Configuration Properties](#configuration-properties)
+- [Profiles](#profiles)
+- [Spring Cloud Config](#spring-cloud-config)
+  * [Server](#server)
+  * [Client](#client)
+  * [Security](#security)
+  * [Refresh Scope](#refresh-scope)
+- [Session Replication](#session-replication)
+- [Async Controller](#async-controller)
+- [Async Service](#async-service)
+- [Service Discovery](#service-discovery)
+- [Resources](#resources)
+- [Conclusion](#conclusion)
+
 
 ## Spring Starter
 
@@ -81,13 +87,13 @@ public class ConfigProperties {
     // standard getters and setters
 }
 
-## in application.properties
+// in application.properties
 mypojo.name=Deepak
 mypojo.age=60
 mypojo.tags[0]=coding
 mypojo.tags[1]=testing
 
-## relaxed binding, all these bind to same property
+// relaxed binding, all these bind to same property
 mail.credentials.auth_method
 mail.credentials.auth-method
 mail.credentials_AUTH_METHOD
@@ -190,8 +196,7 @@ public void refresh(RefreshScopeRefreshEvent event){
 
 ## Session Replication
 
-Session replication doesn't work properly on Cloud platforms.
-Spring Session resolves this by replacing Servlet HTTP Session API and storing the session information in Redis/Hazelcast etc.
+Spring Session helps with session replication by replacing Servlet HTTP Session API and storing the session information in Redis/Hazelcast etc.
 Spring Boot makes this configuration dead simple.
 Read more about it [here](https://spring.io/blog/2015/03/01/the-portable-cloud-ready-http-session)
 
@@ -272,6 +277,7 @@ public class ServerApplication {
 }
 
 // server application.properties
+server.port=8761
 eureka.client.register-with-eureka=false
 eureka.client.fetch-registry=false
 
@@ -292,10 +298,25 @@ class ServiceInstanceRestController {
         Assert.notNull(discoveryClient.getInstances("dependent-service-id"));
     }
 }
-// client bootstrap.properties (for registering self)
+// client bootstrap.properties
 spring.application.name=user-service
-
-// client application.properties
-
-
+eureka.instance.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
 {% endhighlight %}
+
+## Resources
+
+I used the following resources to write this article.
+
+- [Cloud Native Java](http://shop.oreilly.com/product/0636920038252.do)
+- [Spring Cloud Fundamentals - Pluralsight](https://app.pluralsight.com/library/courses/spring-cloud-fundamentals/table-of-contents)
+- [Spring Cloud Documentation](http://projects.spring.io/spring-cloud/)
+
+## Conclusion
+
+This post covers only a part of what Spring Cloud has to offer,
+ [Circuit Breakers](https://spring.io/guides/gs/circuit-breaker/),
+ [Load Balancers](https://cloud.spring.io/spring-cloud-netflix/),
+ [Spring Cloud Security](http://cloud.spring.io/spring-cloud-security/), and many more.
+ I intend to write more on rest of the topics as soon as I have some hands-on experience.
+
+ Hit me up in the comments if I missed anything or if you have any queries.
