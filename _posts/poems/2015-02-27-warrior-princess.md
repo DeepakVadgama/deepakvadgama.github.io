@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Warrior Princess
-category: personal
+category: poem
 comments: true
 excerpt: Its easy to catch the virus of your infectious smile..
 ---
