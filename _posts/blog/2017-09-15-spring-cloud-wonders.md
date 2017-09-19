@@ -312,11 +312,11 @@ I used the following resources to write this article.
 
 ## Conclusion
 
-This post covers only a part of what Spring Cloud has to offer,
+This post covers only a part of what Spring Cloud has to offer. It offers
  [Circuit Breakers](https://spring.io/guides/gs/circuit-breaker/),
  [Load Balancers](https://cloud.spring.io/spring-cloud-netflix/),
  [Spring Cloud Security](http://cloud.spring.io/spring-cloud-security/),
- [Event Messaging](https://reflectoring.io/event-messaging-with-spring-boot-and-rabbitmq/) and so many more.
+ [Event Messaging](https://reflectoring.io/event-messaging-with-spring-boot-and-rabbitmq/) and so much more.
  I intend to write more on rest of the topics as soon as I have some hands-on experience.
 
  Hit me up in the comments if I missed anything or if you have any queries.
