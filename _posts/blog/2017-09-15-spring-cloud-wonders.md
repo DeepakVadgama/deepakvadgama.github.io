@@ -11,7 +11,7 @@ tags:
   - spring-cloud
 ---
 
-Over the past decade, Spring has become de facto standard in large E\enterprises for creating all kinds of applications.
+Over the past decade, Spring has become de facto standard in large enterprises for creating all kinds of applications.
 Unsurprisingly, my previous post on [Spring Boot]({{site.url}}/post/spring-boot-wonders) is the most popular article on this blog. In this post I've attempted to detail some additional aspects of Spring from perspective of creating Cloud Native applications.
 
 
