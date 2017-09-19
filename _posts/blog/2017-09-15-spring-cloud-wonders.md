@@ -11,9 +11,8 @@ tags:
   - spring-cloud
 ---
 
-My post on [Spring Boot]({{site.url}}/post/spring-boot-wonders) is the most popular article on this blog.
-So I decided to write more about Spring. This post details some additional aspects of Spring
-from perspective of creating Cloud Native applications.
+Over the past decade, Spring has become de facto standard in large E\enterprises for creating all kinds of applications.
+Unsurprisingly, my previous post on [Spring Boot]({{site.url}}/post/spring-boot-wonders) is the most popular article on this blog. In this post I've attempted to detail some additional aspects of Spring from perspective of creating Cloud Native applications.
 
 
 ## Table of contents
@@ -316,7 +315,8 @@ I used the following resources to write this article.
 This post covers only a part of what Spring Cloud has to offer,
  [Circuit Breakers](https://spring.io/guides/gs/circuit-breaker/),
  [Load Balancers](https://cloud.spring.io/spring-cloud-netflix/),
- [Spring Cloud Security](http://cloud.spring.io/spring-cloud-security/), and many more.
+ [Spring Cloud Security](http://cloud.spring.io/spring-cloud-security/),
+ [Event Messaging](https://reflectoring.io/event-messaging-with-spring-boot-and-rabbitmq/) and so many more.
  I intend to write more on rest of the topics as soon as I have some hands-on experience.
 
  Hit me up in the comments if I missed anything or if you have any queries.
