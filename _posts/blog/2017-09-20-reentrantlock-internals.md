@@ -3,7 +3,7 @@ layout: post
 title: Java Reentrant Lock internals
 category: blog
 comments: true
-published: false 
+published: true
 excerpt: Grokking over ReentrantLock & AbstractQueueSynchronizer
 tags: 
   - development
