@@ -25,12 +25,12 @@ Is it faith that pulls them, cutting through the foliage of barriers..
 Or can they visualize the dream upfront, making it their carrier
 
 Is it a gut feeling, an internal radar personifying inner freedom..  
-Or is it a cold hearted decision drawn with mathematical precision
+Or is it a cold hearted decision, drawn with mathematical precision
 
-After a path is laid out, are they unhinged, unwavered in their quest..  
-Or is there still skepticism about long road ahead, little flutters in the chest
+Once the path is laid out, are they unhinged, unwavered in their quest..
+Or is there still skepticism, about long road ahead, little flutters in the chest
 
-Or is it the zealousness shown by dreamers of the day..  
+Is it the zealousness shown by dreamers of the day..
 Their narrow cone of vision, keeping all fears at bay 
 
 Do they reaffirm that faith by constant discipline and practice..  
