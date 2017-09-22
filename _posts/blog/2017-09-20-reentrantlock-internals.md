@@ -129,7 +129,7 @@ public final void acquire(int arg) {
     }
 }
 
-// fair Sync to try and acquire
+// fair Sync acquire
 protected final boolean tryAcquire(int acquires) {
     final Thread current = Thread.currentThread();
     int c = getState();
@@ -143,12 +143,10 @@ protected final boolean tryAcquire(int acquires) {
             return true;
         }
     }
-    // if current threads itself is the owner of the lock,
+    // if current thread itself is the owner of the lock,
     // then update the state value (in case of ReentrantLock, add 1) and continue
     else if (current == getExclusiveOwnerThread()) {
         int nextc = c + acquires;
-        if (nextc < 0)
-            throw new Error("Maximum lock count exceeded");
         setState(nextc);
         return true;
     }
@@ -186,7 +184,7 @@ private Node addWaiter(Node mode) {
 You may have noticed ```Node.EXCLUSIVE``` in the code snippet above.
 This is easy to understand if we understand its sibling ```Node.SHARED```.
 Shared node is used for read locks where multiple threads can simultaneously have access to the lock.
-In most cases we use ```Node.EXCLUSIVE```, especially in our context of ```ReentrantLock``` where-in we need exclusive access.
+In most cases we use ```Node.EXCLUSIVE```, especially in our context of ```ReentrantLock``` where-in we need exclusive access for a single thread.
 
 ### Barging
 
@@ -204,12 +202,11 @@ final void lock() {
 {% endhighlight %}
 
 Suppose the state was just unlocked, and there are few threads waiting in the queue.
-But, suddenly this new thread tries to acquire the lock, and it does not check the queue state, and
-gets to acquire the lock, unfairly. This is also called ```Barging```.
+But, suddenly a new thread tries to acquire the lock, and it does not check the waiting-thread-queue. It acquires the lock, unfairly ahead of all waiting threads i.e. ```Barging```.
 
 ### Unfair acquire
 
-Unfair acquire is almost same, except, it again tries to barge in without checking the queue state.
+Unfair acquire is almost same, except, it again tries to barge in without checking the wait-thread-queue.
 
 {% highlight java %}
 // unfair Sync partial code
@@ -231,14 +228,15 @@ final boolean nonfairTryAcquire(int acquires) {
 
 ### Basic unlocking
 
-Now that the thread owns a lock, unlocking/releasing it is simpler.
+Now that the thread owns a lock, unlocking/releasing it is simple.
+Reset the state and remove thread as lock owner.
 
 {% highlight java %}
 public void unlock() {
     sync.release(1);
 }
 
-// partial modified code for both fair/unfair sync
+// partial, modified code for both fair/unfair sync
 protected final boolean tryRelease(int releases) {
     setState(0); // reset the state
     setExclusiveOwnerThread(null); // remove the ownership
@@ -248,9 +246,7 @@ protected final boolean tryRelease(int releases) {
 
 ### When multiple threads are holding lock
 
-The code changes slightly when multiple threads are holding lock (eg: Read lock).
-In this case, only 1 of the thread might release the lock, thus state cannot be set to 0,
-and ownership is still retained by the thread.
+When multiple threads are holding lock (eg: Read lock), only 1 of the thread might release the lock, thus state cannot be set to 0, and ownership is still retained by the thread.
 
 {% highlight java %}
 // partial code for both fair/unfair sync
@@ -282,25 +278,26 @@ public final boolean release(int arg) {
         // if queue is not empty (i.e. head is not null) and
         // wait status = 0 (default value, other values are for Condition and such)
         if (h != null && h.waitStatus != 0)
-            unparkSuccessor(h);
+            unpark(h);
         return true;
     }
     return false;
 }
 
 // partial and updated code for unpark
-private void unparkSuccessor(Node node) {
+// i.e. remove the node from the queue and wake it up (so that it can acquire the lock)
+private void unpark(Node node) {
     if (node != null)
-        LockSupport.unpark(node.thread);
+        UNSAFE.unpark(node.thread);
 }
 {% endhighlight %}
+
 
 ## Conclusion
 
 I was putting off going through this code for a long time. It turned out to be a wonderful ride.
-We didn't walk-through some parts of the code like ```Condition``` object, doAcquireInterruptibly, Cancelled status and lot more.
+We skipped some important parts of the code like ```Condition``` object, doAcquireInterruptibly, Cancelled status and lot more. Hopefully, now that we understand the basics it should be easier to unpack.
 
-Hats off to the skills of the JDK developers (especially likes of Doug Lea and Brian Goetz).
-The code is easy (relatively speaking) to understand and the documentation for these classes is the most comprehensive and informative I've ever encountered.
+Hats off to the Doug Lea. The code is easy (relatively speaking) to understand (considering the complexity) and the documentation for these classes is the most comprehensive and informative I've ever encountered.
 
 Hit me up in the comments for any queries or corrections.
