@@ -41,7 +41,7 @@ public ArrayBlockingQueue(int capacity, boolean fair) {
   * [Unfair acquire](#unfair-acquire)
 - [Unlocking](#unlock)
   * [Basic unlocking](#basic-unlocking)
-  * [When multiple threads are holding lock](#when-multiple-threads-are-holding-lock)
+  * [When thread is reentrant](#when-thread-is-reentrant)
   * [What about queued threads](#what-about-queued-threads)
 - [Conclusion](#conclusion)
 
@@ -86,14 +86,14 @@ Let us try to understand the code. This code walk through is not sequential nor 
 
 ### Basic locking
 
-Locking means exclusive access. Integer variable called ```state``` is used to maintain this access. Using integer variable is better because if allows us to use single-instruction compare-and-swap operations/methods.
+Locking means exclusive access. Integer variable called ```state``` is used to maintain this access. Value of 0 means the state is unlocked, while value of 1 or more means state is locked by 1 or more threads. Using integer variable is better because it allows use of single-instruction [compare-and-swap operations](https://en.wikipedia.org/wiki/Compare-and-swap).
 
 {% highlight java %}
-private volatile int state;   // 0 = unlocked, >0 = locked
+private volatile int state;   // value of 0 = unlocked, >0 = locked
 
 // basic lock acquire
 final void lock() {
-    // if state = 0, just set the current thread as owner i.e. acquire the lock
+    // if state = 0, update the state to 1 and set the current thread as owner i.e. acquire the lock
     if (compareAndSetState(0, 1)){
         setExclusiveOwnerThread(Thread.currentThread());
 }
@@ -164,7 +164,7 @@ the lock is released and it is at head of the queue (all earlier threads are rem
 private Node addWaiter(Node mode) {
     // create a new node with current thread
     Node node = new Node(Thread.currentThread(), mode);
-    // Try the fast path of enq; backup to full enq on failure
+    // try the fast path of enqueue; backup to full enq on failure
     Node pred = tail;
     if (pred != null) {
         node.prev = pred;
@@ -179,12 +179,15 @@ private Node addWaiter(Node mode) {
 }
 {% endhighlight %}
 
+Note that the actual queue used a variation on the standard queue we know.
+Lets not go into details of it now. If interested, you can read about it [here](https://github.com/openjdk-mirror/jdk/blob/adea42765ae4e7117c3f0e2d618d5e6aed44ced2/src/share/classes/java/util/concurrent/locks/AbstractQueuedSynchronizer.java#L301).
+
 ### Node Exclusivity
 
 You may have noticed ```Node.EXCLUSIVE``` in the code snippet above.
 This is easy to understand if we understand its sibling ```Node.SHARED```.
 Shared node is used for read locks where multiple threads can simultaneously have access to the lock.
-In most cases we use ```Node.EXCLUSIVE```, especially in our context of ```ReentrantLock``` where-in we need exclusive access for a single thread.
+In most cases we use ```Node.EXCLUSIVE```, especially in our context of ```ReentrantLock``` where-in we need exclusive access by a single thread.
 
 ### Barging
 
@@ -244,9 +247,11 @@ protected final boolean tryRelease(int releases) {
 }
 {% endhighlight %}
 
-### When multiple threads are holding lock
+### When thread is reentrant
 
-When multiple threads are holding lock (eg: Read lock), only 1 of the thread might release the lock, thus state cannot be set to 0, and ownership is still retained by the thread.
+When the thread has acquired the lock multiple times (i.e. Reentrant), we reduce the state value by 1 each time
+the thread calls unlock/release. This is because thread is expected to call unlock same number of times as lock.
+Thus, in this case, the state cannot be set to 0, and ownership is still retained by the thread.
 
 {% highlight java %}
 // partial code for both fair/unfair sync
@@ -268,7 +273,7 @@ protected final boolean tryRelease(int releases) {
 
 ### What about queued threads
 
-If there are threads waiting to acquire the lock, we need to ```unpark``` the thread at head of the queue (waited the longest).
+If there are threads waiting to acquire the lock, we need to ```unpark``` the thread at head of the queue (thread that has waited the longest).
 
 {% highlight java %}
 public final boolean release(int arg) {
@@ -292,12 +297,13 @@ private void unpark(Node node) {
 }
 {% endhighlight %}
 
+Note: The actual code unparks node's successor instead of node itself. This is because, during acquire, immediately after adding node to the queue, it tries again to acquire the lock for the head node. We skipped that part to retain simplicity. You can checkout the [acquire](https://github.com/openjdk-mirror/jdk/blob/adea42765ae4e7117c3f0e2d618d5e6aed44ced2/src/share/classes/java/util/concurrent/locks/AbstractQueuedSynchronizer.java#L857) and [unpark](https://github.com/openjdk-mirror/jdk/blob/adea42765ae4e7117c3f0e2d618d5e6aed44ced2/src/share/classes/java/util/concurrent/locks/AbstractQueuedSynchronizer.java#L638) code for more details.
 
 ## Conclusion
 
 I was putting off going through this code for a long time. It turned out to be a wonderful ride.
-We skipped some important parts of the code like ```Condition``` object, doAcquireInterruptibly, Cancelled status and lot more. Hopefully, now that we understand the basics it should be easier to unpack.
+We skipped some important parts of the code like ```Condition``` object, doAcquireInterruptibly, Cancelled status and lot more. But hopefully, now that we understand the basics, it will be easier to unpack.
 
-Hats off to the Doug Lea. The code is easy (relatively speaking) to understand (considering the complexity) and the documentation for these classes is the most comprehensive and informative I've ever encountered.
+Hats off to the original author of the code, Doug Lea. It is relatively easy to understand (considering its complex functionality) and the documentation for these classes is the most comprehensive and informative I've ever encountered.
 
 Hit me up in the comments for any queries or corrections.
