@@ -25,8 +25,8 @@ These diamonds are tiny, relatively cheap, bought in bulk and are typically used
 
 ### Site links
 
-- [Ceritified Diamonds](http://104.199.188.85/#/)
-- [Parcel Diamonds](http://104.199.180.127/#/)
+- [Certified Diamonds](http://104.199.188.85/#/)
+- [Parcel Diamonds](https://sejalexports.in/#/)
 
 ### Stack
 
@@ -51,6 +51,7 @@ create own APIs for login/register.
     + JS local-storage to save the token
     + Expiry embedded in token to handle session logout
     + Spring's HandlerInterceptorAdapter to verify X-AUTH-TOKEN for every request
+    + [ng-idle](https://github.com/HackedByChinese/ng-idle) for client-side session timeout
 
 {% highlight javascript %}
 
@@ -171,7 +172,7 @@ It sufficed to provide sorting, searching, pagination, fixed header, scrolling e
 - Tracking delivery
 - Excel based Reports
 - Admin (to manage inventory, users/dealers, prices, delivery etc)
-- Misc (Google maps, general enquiry etc) 
+- Misc (Google maps, general enquiry etc)
 
 ### Business decisions
 
@@ -184,10 +185,10 @@ The decision making and paperwork process took whole 6 months before we could re
 I think we as developers have responsibility of helping customers understand the importance of Agile and its benefits. 
 Failing this, it becomes troublesome for both the parties involved. 
 
-### Learnings
+### Learning
 
 - After creating a subsequent project (post coming soon) completely based on Spring Boot and Hibernate, I regret 
 not using full power of Spring Boot in this project. I had to spend lot of time developing functionalities and fixing issues. 
 - I also regret using template instead of creating site from basic components. It saved time initially, but 
 in the long run, was too time consuming. 
-- On positive note, I learned lot of new things like OC.Lazyload, diamond industry workings, Spring filters, Angular digest cycle etc. 
+- On apositive note, I learned lot of new things like OC.Lazyload, diamond industry workings, Spring filters, Angular digest cycle etc.
