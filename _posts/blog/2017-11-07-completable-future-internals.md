@@ -12,7 +12,7 @@ tags:
 
 ## Introduction
 
-In Java, it has always been easy to execute a task in different thread using Runnable/Callable. It helps in offloading task from main thread (eg: In Android, network requests are not allowed be executed in a UI thread). 
+In Java, it has always been easy to execute a task in different thread using Runnable/Callable. It helps in offloading task off the main thread (eg: In Android, network requests are not allowed be executed in a UI thread). 
 
 {% highlight java %}
 Runnable task = new Runnable(){ 
@@ -38,7 +38,8 @@ for(int i=0; i<100; i++){
 }
 {% endhighlight %}
  
-What happens if we want to execute a task once its dependant task is completed? 
+Though, if we want to execute multiple related/dependant tasks one after another, 
+the flow is not completely asynchronous. It is because the future.get method (which is used to wait for a task to be completed) is a blocking operation.   
 
 {% highlight java %}
 List<Future> companies = new ArrayList<Future>();
@@ -58,13 +59,12 @@ for(Future future : companies){
 // skipping boiler plate defining task classes  
 {% endhighlight %}
 
-
 <figure style="border: 1px solid gray">
     <a  href="{{ site.url }}/images/blog/completable_future.png" data-lightbox="image-1"><img src="{{ site.url }}/images/blog/completable_future.png"></a>
 </figure>
 
-This is exactly the use-case ```CompletableFuture``` was built for.
-It can be used to chain multiple dependant tasks. It is very similar to JavaScript Promises which helps chain the call-back methods (aka tasks). 
+This is exactly the use-case ```CompletableFuture``` was built for; to chain multiple dependant tasks. 
+It is very similar to JavaScript Promises which helps chain the call-back methods (aka tasks). 
 
 {% highlight java %}
  CompletableFuture.supplyAsync(() -> getStockInfo(“GOOGL”))   // executed in a thread-pool 
@@ -139,7 +139,7 @@ Every task supplied is wrapped in an internal class. This class is responsible f
 
 {% highlight java %}
 
-// not actual class, just representation. Actual classes detailed below.
+// not actual class, just representation. Actual classes detailed in subsequent sections.
 static final class AsyncTask extends ForkJoinTask{
     public void run(){
         try {
@@ -165,6 +165,7 @@ static final class AsyncTask extends ForkJoinTask{
 
 
 
+
 ## Compute methods
 
 ### supplyAsync
@@ -178,5 +179,7 @@ static final class AsyncTask extends ForkJoinTask{
 # Conclusion
 
 Massive API
+Of all the JDK source classes, this one was the most difficult to understand. 
+
 
 Hit me up in the comments for any queries or corrections.
