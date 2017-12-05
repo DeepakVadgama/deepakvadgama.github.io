@@ -55,11 +55,11 @@ We live-coded [a Restaurant listing web-app](https://codelabs.developers.google.
 ### Sandboxes
 This was one of the more popular areas of the conference. Lot of small booths showcasing Google's products. 
 
-- Here I got to know about [Lighthouse](https://developers.google.com/web/tools/lighthouse/, an Google Chrome extension which provides feedback on the websites. 
+- Here I got to know about [Lighthouse](https://developers.google.com/web/tools/lighthouse/) an Google Chrome extension which provides feedback on the websites. 
 - Saw couple of cool demos made with [Android things](https://developer.android.com/things/index.html)
 - Gave feedback to Firebase team about incremental commit-sync for static hosting
 - Saw GCP's Video Intelligence API demos. Was awesome. 
-- Pluralsight (had 2 months free subscription for ones who complete a small Android IQ test)
+- Pluralsight promotion (offered 2 months free subscription for those who complete a small Android IQ test)
 
 <div style="max-width: 600px; margin-left: auto; margin-right: auto">
 
@@ -101,7 +101,7 @@ No qualms against the host though, as 30 minutes is too short for a Kubernetes s
 
 Overall it was a wonderful event! Well managed, lot of talks, insightful discussions, meeting fellow developers and lot more. 
 
-Thank you all at Google for inviting me and hosting an wonderful conference! 
+Thank you all at Google for inviting me and hosting a wonderful conference! 
 
 <div style="width: 640px; height: 350px">
     <iframe src="https://www.youtube.com/embed/2WUijLhJaoY?rel=0" frameborder="0" allowfullscreen></iframe>
