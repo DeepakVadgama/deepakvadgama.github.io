@@ -25,7 +25,7 @@ These diamonds are tiny, relatively cheap, bought in bulk and are typically used
 
 ### Site links
 
-- [Certified Diamonds](http://104.199.188.85/#/)
+- [Certified Diamonds](http://sejalgems.com/#/)
 - [Parcel Diamonds](https://sejalexports.in/#/)
 
 ### Stack
