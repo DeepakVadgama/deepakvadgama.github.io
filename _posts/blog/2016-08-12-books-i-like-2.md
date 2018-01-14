@@ -7,7 +7,6 @@ excerpt: Books I read (& love) during my Computer Engineering course.
 published: false
 tags: 
   - books
-  - computer science
 ---
 
 Computer Networks	Andrew Tenenbaum

@@ -6,8 +6,8 @@ comments: true
 published: true 
 excerpt: Grokking over Java 8 HashMap implementation
 tags: 
-  - development
   - java
+  - source-code-walkthrough
 ---
 
 ## Introduction

@@ -6,8 +6,8 @@ comments: true
 published: true
 excerpt: Grokking over ReentrantLock & AbstractQueueSynchronizer
 tags: 
-  - development
   - java
+  - source-code-walkthrough
 ---
 
 ## Introduction

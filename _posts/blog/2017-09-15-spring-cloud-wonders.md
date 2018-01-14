@@ -8,7 +8,6 @@ excerpt: Spring features useful for building Cloud Native applications
 tags: 
   - java
   - spring
-  - spring-cloud
 ---
 
 Over the past decade, Spring has become de facto standard in large enterprises for creating all kinds of applications.

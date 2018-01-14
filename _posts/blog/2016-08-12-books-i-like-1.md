@@ -8,7 +8,6 @@ published: false
 tags: 
   - books
   - agile
-  - management
 ---
 
 The death march

@@ -6,8 +6,8 @@ comments: true
 published: true 
 excerpt: Grokking over Java 8 ThreadPool Executor implementation
 tags: 
-  - development
   - java
+  - source-code-walkthrough
 ---
 
 ## Introduction
