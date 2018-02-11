@@ -45,9 +45,5 @@ jobs:
           command: bundle exec jekyll build --verbose
       
       - run:
-          name: Test
-          command: bundle exec htmlproofer ./_site --check-html --disable-external
-      
-      - run:
           name: Deploy
           command: firebase deploy --token=$FIREBASE_TOKEN --non-interactive
