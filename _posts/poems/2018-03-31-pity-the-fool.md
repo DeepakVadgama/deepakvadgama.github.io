@@ -31,7 +31,7 @@ Don’t bear, belong, at the party
 Being alone amongst billions   
 Doesn’t fit; its out of place, tardy   
    
-For happiness that alludes me,    
+For happiness that eludes me,    
 they’ve attained, I presume   
 The secret I yearned for   
 they’ve unlocked, I assume   
