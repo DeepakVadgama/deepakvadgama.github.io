@@ -6,6 +6,7 @@ excerpt: "Photographs taken by Deepak Vadgama"
 
 <div>
     <ul>
+        <li><a href="https://photos.app.goo.gl/wcmkwsCUf5pm7LDN7">Australia</a></li>
         <li><a href="https://goo.gl/photos/zrwS7KyrwY6mGXZd8">Portfolio</a></li>
         <li><a href="https://goo.gl/photos/VvTjmMLYmCjkLkH49">Floral</a></li>
         <li><a href="https://photos.app.goo.gl/yMOMq1M29GXFXZ0s1">Gujarat</a></li>
