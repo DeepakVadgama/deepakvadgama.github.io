@@ -1,0 +1,138 @@
+I"�'<p>During my tenure at my previous company, we <a href="https://deepakvadgama.com/projects/accidental-microservices">converted</a> a big monolith based trading system into micro-services based architecture. 
+ It required a base infrastructure to orchestrate communication between all services. 
+Instead of using an out-of-the-box solution like <a href="https://redis.io">Redis</a>, we created our own distributed 
+cache from scratch. This cache was primarily a server-client cache, where-in server holds the main copy of data
+while distributing it to clients on need basis.</p>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/microservices.png"><img src="https://deepakvadgama.com/images/blog/microservices.png" /></a>
+</figure>
+
+<h2 id="building-blocks">Building blocks</h2>
+
+<ul>
+  <li>Connectivity (TCP based)</li>
+  <li>Service Discovery</li>
+  <li>Data serialization</li>
+  <li>Caching framework</li>
+  <li>Remote Procedure Call</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/cache/cache_overview.jpg"><img src="https://deepakvadgama.com/images/blog/cache/cache_overview.jpg" /></a>
+</figure>
+
+<h2 id="tcp-communication---grizzly">TCP Communication - Grizzly</h2>
+
+<p>The base of the communication infrastructure, TCP library was needed to establish and maintain connections
+between 2 or more services. We chose <a href="https://grizzly.java.net/">Grizzly</a> out of many <a href="https://github.com/Vedenin/useful-java-links#2-networking">networking libraries available for java</a>.
+ It performed relatively well.</p>
+
+<ul>
+  <li><strong>Connection pool:</strong> Grizzly <a href="https://grizzly.java.net/coreconfig.html">allows</a> to tweak the thread pool for connections (useful for throughput). 
+Though we made the pool size configurable, we didn’t ever need to tweak it for any particular service. Default pool size was kept at 4</li>
+  <li><strong>Data:</strong> Kryo module was initially used directly for marshalling/unmarshalling of data. Later it was moved into 
+its own module and exposed via <a href="https://dzone.com/articles/design-patterns-strategy">strategy pattern</a>.</li>
+  <li><strong>Data Listeners:</strong> Once data was unmarshalled, it was passed to caching layer using data listeners.</li>
+  <li><strong>Heartbeats:</strong> Connectivity status was monitored in real-time using heartbeats mechanism.</li>
+  <li><strong>Connection Listeners:</strong> We added listeners for disconnect, re-connect, and heart-beat events. These listeners
+ was exposed to the top most module (caching) using delegation. This was especially useful in alerting services disconnected from market.</li>
+  <li><strong>Retries:</strong> If disconnected, retries were done at regular intervals (of 5 seconds). 
+Interval was configurable based on priority of application.</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/cache/cache_connectivity.jpg"><img src="https://deepakvadgama.com/images/blog/cache/cache_connectivity.jpg" /></a>
+</figure>
+
+<h2 id="service-discovery">Service Discovery</h2>
+
+<ul>
+  <li><strong>Well known service:</strong> The host-port information of the server caches were not hardcoded. Instead, they were configured with 
+proprietary well-known service similar to zookeeper.</li>
+  <li><strong>Naming:</strong> Service configuration look up was done using name of the cache (eg: securities-cache, customer-cache etc)</li>
+  <li><strong>Configuration:</strong> In addition to the host and port information, the config contains various parameters like connection-pool size,
+retry-interval etc.</li>
+  <li><strong>Fallback:</strong> The service was created and maintained by Nomura architecture team and hardly ever had downtime. Thus
+we did not create fall back for this. Also, the service was needed only during startup, thus reducing probability of failure further.</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/cache/cache_discovery.jpg"><img src="https://deepakvadgama.com/images/blog/cache/cache_discovery.jpg" /></a>
+</figure>
+
+<h2 id="data-serialization---kryo">Data serialization - Kryo</h2>
+
+<ul>
+  <li><strong>Speed:</strong> Out of many libraries <a href="https://github.com/Vedenin/useful-java-links#serialization-and-io">available</a> in java, we chose Kryo mainly because 
+of its <a href="https://github.com/EsotericSoftware/kryo#benchmarks">serialization speed</a>.</li>
+  <li><strong>Binary:</strong> Though Kryo is fast, it is a binary protocol. This means, during Production issues, the data had to be copied from logs, and run through 
+java deserializer class to make sense of the data. Considering 85% of a project’s time is spent in maintenance, this factor weighed heavily
+ against us.</li>
+  <li><strong>Special classes:</strong> There were a few classes (eg: Joda DateTime) which had to be configured in Kryo configuration to be serialized correctly.</li>
+  <li><strong>Kryo Net:</strong> <a href="https://github.com/EsotericSoftware/kryonet">Kryo Net</a> was soon released as a TCP/UDP networking library which works excellently 
+with Kryo. In hindsight, choosing it would have helped save lot of effort in maintaining TCP communication layer.</li>
+</ul>
+
+<h2 id="remoting">Remoting</h2>
+
+<ul>
+  <li><strong>Use case:</strong> Implementing remoting was fairly easy once the building block of TCP connection was established. 
+This utility was necessary to implement Lazy cache detailed below.</li>
+  <li><strong>Sync:</strong> Synchronous RPC was simple to design. Every server class which could which implemented a specific interface &amp; method could be called remotely. 
+The implemented method returned service-name string. On startup, TCP module created a HashMap of these service-names and the instance as key-value.
+Every client request contains service-name to be called along with method to be called and corresponding parameters. 
+Server’s job was then to get instance from the HashMap and call the method with parameters using reflection.</li>
+  <li><strong>Async:</strong> Asynchronous RPC call was slightly trickier. It involved exchanging a unquie (UUID) for every method call request. 
+ When the method was finished executing, server sends returned response object to the client with the same UUID, so as 
+ to map the request-response.</li>
+</ul>
+
+<h2 id="caching">Caching</h2>
+
+<ul>
+  <li><strong>CQ Engine:</strong> We chose <a href="https://github.com/npgall/cqengine">CQEngine</a> instead of normal HashMap for saving data. CQEngine is
+ quite stable and contains lot of good <a href="https://github.com/npgall/cqengine#cqengine-overview">features</a> like indexing, querying etc and great <a href="https://dzone.com/articles/comparing-search-performance">speed</a>.</li>
+  <li><strong>Indexing:</strong> CQEngine allows <a href="https://github.com/npgall/cqengine#complete-example">indexing</a> objects with particular variables and attains O(1) performance while querying.</li>
+  <li><strong>Queries:</strong> CQEngine also has querying abilities almost <a href="https://github.com/npgall/cqengine#string-based-queries-sql-and-cqn-dialects">as feature rich as SQL</a></li>
+  <li><strong>Snapshot ready event:</strong> Once client connects to server cache, it starts receiving the initial snapshot data from server. 
+Once the entire snapshot data is received, a ready event is fired, allowing application to start its working.</li>
+  <li><strong>Realtime data:</strong> After initial snapshot is received, client can start receiving data in real time. 
+Whenever Server cache receives new data it pushes the same to all clients using TCP module.</li>
+  <li><strong>Add/Delete/Update events:</strong> The data events are of add/delete/update types.</li>
+  <li><strong>Dirty cache:</strong> Due to distributed nature of cache, there is a possibility client cache disconnects with server (network issues or if server is down), 
+and still has data in its cache (aka dirty cache). Such state of cache was acceptable in most cases, 
+and was known using connection listeners exposed by TCP module.</li>
+</ul>
+
+<h2 id="application-use-cases">Application use-cases</h2>
+
+<ul>
+  <li><strong>Default server client cache:</strong> Default caching which uses server-cache which stores golden copy, 
+and 1 or more clients which receive data in form of initial snapshot and then real-time updates.</li>
+  <li><strong>Filter based cache:</strong> Server client cache which allows client to subscribe to a certain kind of data (based on filter). 
+Though, we implemented this filtering on caching module in client cache, thus it did not save bandwidth though it made server code cleaner.</li>
+  <li><strong>Streaming cache:</strong> Form of client which does not store data in CQEngine, it just receives data from server. Helpful in services like auditing.</li>
+  <li><strong>Multi cache:</strong> Form of client which connects to multiple cache servers at once. 
+Helpful in services which connect and process trades from multiple markets.</li>
+  <li><strong>Lazy cache:</strong> Form of cache where if server cache shares only requested data with client. This is implemented simply by
+ using 2 server caches off which 1 stores entire copy, while other stores only data requested by client cache. 
+Client requested the required data using remoting.</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/cache/multiclient_cache.jpg"><img src="https://deepakvadgama.com/images/blog/cache/multiclient_cache.jpg" /></a>
+</figure>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/cache/cache_lazy.jpg"><img src="https://deepakvadgama.com/images/blog/cache/cache_lazy.jpg" /></a>
+</figure>
+
+<h2 id="ikvm-experiment">IKVM experiment</h2>
+
+<p>This Java based system of distributed cache formed a strong base for our microservices. 
+Though, since our UI was implemented in .NET we could not extend this system to trader UI. 
+We attempted to fix this by using <a href="https://www.ikvm.net/">IKVM</a>, which converts Java classes into dot NET ones.
+ Unfortunately IKVM was not mature and stable enough to convert all JARs/modules in .NET. Thus the experiment remained unsuccessful.</p>
+
+:ET

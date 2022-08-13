@@ -1,0 +1,156 @@
+I"J+<iframe width="420" height="315" src="https://www.youtube.com/embed/exMCBLn8sCg" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="overview">Overview</h2>
+<p>Recently, as part of Udacity’s Android Nanodegree course, I created an Android app called Radhe Krishna Bhakti. 
+I chose to create this app hoping it will help me in my own spiritual journey and to give it out to <a href="http://jkp.org">JKP</a>. 
+They have thousands of followers, so hopefully many will use the app and benefit from it.</p>
+
+<p>It took me nearly 2 months to finish the app, of which, last 3 weeks I was working on it full time. 
+This excess time required was due to 2 reasons:</p>
+
+<ul>
+  <li>Restrictions imposed by Udacity on techniques to use.</li>
+  <li>Android itself requires lot of boilerplate code to work.</li>
+</ul>
+
+<h2 id="app-features">App Features</h2>
+<ul>
+  <li>List of items (Quotes, Stories, Lectures, Kirtans and Pictures)</li>
+  <li>Manage Favorites</li>
+  <li>Search</li>
+  <li>Share</li>
+  <li>Feedback</li>
+  <li>About</li>
+</ul>
+
+<h2 id="backend--rest-api">Backend / REST API</h2>
+<p>Backend for the app was created using Spring MVC and MySQL. Creating REST APIs in Spring MVC is easy (even better with Spring Boot).
+ The app is deployed to Google Cloud (Compute Engine), with Tomcat as the container. I have been working with Compute Engine since 2 years, 
+ thus this too was quick. The data was pre-populated in MySQL. The images for content were hosted on Google Storage, while videos 
+  were YouTube ones. Overall, this part of the setup went relatively smooth. Links to setup Compute Engine:</p>
+
+<ul>
+  <li><a href="https://cloud.google.com/compute/docs/instances/create-start-instance">Create standard instance</a> with Ubuntu 16.04 OS, 3.75GB RAM, 1vCPU.</li>
+  <li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04">Install JDK</a></li>
+  <li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04">Install Tomcat</a></li>
+  <li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04">Install MySQL</a></li>
+  <li><a href="https://cloud.google.com/compute/docs/networking">Add firewall rule for MySQL (3306)</a> to allow connections from local machine to run queries (less secure).</li>
+  <li><a href="https://cloud.google.com/compute/docs/networking">Add firewall rule for Tomcat (8080)</a> or change tomcat config to listen to port 80 instead.</li>
+  <li><a href="https://cloud.google.com/sdk/gcloud/reference/compute/copy-files">Copy</a> over WAR/JAR file manually to server, or setup Git/Maven on server itself.</li>
+</ul>
+
+<h2 id="environment-setup">Environment setup</h2>
+
+<ul>
+  <li>Android Studio: Android tooling has progressed leaps and bounds in just 1 year due to Android Studio. Setup is pain free and works beautifully.</li>
+  <li>Instant Run: Instant run avoid complete rebuild of project in case of minor code changes.</li>
+  <li>Gradle: Gradle speeds have improved and combined with Android Instant run, development is fun.</li>
+  <li>Use latest SDK and build-tools version, and keep minSDK as 16 to target <a href="developer.android.com/about/dashboards/index.html">90% of Android install base</a></li>
+  <li>Keep minSDK version for dev config as 21 to avoid time consuming dex merge process.</li>
+  <li><a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/build.gradle">My build.gradle file</a></li>
+</ul>
+
+<h2 id="content-provider-aka-the-beast">Content Provider aka The Beast</h2>
+<p>This part of the app took the most time to implement. This part was mandated by Udacity. 
+It involves:</p>
+
+<ul>
+  <li>creating table creation/insert/update/delete queries</li>
+  <li>building URIs for all requests expected</li>
+  <li>building contracts for table/columns</li>
+  <li>creating cursor loader to load data</li>
+  <li>creating cursor adapter to use the data loader</li>
+</ul>
+
+<p>This <a href="http://www.androiddesignpatterns.com/2012/07/loaders-and-loadermanager-background.html">whole flow of Loader</a> is quite detailed and can be <a href="https://www.udacity.com/course/viewer#!/c-ud853/l-3681658545/m-1593528720">difficult to understand</a>. 
+I now know why services like Firebase are so useful. They help developers save a lot of time.</p>
+
+<h2 id="syncadapter">SyncAdapter</h2>
+<p>I used SyncAdapter to schedule synchronization with data. 
+Though now, Google recommends using JobScheduler, this part too was mandated by Udacity. 
+SyncAdapter’s ability to sync immediately or configure periodic sync came handy. I added settings, for user to change duration between syncs.
+While, the immediate sync option was useful in implementing ‘Pull to refresh’ and menu item ‘Refresh’ to get new data from server.</p>
+
+<h2 id="recycler-view--list-view">Recycler View / List View</h2>
+<p>RecyclerView is the shiny and well-thought out (I presume) cousin of ListView. Though, it has quite extensive API. There are 
+ dedicated sessions for RecyclerView in <a href="https://www.youtube.com/watch?v=imsr8NrIAMs">every</a> <a href="https://www.youtube.com/watch?v=LqBlYJTfLP4">Google IO</a>. 
+I opted for ListView to implement list of items instead of RecyclerView. 
+There is native support for CursorAdapter with ListView but not for RecyclerView.</p>
+
+<h2 id="searchprovider">SearchProvider</h2>
+<p>All of the Google apps come with beautiful looking search bars, which show suggested/recent queries.
+I wasn’t able to find out-the-box pretty looking search bar for this. 
+Related <a href="https://developer.android.com/guide/.../search/adding-recent-query-suggestions.html">Google article</a> details the steps. 
+It works, though I couldn’t get it to look as good due to time constraints.</p>
+
+<h2 id="libraries">Libraries</h2>
+<ul>
+  <li>Retrofit: Probably a gold standard for REST calls.</li>
+  <li>Glide: To download, cache and load image into Views.</li>
+  <li>Like button: Animated ‘like’ button similar to Twitter’s.</li>
+</ul>
+
+<h2 id="google-identity">Google Identity</h2>
+<p>I used <a href="https://developers.google.com/identity/sign-in/android/start-integrating">Google’s Identity</a> support to retrieve user’s email id. 
+This was used to synchronize favorites with the server and across devices.
+The synchronization of existing favorites from server to app happens during account selection. 
+Sync from app to server happens in batches using SyncAdapter. 
+Google Identity also provides <a href="https://developers.google.com/identity/sign-in/android/backend-auth">token based authentication</a>, which helps in authorizing requests on the server.</p>
+
+<h2 id="youtube-embed">YouTube Embed</h2>
+<ul>
+  <li>Setup: I found YouTube library to be difficult to setup.</li>
+  <li>Thumbnails: Once setup, I could not get the thumbnails to work for 2 days straight. I gave up and used YouTube’s URL which is used to retrieve thumnails. <a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/util/YouTubeUtil.java">Code here</a></li>
+  <li>Videos: Setting up embedded video on the other hand required very little <a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/DetailFragment.java">code</a>.</li>
+</ul>
+
+<h2 id="material-design">Material Design</h2>
+<ul>
+  <li><a href="https://design.google.com/icons/">Icons</a></li>
+  <li><a href="https://www.materialpalette.com/">Palette setup</a></li>
+  <li><a href="https://material.google.com/components/cards.html">Keylines</a></li>
+  <li><a href="https://material.google.com/style/typography.html">Font sizes</a></li>
+  <li><a href="https://developer.android.com/training/material/animations.html">Transitions</a></li>
+</ul>
+
+<h2 id="notifications-and-sharing">Notifications and Sharing</h2>
+<p>Creating notifications and sharing for quote/story (text based) was simple. 
+For pictures/lectures/kirtan (YouTube thumbnail), it requires background thread to download. 
+I used Glide library with AsyncTask to implement 
+both <a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/util/NotificationUtil.java">notifications</a> and <a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/util/SharePicturetask.java">sharing</a>.</p>
+
+<h2 id="analytics">Analytics</h2>
+<p>Google Analytics <a href="https://developers.google.com/analytics/devguides/collection/android/v4/">setup and use</a> in Android is surprisingly straight forward. 
+It took me only 2 hours to setup analytics for all screens and other events I wanted to track.</p>
+
+<h2 id="widget">Widget</h2>
+<p>Creating a widget was also mandated by Udacity. Thankfully, its simple to <a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/widget/QuoteWidgetIntentService.java">implement</a>. 
+Extend AppWidgetProvider and use IntentService to get data and bind to widget views. 
+I created widget which displays quotes, and configured it to update once every day.</p>
+
+<h2 id="accessibility-i18n--corner-cases">Accessibility, i18n &amp; Corner cases</h2>
+<ul>
+  <li>i18n: Externalize all strings in strings.xml instead of hard-coding them.</li>
+  <li>Talk back: Mostly requires adding content-description to all ImageViews, buttons and such.</li>
+  <li>DPad: Requires adding attributes (focusable, descendantFocusability, clickable) in relevant xmls.</li>
+  <li>RTL: Requires adding start/end instead of left/right in layout xmls.</li>
+  <li>Corner use cases: Address cases like Internet not working, unable to fetch data, no search results found etc, and display <a href="https://github.com/DeepakVadgama/Capstone-Project/blob/master/app/src/main/java/com/deepakvadgama/radhekrishnabhakti/BaseActivity.java#L192">appropriate message on screen</a>.</li>
+</ul>
+
+<h2 id="app-signing">App Signing</h2>
+<p>Signing app was mandated by Udacity and was made easy by this <a href="https://developer.android.com/studio/publish/app-signing.html">Google article</a> detailing the steps.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>All in all, creating app was time-consuming but fun. 
+Especially once ContentProvider/Loader/SyncAdapter were implemented, other features were more fun due to quick code-test feedback loop. 
+I submitted the project and it was reviewed successfully. 
+My next steps would be to polish the app (RecyclerView, Material Design motion, Navigation Drawer) and create Web-Admin to add content dynamically.</p>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/capstone/screenshot1.png"><img src="https://deepakvadgama.com/images/blog/capstone/screenshot1.png" /></a>
+</figure>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/capstone/screenshot2.png"><img src="https://deepakvadgama.com/images/blog/capstone/screenshot2.png" /></a>
+</figure>
+:ET

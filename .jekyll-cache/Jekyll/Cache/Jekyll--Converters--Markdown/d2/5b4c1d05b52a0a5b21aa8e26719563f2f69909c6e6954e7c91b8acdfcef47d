@@ -1,0 +1,80 @@
+I"�<figure>
+ <a href="https://deepakvadgama.com/images/blog/capstone/certificate.png"><img style="border: 1px solid gray" src="https://deepakvadgama.com/images/blog/capstone/certificate.png" /></a>
+</figure>
+
+<h2 id="tldr">TLDR;</h2>
+<ul>
+  <li>Enroll if you need little push and have ample time to work on the course projects.</li>
+  <li>If you are a self starter or have time-constraints, you can learn Android (with free videos) sans the certificate.</li>
+  <li>Udacity’s career resources and forums are very good.</li>
+</ul>
+
+<h2 id="my-time-line">My time line</h2>
+<p>Today I graduated Udacity’s Android Nanodegree. It took me 13 months (average is 9-12 months). 
+I was working full-time while doing the course causing the delays in completion.
+I am sad that I missed out on 50% tuition discount (applicable for finishing course within 12 months). Anyways.</p>
+
+<h2 id="video-lessons">Video lessons</h2>
+<p>The video lessons for the course are excellent. They are created (mostly) by Googlers from Android team. 
+The concepts are explained with clear code examples, charts, and sprinkle of humor. 
+The lessons are split into very tiny sections. 
+In each section, a concept is explained, implemented by coding and you are asked to code side-by-side.
+This helped a lot! 
+The lessons are of top notch quality and cover entire gamut of Android landscape.</p>
+
+<h2 id="projects">Projects</h2>
+<p>Course requires you to complete these 9 projects:</p>
+
+<ul>
+  <li>P0: Static android app, just to ensure Android development environment is setup correctly. [Very Easy]</li>
+  <li>P1: Basic app to create project structure and understand activity life cycle. [Medium]</li>
+  <li>P2: Advanced app to implement ContentProvider, Loaders, SyncAdapter, Services etc. If you survive this, you will complete entire Nanodegree. So hang in there. [Hard]</li>
+  <li>P3: App to address corner cases, to add design elements and to use Google Cloud Messaging. [Medium]</li>
+  <li>P4: App to understand advanced usage of gradle. [Easy]</li>
+  <li>P5: App to implement Material design. [Medium]</li>
+  <li>P6: App for Android Wear. [Medium]</li>
+  <li>P7: Planning for final Capstone project. [Easy]</li>
+  <li>P8: Final full-fledged project aka Capstone. [Hard/Time-consuming]</li>
+</ul>
+
+<p>I found the P2, P6 and P8 to be the most time-consuming. I suspect most Nanodegree students who’ve left the course must have done it in P2. 
+Probably this is why <a href="https://www.udacity.com/course/android-basics-nanodegree-by-google--nd803">Basics Nanodegree</a> was launched, to not overwhelm students. 
+Projects are to be submitted for review. The reviewers are fairly quick to review the projects and provide feedback.</p>
+
+<h2 id="webcastsforumsslack">Webcasts/Forums/Slack</h2>
+
+<ul>
+  <li>Communication - Udacity sent emails around project deadlines. Other than that, entire nanodegree is self done, and thus can feel lonely. I think Udacity can improve in this area.</li>
+  <li>Discussion forums - One of the best resources to resolve project specific issues. Mentors are very quick to response and community is very helpful.</li>
+  <li>There is an option to schedule one-on-one discussions with Udacity mentor for any doubts/issues. I never used this.</li>
+  <li>Webcasts - There were lot of webcasts at beginning explaining various libraries and such. Though lately, these are not very frequent.</li>
+</ul>
+
+<p>I think last year when Nanodegree programs had just started Udacity was more personally involved. 
+Now that they’ve scaled, most the communication is left to the site/community, and self-motivation of the students.</p>
+
+<h2 id="android-development">Android development</h2>
+<p>Learning Android itself was a bumpy train ride. Android is quite extensive and some times overwhelming. 
+It has to be learned one step at a time. 
+I made <a href="https://docs.google.com/document/d/1Oabu4mzMVP2odS5AWgFq68kc6Xi4Zt4wvy6NPlMjfFU/edit?usp=sharing">notes</a> during the whole course. 
+Also, I had to rely heavily on StackOverflow and sample Github code to complete the projects.</p>
+
+<h2 id="career-guide">Career guide</h2>
+<p>The career resources of Udacity are excellent. 
+There are lot of articles about Careers, Finding Jobs, Writing Cover Letters, Interview preparation etc. 
+Also, there are reviews done of your Resume, Github/Linked-In profiles, 
+Udacity itself has recruiters on the platform. 
+I have updated my profile though I have not received any interest from any company.</p>
+
+<h2 id="certificate-value">Certificate value</h2>
+<p>Udacity showcases profiles of students who have received jobs after completing the course.<br />
+Though, there are no statistics about what percentage of students get placed and with what average salary. 
+Thus, certificate value is big open question still. 
+I have just finished the course, and I’m planning to apply for jobs later this month. 
+Will update this post on any related news.</p>
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+<p>In hindsight, I spent way too much money for this certificate (13x$200). 
+Though, if I hadn’t had the pressure of those monthly-payments, I wouldn’t be so keen to finish the course. 
+So I am happy to have done it. Now, eagerly awaiting the Google Cloud Nanodegree to launch.</p>
+:ET

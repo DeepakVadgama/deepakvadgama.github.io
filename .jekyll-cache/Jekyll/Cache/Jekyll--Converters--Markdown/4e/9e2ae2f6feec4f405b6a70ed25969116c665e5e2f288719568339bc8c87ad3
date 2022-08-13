@@ -1,0 +1,104 @@
+I"�<figure>
+ <a href="https://deepakvadgama.com/images/blog/database.jpg"><img src="https://deepakvadgama.com/images/blog/database.jpg" /></a>
+</figure>
+
+<p>In last 5-10 years there has been huge wave of startups attempting to re-invent databases. This re-invention is justified by advent of</p>
+
+<ul>
+  <li><strong>Scale</strong> - Proliferation of mobile. Billions of potential users. Hockey stick user growth. These require radical rethink of architectures.</li>
+  <li><strong>Mobile (Web+Apps)</strong> - Varied platforms, intermittent connectivity and lean startup principle of constant changes, require a standardised + flexible format (JSON), simplification of synchronization of user data and offline capabilities built into the client.</li>
+  <li><strong>Analytics</strong> - For converting scale into value, massive data needs to be analyzed, which calls for structuring data differently (eg: Graph DB for Social Networks, BigTable for storing billions of Web pages).</li>
+  <li><strong>Computing</strong> - Constantly reducing storage (HDD/SSD/RAM) prices and improved seek performance (SSD) have enabled new DB engine architectures (moving away from BTables and slow seeking disk-blocks).</li>
+  <li><strong>Cloud</strong> - Cloud computing has enabled developers to focus on data itself; offloading major pain points of complicated aspects like sharding, distributed coordination, consistency etc.</li>
+</ul>
+
+<h2 id="developers--startups">Developers / Startups</h2>
+<p>For consultants/SaaS startups, most important features of DB are:</p>
+
+<ul>
+  <li>For server - SQL. Reliability. Performance.</li>
+  <li>For Web/Mobile - JSON storage. Dashboard. Offline and Sync.</li>
+</ul>
+
+<p>Thus, I will not mention many important but not-required-by-everyone features.</p>
+
+<h2 id="classic-relational-db---schema-based---sql">Classic Relational DB - Schema-based - SQL</h2>
+
+<ul>
+  <li><a href="http://www.microsoft.com/SQLServer‎">MS SQL</a>- By Microsoft. Licensed.</li>
+  <li><a href="https://www.oracle.com/database/">OracleDB</a> - By Oracle. Licensed.</li>
+  <li><a href="http://dev.mysql.com/downloads/">MySQL</a> - Best, free, relational DB. Though now owned by Oracle.</li>
+  <li><a href="http://www.postgresql.org/">PostgreSQL</a> - Another hugely popular, free, relational DB.</li>
+  <li><a href="https://mariadb.org/">MariaDB</a> - Fork of MySQL after it was bought out by Oracle. Led by founder of MySQL.</li>
+  <li><a href="http://webscalesql.org">WebScaleSQL</a> - Fork of MySQL for large scale deployments. Joint effort of Facebook, Google, Twitter, Alibaba.</li>
+  <li><a href="https://www.cockroachlabs.com">CockroachDB</a> - Created by ex-employees of Google, Facebook &amp; Twitter. Scalable, distributed SQL with strong focus on availability.</li>
+</ul>
+
+<h2 id="schemaless-db---nosql">Schemaless DB - NoSQL</h2>
+<p>Divided into 4 types - Document stores, Columnar DB, Graph DB and Key-value stores</p>
+
+<h3 id="document-stores---aka-store-json-objects">Document stores - aka Store JSON objects.</h3>
+<p>All these have API, Dashboard, Indexing and Querying facilities.</p>
+
+<ul>
+  <li><a href="https://www.mongodb.com/">MongoDB</a> - Document store DB pioneers. Loosing steam lately?</li>
+  <li><a href="http://couchdb.apache.org">CouchDB</a> - MongoDB cousin. Apache project. Offline capabilities.</li>
+  <li><a href="http://pouchdb.com">PouchDB</a> - CouchDB’s cousin in browser. Works across all browsers. Syncs well with CouchDB on server.</li>
+  <li><a href="https://www.rethinkdb.com/">RethinkDB</a> - Push JSON from DB into UI/Server.</li>
+  <li><a href="https://firebase.com">Firebase</a> - Same as RethinkDB, but hosted. More capabilities in cloud section below.</li>
+</ul>
+
+<h3 id="columnar-db---wide-column-db">Columnar DB - Wide Column DB</h3>
+<ul>
+  <li><a href="http://cassandra.apache.org/">Cassandra</a> - To store loose-schema based data in form of rows/columns/column-families. Google’s BigTable cousin. For large scale data. You probably don’t need this. Lets turn back.</li>
+</ul>
+
+<h3 id="graph-db">Graph DB</h3>
+<ul>
+  <li><a href="http://neo4j.com">Neo4J</a> - For Graph based databases like if you want to model social connections of Facebook or LinkedIn. Again, we don’t need this. Lets turn back.</li>
+</ul>
+
+<h3 id="key-value-stores">Key-Value stores</h3>
+
+<ul>
+  <li><a href="https://memcached.org/">MemcacheD</a> - In-memory (non-persistent) key-value store.</li>
+  <li><a href="http://redis.io">Redis</a> - Persistent Key-Value distributed storage. Not DB per se. Typically used for caching/task-queues. This topic is going tangential. Lets head back to DB.</li>
+</ul>
+
+<h2 id="cloud---hosted-solutions">Cloud - Hosted Solutions</h2>
+
+<ul>
+  <li><a href="https://firebase.com">Firebase</a> - NoSQL. With offline, sync, dashboard, security-rules.</li>
+  <li><a href="https://cloud.google.com/sql/">Google Cloud SQL</a>, <a href="https:/aws.amazon.com/rds‎">Amazon RDS</a>, <a href="https://azure.microsoft.com/en-in/services/sql-database/">Microsoft Azure SQL</a> - SQL in the cloud.</li>
+  <li><a href="https://aws.amazon.com/dynamodb/">Amazon DynamoDB</a>, <a href="https://azure.microsoft.com/en-in/services/documentdb/">Microsoft Document Store</a>, <a href="https://cloud.google.com/datastore/">Google Datastore</a>, <a href="https://cloud.google.com/bigtable/">Google BigTable</a> - NoSQL in the cloud.</li>
+</ul>
+
+<h2 id="cloud---object-store">Cloud - Object store</h2>
+
+<ul>
+  <li><a href="https://aws.amazon.com/s3/">Amazon S3</a> - Key-Object store. Object = images, videos, files etc. Group into buckets. Security rules. API.</li>
+  <li><a href="https://cloud.google.com/storage">Google storage</a> -  Same as above.</li>
+</ul>
+
+<h2 id="cloud---archival-storage-aka-cold-storage">Cloud - Archival Storage aka Cold Storage</h2>
+
+<ul>
+  <li><a href="https://cloud.google.com/storage-nearline/">Google Nearline</a> - Archival storage. Store + Retrieve price 1 cent/GB. 3 secs retrieval time.</li>
+  <li><a href="https://aws.amazon.com/glacier/pricing/">Amazon Glacier</a> - Archival storage. Cheap to store, expensive to retrieve.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion:</h2>
+
+<ul>
+  <li>
+    <p><strong>Cloud computing</strong>
+Thanks to cloud computing, developers need not worry about complicated aspects of availability, sharding, load-balancing, replication, backups, performance, cost etc. All these are taken care of by capable cloud providers.</p>
+  </li>
+  <li>
+    <p><strong>Mobile</strong>
+Most NoSQL (document store) database solutions are (fast) converging onto similar set of capabilities. Dashboard, Offline, Push, Sync, Security Rules, REST API, Cloud hosted etc.</p>
+  </li>
+</ul>
+
+<p>Databases have come quite far and its looking bright for developers. I personally use MySQL currently (will move to Google Cloud SQL), and plan to give Firebase a try for specific use cases.</p>
+:ET

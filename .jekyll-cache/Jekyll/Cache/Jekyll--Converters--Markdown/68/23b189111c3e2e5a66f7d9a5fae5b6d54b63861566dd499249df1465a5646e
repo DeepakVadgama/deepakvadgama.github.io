@@ -1,0 +1,59 @@
+I"�<p>I have been working on an <a href="https://deepakvadgama.com/projects/refactoring-to-sanity/">ERP software</a> which was created by 3 developers fresh
+out of college. Suffice to say, code base I got was inefficient. Though code in itself can be refactored, correcting the 
+ database structure post production is quite difficult.</p>
+
+<h2 id="domain">Domain</h2>
+
+<p>Balaji Wires and Cables company creates wires using simple process flow of 4 steps - make, check-quality, store, deliver</p>
+
+<ul>
+  <li>Stock In = Process of stocking in the item after creating it is called ‘Stock In’</li>
+  <li>Store Register = Once stocked-in, the item is said to be in ‘Store Register’</li>
+  <li>Quality Check = While in store, cable is tested for quality</li>
+  <li>Stock Out = Once quality is tested, the item can be ‘Stocked out’ and is ready for delivery</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/balaji/balaji-flow.png"><img src="https://deepakvadgama.com/images/blog/balaji/balaji-flow.png" /></a>
+</figure>
+
+<h2 id="database-tables">Database tables</h2>
+
+<p>Notice that during the flow, a <em>single</em> item goes through these 4 <em>states</em>. Thus it would make sense to have single database table
+representing that item. This is called object oriented modelling, where-in all real life object types are distinct tables in DB. 
+This way of modelling DB structure works for most of the cases.</p>
+
+<p>Instead, currently, each one of the states has a corresponding table!</p>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/balaji/database-modeling.png"><img src="https://deepakvadgama.com/images/blog/balaji/database-modeling.png" /></a>
+</figure>
+
+<h3 id="problems">Problems</h3>
+
+<ul>
+  <li>Each of these tables cover roughly 90% of the same fields. So each item is represented thrice in DB.</li>
+  <li>To avoid this, the previous team retained only Stock-In table records, and deleted records from other tables as flow proceeds.</li>
+  <li>In intermediate states, record is present in 2 tables. If weight is updated for a single table, other table become out of sync and thus, cause for confusion.</li>
+  <li>The Software allows reverting the item to previous state. This means constantly deleting and inserting records in 3 tables.</li>
+  <li>Each of these 3 tables have their own primary key, which are not synchronized. A functionality called ‘label’ prints physical sticky labels uses these keys to uniquely identify the item. So labels, are impossible to recover later if item is deleted from a table.</li>
+</ul>
+
+<blockquote>
+  <p>Mistakes made in earlier stages especially at a structural level are hard to rectify, even more so over time, as the codebase keeps growing, inculcating technical debt.</p>
+</blockquote>
+
+<p>This whole ordeal could have been avoided, using single table with a column to represent the current state of the item.</p>
+
+<p>Effort wise, merging these 3 tables into a single one, means changing more than 20 files (cumulative thousands of lines of code) and retesting of 
+ all the corresponding functions. With ETA of 2-3 weeks for the whole change, client is more inclined to add features to the software, than risk changing the underlying structure.</p>
+
+<p>Irony is, while we wait for rectifying these structural issues, codebase depending on this precise structure keeps growing, which adds to technical debt. 
+  Which means, 6 months from now, rectifying this will take 6 weeks, and more risk of impacting existing functionalities.</p>
+
+<p>So, please model your database structure appropriately. For ERP softwares (especially at small/medium scale), modeling as per real world objects will always work.</p>
+
+<blockquote>
+  <p>When in doubt, look into the real world</p>
+</blockquote>
+:ET

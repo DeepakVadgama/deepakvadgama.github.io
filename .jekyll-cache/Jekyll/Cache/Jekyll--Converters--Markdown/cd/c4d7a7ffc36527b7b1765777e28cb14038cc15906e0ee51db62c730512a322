@@ -1,0 +1,68 @@
+I"�<p>I created some study notes for my interviews in early 2017. I’ve posted them to <a href="https://github.com/DeepakVadgama/java-interview">Github</a> so that others can benefit from it. These notes are specifically for theory based Java interviews, typically done in service based companies (as opposed to coding based interviews done in product companies). Hope it helps.</p>
+
+<p>Hit me up in the comments for if you wish to have more topics added, or for any updates.</p>
+
+<h2 id="table-of-contents">Table Of Contents</h2>
+
+<h3 id="core-java">Core Java</h3>
+
+<ul>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/core-java.md">Core Java</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/collections.md">Collections</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/java-8.md">Java 8</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/java-memory-model.md">Java Memory Model</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/concurrency.md">Concurrency</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/garbage-collection.md">Garbage Collection</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/core/jvm-internals.md">JVM Internals</a></li>
+</ul>
+
+<h3 id="design--clean-code">Design / Clean Code</h3>
+
+<ul>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/design/solid.md">SOLID Principles</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/design/effective-java.md">Effective Java</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/design/design-patterns.md">Design Patterns</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/design/approach.md">Approach to Design Questions</a></li>
+</ul>
+
+<h3 id="related-topics">Related topics</h3>
+
+<ul>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/related/sql.md">SQL</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/related/unix.md">UNIX</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-interview/blob/master/topics/related/web.md">Web</a></li>
+</ul>
+
+<h3 id="other-topics">Other topics</h3>
+
+<ul>
+  <li><a href="http://deepakvadgama.com/blog/spring-boot-wonders/">Spring Boot overview (DI, Security, JPA, Testing)</a></li>
+</ul>
+
+<h2 id="experience-hosting-interviews">Experience hosting interviews</h2>
+
+<p>In my current organization, I have been taking interviews for last 3 months to fill a few open positions in our team. I have filtered 100s of resumes, have had ~20 telephonic interviews and ~4 face-to-face interviews.</p>
+
+<h3 id="resume-tips">Resume tips</h3>
+
+<p>As it might be clear from the statistics mentioned above, the ratio of the resumes filtered seems very low. After going through 100s of resumes, they start blending together. One of primary reasons for that is the way candidates write resumes.</p>
+
+<p>I’d suggest candidates to follow these tips to make their resumes stand out:</p>
+
+<ul>
+  <li>Resume length should ideally be 1 page, maximum 2 pages. Most of resumes I see are more than 4 pages!</li>
+  <li>Don’t write summary section. 1 page resume itself is summary of your skills &amp; career.</li>
+  <li>Don’t write objectives. I have observed that all candidates write similar objective.</li>
+  <li>Don’t write detailed description about client companies. It is your resume not the client’s.</li>
+  <li>Don’t write detailed description about project itself. Whatever the project, your individual contribution to it is more important.</li>
+  <li>Write about tasks you performed, and not about roles &amp; responsibilities you had.</li>
+  <li>Write about impact of the tasks you performed (preferably with some statistics). Eg: Improved performance of application by 15% by re-architecting the cache layer.</li>
+  <li>Don’t write your detailed address (though do mention the city), marital status, religion, passport details etc. These details will be asked for by HR during onboarding process.</li>
+  <li>Education and Projects should be mentioned in reverse chronological order (with more information about recent projects and least about the oldest ones).</li>
+  <li>Check for spelling mistakes, spacing errors, case issues. It should be apparent how much care and effort you have put into it.</li>
+  <li>Share your resume as PDF to retain your formatting. Different versions of MS Word will screw up the formatting.</li>
+</ul>
+
+<p>It pains me that candidates are missing out on interviews just because of these basic mistakes. In the end recruiters have no way to segregate candidates if there is no objective data available. On the other hand, team members like me have limited hours in the day to take screening interviews just to understand candidates’ skill-sets.</p>
+
+:ET

@@ -1,0 +1,304 @@
+I"�Z<p>Over the past decade, Spring has become de facto standard in large enterprises for creating all kinds of applications.
+Unsurprisingly, my previous post on <a href="https://deepakvadgama.com/blog/spring-boot-wonders">Spring Boot</a> is the most popular article on this blog. In this post I’ve attempted to detail some additional aspects of Spring from perspective of creating Cloud Native applications.</p>
+
+<h2 id="table-of-contents">Table of contents</h2>
+
+<ul>
+  <li><a href="#spring-starter">Spring Starter</a></li>
+  <li><a href="#properties">Properties</a></li>
+  <li><a href="#configuration-properties">Configuration Properties</a></li>
+  <li><a href="#profiles">Profiles</a></li>
+  <li><a href="#spring-cloud-config">Spring Cloud Config</a>
+    <ul>
+      <li><a href="#server">Server</a></li>
+      <li><a href="#client">Client</a></li>
+      <li><a href="#security">Security</a></li>
+      <li><a href="#refresh-scope">Refresh Scope</a></li>
+    </ul>
+  </li>
+  <li><a href="#session-replication">Session Replication</a></li>
+  <li><a href="#async-controller">Async Controller</a></li>
+  <li><a href="#async-service">Async Service</a></li>
+  <li><a href="#service-discovery">Service Discovery</a></li>
+  <li><a href="#resources">Resources</a></li>
+  <li><a href="#conclusion">Conclusion</a></li>
+</ul>
+
+<h2 id="spring-starter">Spring Starter</h2>
+
+<ul>
+  <li>Takes care of potentially conflicting libraries that each dependency (eg: JPA, REST, Security etc.) might have.</li>
+  <li>Provides Maven/Gradle wrappers such that builds can be reproduce without fear of incompatible versions.</li>
+  <li>To build: <code class="highlighter-rouge">./mvnw clean install</code></li>
+  <li>To run: <code class="highlighter-rouge">./mvnw spring-boot:run</code></li>
+  <li>Spring Boot configures h2 (if present in classpath) and project doesn’t contain SQL datasource properties.</li>
+  <li>IoC (Inversion of Control) helps with testing (mock injection) and centralizing resource creation &amp; initialization, instead of doing it at call-site (eg: DataSource).</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/spring-boot/spring-starter.png">
+   <img src="https://deepakvadgama.com/images/blog/spring-boot/spring-starter.png" />
+    </a>
+</figure>
+
+<h2 id="properties">Properties</h2>
+
+<ul>
+  <li>Accessible by <a href="https://start.spring.io">Website</a>, <a href="https://www.jetbrains.com/help/idea/2017.1/creating-spring-boot-projects.html">IDE</a> or <a href="https://github.com/spring-io/initializr#generating-a-project">Command Line</a></li>
+  <li>Externalize properties. Inject in code using <code class="highlighter-rouge">@Value = "${property.key:defaultValueIfNotFound}"</code></li>
+  <li>Spring Boot looks for <code class="highlighter-rouge">application.properties</code></li>
+  <li>Choose different name using <code class="highlighter-rouge">--spring.config.name</code></li>
+  <li>Default config locations <code class="highlighter-rouge">classpath:/,classpath:/config/,file:./,file:./config/</code> (searched in reverse order)</li>
+  <li>Choose different config locations using <code class="highlighter-rouge">--spring.config.location</code></li>
+  <li>Program arguments with prefix <code class="highlighter-rouge">--</code> (eg: <code class="highlighter-rouge">--server.port=9090</code>) are converted to property and added to <code class="highlighter-rouge">Environment</code></li>
+  <li><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html">Excellent Spring Documentation</a></li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>java <span class="nt">-jar</span> myproject.jar <span class="nt">--spring</span>.config.name<span class="o">=</span>myproject
+<span class="nv">$ </span>java <span class="nt">-jar</span> myproject.jar <span class="nt">--spring</span>.config.location<span class="o">=</span>classpath:/default.properties,classpath:/override.properties</code></pre></figure>
+
+<h2 id="configuration-properties">Configuration Properties</h2>
+
+<ul>
+  <li>String based properties of POJO can be auto-populated with ConfigurationProperties</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableConfigurationProperties</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationMain</span> <span class="o">{</span>
+    <span class="c1">// standard main</span>
+<span class="o">}</span>
+
+<span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"mypojo"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigProperties</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">age</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">tags</span><span class="o">;</span>
+  
+    <span class="c1">// standard getters and setters</span>
+<span class="o">}</span>
+
+<span class="c1">// in application.properties</span>
+<span class="n">mypojo</span><span class="o">.</span><span class="na">name</span><span class="o">=</span><span class="nc">Deepak</span>
+<span class="n">mypojo</span><span class="o">.</span><span class="na">age</span><span class="o">=</span><span class="mi">60</span>
+<span class="n">mypojo</span><span class="o">.</span><span class="na">tags</span><span class="o">[</span><span class="mi">0</span><span class="o">]=</span><span class="n">coding</span>
+<span class="n">mypojo</span><span class="o">.</span><span class="na">tags</span><span class="o">[</span><span class="mi">1</span><span class="o">]=</span><span class="n">testing</span>
+
+<span class="c1">// relaxed binding, all these bind to same property</span>
+<span class="n">mail</span><span class="o">.</span><span class="na">credentials</span><span class="o">.</span><span class="na">auth_method</span>
+<span class="n">mail</span><span class="o">.</span><span class="na">credentials</span><span class="o">.</span><span class="na">auth</span><span class="o">-</span><span class="n">method</span>
+<span class="n">mail</span><span class="o">.</span><span class="na">credentials_AUTH_METHOD</span>
+<span class="n">mail</span><span class="o">.</span><span class="na">CREDENTIALS_AUTH_METHOD</span></code></pre></figure>
+
+<h2 id="profiles">Profiles</h2>
+
+<ul>
+  <li>Load environment specific properties using <code class="highlighter-rouge">application-{profile}.properties</code> (eg: <code class="highlighter-rouge">application-uat.properties</code>).</li>
+  <li>This environment specific property file is loaded on top of <code class="highlighter-rouge">application.properties</code> (properties with same name are overridden).</li>
+  <li>Beans can also have profiles (0, 1 or more).</li>
+  <li>Beans with no profile are always activated.</li>
+  <li>If no profiles are active, <code class="highlighter-rouge">default</code> profile is activated.</li>
+  <li>In this case, beans with explicit <code class="highlighter-rouge">default</code> profile value are activated (if any) and <code class="highlighter-rouge">application-default.properties</code> file is loaded (if present).</li>
+  <li><code class="highlighter-rouge">@Configuration</code> classes can also have profiles.</li>
+  <li>Activate profile using JVM argument <code class="highlighter-rouge">-Dspring.profiles.active=dev,hsqldb</code> or <a href="http://www.baeldung.com/spring-profiles">any of other variants</a></li>
+  <li>Environment variables are normalized, and made available as properties (eg: SPRING_PROFILES_ACTIVE is converted to spring.profiles.active).</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">"dev"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DevDatasourceConfig</span> <span class="o">{</span>
+  <span class="c1">// ..</span>
+<span class="o">}</span>
+
+<span class="nd">@Component</span>
+<span class="nd">@Profile</span><span class="o">(</span><span class="s">"!dev"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DatasourceConfig</span> <span class="o">{</span>
+  <span class="c1">// ..</span>
+<span class="o">}</span></code></pre></figure>
+
+<h2 id="spring-cloud-config">Spring Cloud Config</h2>
+
+<h3 id="server">Server</h3>
+
+<ul>
+  <li>Externalize configuration on a separate stand-alone repository instead of keeping alongside the code.</li>
+  <li>Cloud Foundry provides ConfigServer service to avoid having to manual create/deploy this service.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableConfigServer</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationMain</span> <span class="o">{</span>
+    <span class="c1">// standard main</span>
+<span class="o">}</span>
+
+<span class="c1">// in application.properties (better pass as -D argument when starting)</span>
+<span class="n">spring</span><span class="o">.</span><span class="na">cloud</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">server</span><span class="o">.</span><span class="na">git</span><span class="o">.</span><span class="na">uri</span><span class="o">=</span><span class="nl">https:</span><span class="c1">//github.com/DeepakVadgama/app1/config-repository</span></code></pre></figure>
+
+<h3 id="client">Client</h3>
+
+<ul>
+  <li>Client application can now get it’s config from the server.</li>
+  <li>The location of server has to be defined in <code class="highlighter-rouge">bootstrap.properties</code> (or <code class="highlighter-rouge">bootstrap.yml</code>).</li>
+  <li>This file is loaded before application.properties and tells client where to get the rest of config from.</li>
+  <li>Spring Cloud server might have config properties for many applications. Thus each client typically sets a property <code class="highlighter-rouge">spring.application.name</code> in its bootstrap.properties.</li>
+  <li>Client also has to set the URI where config server is running, in bootstrap file. Then, on client application start, applications properties are loaded from server (including for active profile).</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationMain</span> <span class="o">{</span>
+    <span class="c1">// standard main</span>
+<span class="o">}</span>
+
+<span class="c1">// in bootstrap.properties</span>
+<span class="n">spring</span><span class="o">.</span><span class="na">application</span><span class="o">.</span><span class="na">name</span><span class="o">=</span><span class="n">client</span><span class="o">-</span><span class="n">application</span><span class="o">-</span><span class="n">name</span>
+<span class="n">spring</span><span class="o">.</span><span class="na">cloud</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">uri</span><span class="o">=</span><span class="err">$</span><span class="o">{</span><span class="n">vcap</span><span class="o">.</span><span class="na">services</span><span class="o">.</span><span class="na">configuration</span><span class="o">-</span><span class="n">service</span><span class="o">.</span><span class="na">credentials</span><span class="o">.</span><span class="na">uri</span><span class="o">:</span><span class="nl">http:</span><span class="c1">//localhost:8888}</span></code></pre></figure>
+
+<h3 id="security">Security</h3>
+
+<p>Config application can be secured on both server and client using spring security. In this case, on client, the URL is auto-encoded to https://user:pswd@url</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">spring</span><span class="o">.</span><span class="na">cloud</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">username</span><span class="o">=</span><span class="n">user</span>
+<span class="n">spring</span><span class="o">.</span><span class="na">cloud</span><span class="o">.</span><span class="na">config</span><span class="o">.</span><span class="na">password</span><span class="o">=</span><span class="n">pswd</span></code></pre></figure>
+
+<h3 id="refresh-scope">Refresh Scope</h3>
+
+<p>Refresh scope is a feature to update Spring configuration when there is a property update on config server.
+Any component with annotation <code class="highlighter-rouge">@RefreshScope</code> gets its properties refreshed.
+There is also a corresponding Spring event <code class="highlighter-rouge">RefreshScopeRefreshEvent</code></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="nd">@RefreshScope</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloComponent</span> <span class="o">{</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${greeting.value}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">greeting</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="nd">@EventListener</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">refresh</span><span class="o">(</span><span class="nc">RefreshScopeRefreshEvent</span> <span class="n">event</span><span class="o">){</span>
+<span class="o">}</span></code></pre></figure>
+
+<h2 id="session-replication">Session Replication</h2>
+
+<p>Spring Session helps with session replication by replacing Servlet HTTP Session API and storing the session information in Redis/Hazelcast etc.
+Spring Boot makes this configuration dead simple.
+Read more about it <a href="https://spring.io/blog/2015/03/01/the-portable-cloud-ready-http-session">here</a></p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">// application.properties
+spring.session.store-type=redis
+server.session.timeout=5
+
+// pom.xml
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-data-redis<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.session<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-session<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<h2 id="async-controller">Async Controller</h2>
+
+<p>Spring MVC (or any servlet container) creates a thread-pool to handle servlet requests.
+There is still a possibility of thread being occupied for too long by some expensive operation.
+Simply wrapping the response in a <code class="highlighter-rouge">Callable</code> makes the code run in a separate thread-pool (can be overridden by creating a TaskExecutor bean) there by
+freeing the servlet thread-pool to accept more requests.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyController</span> <span class="o">{</span>
+
+    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/username"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nd">@ResponseBody</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getUsername</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="c1">// time-consuming operation</span>
+                <span class="k">return</span> <span class="nf">getUsername</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h2 id="async-service">Async Service</h2>
+
+<p>Same concept can be extended to service calls by using <code class="highlighter-rouge">@Async</code> and Java’s <code class="highlighter-rouge">CompletableFuture</code>.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableAsync</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ApplicationMain</span> <span class="o">{</span>
+    <span class="c1">// standard main</span>
+<span class="o">}</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SearchService</span> <span class="o">{</span>
+
+	<span class="nd">@Async</span>
+	<span class="kd">public</span> <span class="nc">Future</span><span class="o">&lt;</span><span class="nc">SearchResult</span><span class="o">&gt;</span> <span class="nf">search</span><span class="o">(</span><span class="nc">String</span> <span class="n">keyword</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">SearchResult</span> <span class="n">result</span> <span class="o">=</span> <span class="o">...</span> <span class="c1">// time-consuming operation</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nc">AsyncResult</span><span class="o">&lt;</span><span class="nc">SearchResult</span><span class="o">&gt;(</span><span class="n">result</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h2 id="service-discovery">Service Discovery</h2>
+
+<ul>
+  <li>Service discovery is the life line of a microservices based application.</li>
+  <li>It typically contains a well-known registry service. Components use this service to register themselves and discover other components.</li>
+  <li>Recommended to use <code class="highlighter-rouge">spring.application.name</code> for all client components to allow registry/discovery using logical names.</li>
+  <li><a href="https://spring.io/guides/gs/service-registration-and-discovery/">Spring article</a></li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="c1">// server</span>
+<span class="nd">@EnableEurekaServer</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServerApplication</span> <span class="o">{</span>
+    <span class="c1">// standard main</span>
+<span class="o">}</span>
+
+<span class="c1">// server application.properties</span>
+<span class="n">server</span><span class="o">.</span><span class="na">port</span><span class="o">=</span><span class="mi">8761</span>
+<span class="n">eureka</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">register</span><span class="o">-</span><span class="n">with</span><span class="o">-</span><span class="n">eureka</span><span class="o">=</span><span class="kc">false</span>
+<span class="n">eureka</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">fetch</span><span class="o">-</span><span class="n">registry</span><span class="o">=</span><span class="kc">false</span>
+
+<span class="c1">// client</span>
+<span class="nd">@EnableDiscoveryClient</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EurekaClientApplication</span> <span class="o">{</span>
+    <span class="c1">// standard main</span>
+<span class="o">}</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">class</span> <span class="nc">ServiceInstanceRestController</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="nc">DiscoveryClient</span> <span class="n">discoveryClient</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">validateInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Assert</span><span class="o">.</span><span class="na">notNull</span><span class="o">(</span><span class="n">discoveryClient</span><span class="o">.</span><span class="na">getInstances</span><span class="o">(</span><span class="s">"dependent-service-id"</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="c1">// client bootstrap.properties</span>
+<span class="n">spring</span><span class="o">.</span><span class="na">application</span><span class="o">.</span><span class="na">name</span><span class="o">=</span><span class="n">user</span><span class="o">-</span><span class="n">service</span>
+<span class="n">eureka</span><span class="o">.</span><span class="na">instance</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">serviceUrl</span><span class="o">.</span><span class="na">defaultZone</span><span class="o">=</span><span class="nl">http:</span><span class="c1">//localhost:8761/eureka/</span></code></pre></figure>
+
+<h2 id="resources">Resources</h2>
+
+<p>I used the following resources to write this article.</p>
+
+<ul>
+  <li><a href="http://shop.oreilly.com/product/0636920038252.do">Cloud Native Java</a></li>
+  <li><a href="https://app.pluralsight.com/library/courses/spring-cloud-fundamentals/table-of-contents">Spring Cloud Fundamentals - Pluralsight</a></li>
+  <li><a href="http://projects.spring.io/spring-cloud/">Spring Cloud Documentation</a></li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This post covers only a part of what Spring Cloud has to offer. It offers
+ <a href="https://spring.io/guides/gs/circuit-breaker/">Circuit Breakers</a>,
+ <a href="https://cloud.spring.io/spring-cloud-netflix/">Load Balancers</a>,
+ <a href="http://cloud.spring.io/spring-cloud-security/">Spring Cloud Security</a>,
+ <a href="https://reflectoring.io/event-messaging-with-spring-boot-and-rabbitmq/">Event Messaging</a> and so much more.
+ I intend to write more on rest of the topics as soon as I have some hands-on experience.</p>
+
+<p>Hit me up in the comments if I missed anything or if you have any queries.</p>
+:ET

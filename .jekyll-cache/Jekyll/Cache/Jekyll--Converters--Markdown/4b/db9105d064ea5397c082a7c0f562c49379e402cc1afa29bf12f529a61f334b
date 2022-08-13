@@ -1,0 +1,136 @@
+I"�3<p>I have been working on an <a href="https://deepakvadgama.com/projects/refactoring-to-sanity/">ERP software</a> which is used by ~25 users across departments.</p>
+
+<p>The coordination across departments during a deploy (before shutdown and post restart) becomes a pain. 
+Unfortunately, the company does not use chat tools which can be used for broadcast. 
+Instead, the communication is done using phone or in-person.</p>
+
+<p>To resolve this, I was asked if software itself could intimate the user when it is about to shutdown, and once its restarted.</p>
+
+<blockquote>
+  <p>Do not overengineer</p>
+</blockquote>
+
+<p>I started looking into websockets and other forms of push communication, though quickly realized it would be an overkill. 
+Since there are only 25 users polling becomes the simplest solution.</p>
+
+<h2 id="server-side---apis-for-checking-current-status-and-updating-status-to-shutdown">Server side - APIs for checking current status and updating status to ‘shutdown’</h2>
+
+<ul>
+  <li>API for shutdown can either be based on authentication or a secret token so that its not misused (mine is on a self-contained LAN and not internet, so I used token)</li>
+  <li>API for startup can be added if required. Considering, once deployed, the atomic boolean will be reinitialized automatically.</li>
+  <li>AtomicBoolean is used to avoid caching issues (Volatile can also be used).</li>
+  <li>During status check, return ‘ok’ for normal process, and ‘shutdown’ if boolean is false, indicating shutdown will begin shortly.</li>
+</ul>
+
+<p><br /></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Controller</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/meta"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MetaController</span> <span class="o">{</span>
+	
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="nc">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="nc">MetaController</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	
+	<span class="kd">private</span> <span class="nc">AtomicBoolean</span> <span class="n">status</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AtomicBoolean</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/status"</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="s">"application/text"</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="nc">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+	<span class="nd">@ResponseBody</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">status</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">status</span><span class="o">.</span><span class="na">get</span><span class="o">())</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="s">"ok"</span><span class="o">;</span>
+		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="s">"shutdown"</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/shutdown"</span><span class="o">,</span> <span class="n">produces</span> <span class="o">=</span> <span class="s">"application/json"</span><span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="nc">RequestMethod</span><span class="o">.</span><span class="na">GET</span><span class="o">)</span>
+	<span class="nd">@ResponseBody</span>
+	<span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">shutdown</span><span class="o">(</span><span class="nd">@RequestParam</span> <span class="nc">String</span> <span class="n">secret</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="s">"matrix"</span><span class="o">.</span><span class="na">equalsIgnoreCase</span><span class="o">(</span><span class="n">secret</span><span class="o">))</span> <span class="o">{</span>
+			<span class="n">status</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+			<span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Shutdown indicator turned on"</span><span class="o">);</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h2 id="server-side---permissions">Server side - Permissions</h2>
+
+<ul>
+  <li>Ensure the status check URL is open for all (no authentication).</li>
+  <li>
+    <p>This will depend on your session implementation. In our case once server is restarted, the sessions are invalidated (user checking status after server restart will be redirected to login in that case, which we want to avoid).</p>
+
+    <p><br /></p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;http</span> <span class="na">auto-config=</span><span class="s">"true"</span> <span class="na">use-expressions=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;intercept-url</span> <span class="na">pattern=</span><span class="s">"/login*"</span> <span class="na">access=</span><span class="s">"permitAll"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;intercept-url</span> <span class="na">pattern=</span><span class="s">"/meta/status"</span> <span class="na">access=</span><span class="s">"permitAll"</span> <span class="nt">/&gt;</span>  <span class="c">&lt;!-- Add this line --&gt;</span>
+    <span class="nt">&lt;intercept-url</span> <span class="na">pattern=</span><span class="s">"/**"</span> <span class="na">access=</span><span class="s">"isAuthenticated()"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;form-login</span> <span class="na">login-page=</span><span class="s">"/login"</span> <span class="na">default-target-url=</span><span class="s">"/welcome"</span> <span class="na">authentication-failure-url=</span><span class="s">"/loginfailed"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/http&gt;</span></code></pre></figure>
+
+<h2 id="ui-side---poll-for-status-and-alert-if-shutdown-message-received">UI side - Poll for status and alert if shutdown message received</h2>
+
+<ul>
+  <li>Use $.ajax call to check for status, and alert user accordingly.</li>
+  <li>Use JQuery’s timeout to periodically call the same method. This is done by calling timeout in onComplete callback (avoid calling timeout in success callback, because once server shuts down, the ajax call will fail and next timeout will not be set).</li>
+  <li>Put this code in common JavaScript, JSP, Tag file. I used it in menu.tag file, since all pages include that file for showing header menu.</li>
+  <li>In case, the JQuery library is being loaded <em>after</em> this code is called. Use defer (as shown below) to wait for JQuery to load.</li>
+  <li>Use modal in case you want the alert to be pretty. I used the native one.</li>
+</ul>
+
+<p><br /></p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">software_shutdown</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    
+<span class="c1">// Wait for jquery to load</span>
+<span class="p">(</span><span class="kd">function</span> <span class="nx">defer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">jQuery</span><span class="p">)</span>
+        <span class="nx">worker</span><span class="p">();</span>
+    <span class="k">else</span>
+        <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">defer</span><span class="p">(</span><span class="nx">worker</span><span class="p">)</span> <span class="p">},</span> <span class="mi">100</span><span class="p">);</span>
+<span class="p">})();</span>
+
+<span class="c1">// Function to check status and alert user</span>
+<span class="kd">function</span> <span class="nx">worker</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+        <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">meta/status</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">data</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">shutdown</span><span class="dl">'</span> <span class="o">&amp;&amp;</span> <span class="nx">software_shutdown</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Check flag to show alert only once</span>
+                <span class="nx">software_shutdown</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Please complete your work. Software will shutdown in 5 minutes.</span><span class="dl">'</span><span class="p">);</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">data</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">ok</span><span class="dl">'</span> <span class="o">&amp;&amp;</span> <span class="nx">software_shutdown</span> <span class="o">===</span> <span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Software restarted. Please refresh page and resume work.</span><span class="dl">'</span><span class="p">);</span>
+                <span class="nx">software_shutdown</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="na">error</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Software unreachable. Please try again in 5 minutes. </span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="c1">// Complete instead of success, because if first call fails, it will never set next timeout.</span>
+        <span class="na">complete</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">worker</span><span class="p">,</span> <span class="mi">60000</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">}</span></code></pre></figure>
+
+<h2 id="test-and-confirm">Test and Confirm</h2>
+
+<h3 id="call-shutdown-using-url-and-secret-token">Call shutdown using URL and secret token.</h3>
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/broadcast/shutdown.png"><img src="https://deepakvadgama.com/images/blog/broadcast/shutdown.png" /></a>
+</figure>
+
+<h3 id="check-if-ui-receives-shutdown-message-and-alerts-the-user">Check if UI receives shutdown message and alerts the user.</h3>
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/broadcast/ui-shutdown.png"><img src="https://deepakvadgama.com/images/blog/broadcast/ui-shutdown.png" /></a>
+</figure>
+
+<h3 id="wait-for-5-minutes-restart-server-and-check-if-ui-alerts-user-of-restart">Wait for 5 minutes, restart server and check if UI alerts user of restart.</h3>
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/broadcast/ui-restart.png"><img src="https://deepakvadgama.com/images/blog/broadcast/ui-restart.png" /></a>
+</figure>
+
+:ET

@@ -1,0 +1,641 @@
+I"�V<h2 id="introduction">Introduction</h2>
+
+<p>I love <a href="https://g.co/kgs/WT7WVy">‘Concurrency in Practice’</a>. Its a Java concurrency book written by 
+<a href="https://www.linkedin.com/in/briangoetz">Brian Goetz</a>,
+ <a href="https://en.wikipedia.org/wiki/Doug_Lea">Doug Lea</a> and 
+<a href="https://en.wikipedia.org/wiki/Joshua_Bloch">Joshua Bloch</a>. It is 
+considered a definitive guide on the subject. These fine folks were also involved in <a href="https://jcp.org/en/jsr/detail?id=166">JSR166</a> 
+and have authored many of the concurrency/collection classes in JDK. It is fascinating to walk through their code. There is lot to learn about code structure, performance, trade-offs etc.</p>
+
+<p>Let’s start with HashMap and its cousin LinkedHashMap.</p>
+
+<h2 id="basics">Basics</h2>
+
+<p>If you want to understand how HashMaps are typically implemented at basic level, I highly recommend <a href="https://www.youtube.com/watch?v=Tl7mi9QmLns">this video
+explaining Go’s HashMap</a></p>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/hashmap.jpg"><img src="https://deepakvadgama.com/images/blog/hashmap.jpg" /></a>
+</figure>
+
+<p>In short, HashMap is backed by an array. During put operation, hashcode of key is calculated, and Entry (key+value) is 
+inserted in array (based on hashcode % array’s size). If more keys are added with same hashcode, linkedlist is formed with previously added keys.</p>
+
+<p>Let’s focus on the interesting parts of the class (whole code here: <a href="https://github.com/openjdk-mirror/jdk/blob/jdk8u/jdk8u/master/src/share/classes/java/util/HashMap.java">HashMap</a> &amp; <a href="https://github.com/openjdk-mirror/jdk/blob/jdk8u/jdk8u/master/src/share/classes/java/util/LinkedHashMap.java">LinkedHashMap</a>)</p>
+
+<h2 id="initialization">Initialization</h2>
+
+<ul>
+  <li>If the initial capacity and load-factors are not provided, they default to 16 and 0.75 respectively.</li>
+  <li><strong>Closest factor of 2</strong>
+If initial capacity is given, it is increased to the closest factor of 2 by using this <a href="http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2Float">bit twiddling algorithm</a>.</li>
+  <li><strong>Why factor of 2:</strong> When table is resized (doubled), the elements in linked list can easily be assigned to new indexes 
+without performing modulo operation. This is awesome!
+Eg: If hash=9, oldTableSize=8, oldIndex=1 (9%8), newTableSize=16, newIndex=9 (9%16) = oldTableSize + oldIndex</li>
+  <li><strong>Table not initialized yet</strong>: Interesting that the array (variable table) is not initialized in constructor. So no memory allocated yet.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">DEFAULT_INITIAL_CAPACITY</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="o">;</span> <span class="c1">// aka 16</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="no">MAXIMUM_CAPACITY</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">float</span> <span class="no">DEFAULT_LOAD_FACTOR</span> <span class="o">=</span> <span class="mf">0.75f</span><span class="o">;</span>
+    
+    <span class="kd">public</span> <span class="nf">HashMap</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">loadFactor</span> <span class="o">=</span> <span class="no">DEFAULT_LOAD_FACTOR</span><span class="o">;</span> <span class="c1">// all other fields defaulted</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">HashMap</span><span class="o">(</span><span class="kt">int</span> <span class="n">initialCapacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">(</span><span class="n">initialCapacity</span><span class="o">,</span> <span class="no">DEFAULT_LOAD_FACTOR</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">HashMap</span><span class="o">(</span><span class="kt">int</span> <span class="n">initialCapacity</span><span class="o">,</span> <span class="kt">float</span> <span class="n">loadFactor</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">initialCapacity</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Illegal initial capacity: "</span> <span class="o">+</span>
+                                               <span class="n">initialCapacity</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">initialCapacity</span> <span class="o">&gt;</span> <span class="no">MAXIMUM_CAPACITY</span><span class="o">)</span>
+            <span class="n">initialCapacity</span> <span class="o">=</span> <span class="no">MAXIMUM_CAPACITY</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">loadFactor</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nc">Float</span><span class="o">.</span><span class="na">isNaN</span><span class="o">(</span><span class="n">loadFactor</span><span class="o">))</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"Illegal load factor: "</span> <span class="o">+</span>
+                                               <span class="n">loadFactor</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">loadFactor</span> <span class="o">=</span> <span class="n">loadFactor</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">threshold</span> <span class="o">=</span> <span class="n">tableSizeFor</span><span class="o">(</span><span class="n">initialCapacity</span><span class="o">);</span>
+    <span class="o">}</span>
+        
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">tableSizeFor</span><span class="o">(</span><span class="kt">int</span> <span class="n">cap</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">cap</span> <span class="o">-</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="n">n</span> <span class="o">|=</span> <span class="n">n</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="n">n</span> <span class="o">|=</span> <span class="n">n</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span><span class="o">;</span>
+        <span class="n">n</span> <span class="o">|=</span> <span class="n">n</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">4</span><span class="o">;</span>
+        <span class="n">n</span> <span class="o">|=</span> <span class="n">n</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">8</span><span class="o">;</span>
+        <span class="n">n</span> <span class="o">|=</span> <span class="n">n</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">16</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">(</span><span class="n">n</span> <span class="o">&gt;=</span> <span class="no">MAXIMUM_CAPACITY</span><span class="o">)</span> <span class="o">?</span> <span class="no">MAXIMUM_CAPACITY</span> <span class="o">:</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+    </code></pre></figure>
+
+<h2 id="linked-lists-vs-trees">Linked-Lists vs Trees</h2>
+
+<p>If there are multiple elements with same hashcode, they are linked to each other forming linked-list (also called as Bins). Starting with Java 8 as part <a href="http://openjdk.java.net/jeps/180">this JEP</a>, if number of elements with same hashcode crosses certain threshold, the list is converted to a balanced Red-Black tree.</p>
+
+<p>Red-Black tree is a sorted tree, in which search takes max log(n) operations. Though, for the sorting to work, all the keys need to be comparable to each other (i.e. they need to implement Comparable interface).</p>
+
+<p>If keys are not comparable then ofcourse it will be a tree with each node with only 1 child. This consumes twice the 
+space is generally twice as slow.</p>
+
+<h2 id="hashcode">Hashcode</h2>
+
+<ul>
+  <li>
+    <p>Best Case: O(1). Hashcode of all the keys are distinct, then get and put operations run in O(1) i.e. constant time 
+(independent of the number of keys in the map).</p>
+  </li>
+  <li>
+    <p>Worst Case (Bins): O(n). Hashcodes of all keys are same then same operations can take O(n) time (n = number of keys in the map).</p>
+  </li>
+  <li>
+    <p>Worst Case (Trees): O(log(n)). Hashcodes of all keys are same then same operations can take O(log(n)) time (n = number of keys in the map).</p>
+  </li>
+</ul>
+
+<p><strong>Note:</strong> Technically <em>hashcode % table-length</em> need to be distinct, because even distinct hashcodes can end up in same bin/tree i.e. collide.</p>
+
+<p>String class: <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/collections/changes7.html">Special hash function</a> and a new private field hash32 (to cache the hashcode) was added to String class in Java 7 to to use more complex hashing to generate unique hashes. This was specifically to improve performance in HashMaps (all variants). After implementing Trees instead of Bins (see section below), the field <a href="http://hg.openjdk.java.net/jdk8/jdk8/jdk/rev/43bd5ee0205e">was removed</a> since now the worst case operations take O(log(n)) instead of O(n).</p>
+
+<h2 id="probability-of-list-of-size-k">Probability of list of size k</h2>
+
+<p>Unless there are programming mistakes or malicious code, hashcodes generally follow <a href="https://en.wikipedia.org/wiki/Poisson_distribution">poisson distribution</a></p>
+
+<p>In layman terms, typical keys inserted in the HashMap have hashcodes which are generally unique. 
+The probability of 2 elements having same hashcode is low, 3 of them having same is even lower, 
+and 8 elements having same hashcode is extremely rare (1 in 10 million).</p>
+
+<p>Thus probability of having to create trees is very low (although, if you use custom class as key, and its hashcode is
+badly written then its still very much probable).</p>
+
+<h2 id="code-for-computing-hash">Code for computing hash</h2>
+
+<p>So in addition to the hashcode that we write for our keys, hashcode itself is (bitwise) shifted.
+This because some values with same lower bits can increase probability of same hashcodes.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">   <span class="cm">/**
+     * Computes key.hashCode() and spreads (XORs) higher bits of hash
+     * to lower.  Because the table uses power-of-two masking, sets of
+     * hashes that vary only in bits above the current mask will
+     * always collide. (Among known examples are sets of Float keys
+     * holding consecutive whole numbers in small tables.)  So we
+     * apply a transform that spreads the impact of higher bits
+     * downward. There is a tradeoff between speed, utility, and
+     * quality of bit-spreading. Because many common sets of hashes
+     * are already reasonably distributed (so don't benefit from
+     * spreading), and because we use trees to handle large sets of
+     * collisions in bins, we just XOR some shifted bits in the
+     * cheapest possible way to reduce systematic lossage, as well as
+     * to incorporate impact of the highest bits that would otherwise
+     * never be used in index calculations because of table bounds.
+     */</span>
+    <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="nf">hash</span><span class="o">(</span><span class="nc">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">h</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">key</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="o">(</span><span class="n">h</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="na">hashCode</span><span class="o">())</span> <span class="o">^</span> <span class="o">(</span><span class="n">h</span> <span class="o">&gt;&gt;&gt;</span> <span class="mi">16</span><span class="o">);</span>
+    <span class="o">}</span></code></pre></figure>
+
+<p>Example of such floats:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">binary</span> <span class="n">values</span> <span class="n">of</span> <span class="mf">2.0f</span><span class="o">,</span> <span class="mf">18.0f</span> <span class="n">and</span> <span class="mf">215.0f</span> <span class="n">all</span> <span class="n">have</span> <span class="n">same</span> <span class="n">lower</span> <span class="n">bits</span><span class="o">.</span>
+ 
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Long</span><span class="o">.</span><span class="na">toBinaryString</span><span class="o">(</span><span class="nc">Float</span><span class="o">.</span><span class="na">floatToRawIntBits</span><span class="o">(</span><span class="mf">2.0f</span><span class="o">)));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Long</span><span class="o">.</span><span class="na">toBinaryString</span><span class="o">(</span><span class="nc">Float</span><span class="o">.</span><span class="na">floatToRawIntBits</span><span class="o">(</span><span class="mf">18.0f</span><span class="o">)));</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Long</span><span class="o">.</span><span class="na">toBinaryString</span><span class="o">(</span><span class="nc">Float</span><span class="o">.</span><span class="na">floatToRawIntBits</span><span class="o">(</span><span class="mf">215.0f</span><span class="o">)));</span>
+
+<span class="mi">1000000000000000000000000000000</span>
+<span class="mi">1000001100100000000000000000000</span>
+<span class="mi">1000011010101110000000000000000</span></code></pre></figure>
+
+<h2 id="put-key-value">Put Key-Value</h2>
+
+<ul>
+  <li>Lets skip hash function for now.</li>
+  <li><em>(n - 1) &amp; hash</em> is same as <em>hash % n</em>, who knew!</li>
+  <li>Code comments inline</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="kd">public</span> <span class="no">V</span> <span class="nf">put</span><span class="o">(</span><span class="no">K</span> <span class="n">key</span><span class="o">,</span> <span class="no">V</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">putVal</span><span class="o">(</span><span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">),</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">final</span> <span class="no">V</span> <span class="nf">putVal</span><span class="o">(</span><span class="kt">int</span> <span class="n">hash</span><span class="o">,</span> <span class="no">K</span> <span class="n">key</span><span class="o">,</span> <span class="no">V</span> <span class="n">value</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">onlyIfAbsent</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">evict</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">tab</span><span class="o">;</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">;</span> <span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="n">i</span><span class="o">;</span>
+        
+        <span class="c1">// 1. Create table here by calling resize()</span>
+        <span class="k">if</span> <span class="o">((</span><span class="n">tab</span> <span class="o">=</span> <span class="n">table</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="o">(</span><span class="n">tab</span> <span class="o">=</span> <span class="n">resize</span><span class="o">()).</span><span class="na">length</span><span class="o">;</span>
+            
+        <span class="c1">// 2. Find table index based on hash, if that table entry is empty, create new node and add</span>
+        <span class="k">if</span> <span class="o">((</span><span class="n">p</span> <span class="o">=</span> <span class="n">tab</span><span class="o">[</span><span class="n">i</span> <span class="o">=</span> <span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">hash</span><span class="o">])</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">tab</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            
+        <span class="c1">// 3. If table entry exists, then need to append (either to linked-list or the tree)</span>
+        <span class="k">else</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">;</span> <span class="no">K</span> <span class="n">k</span><span class="o">;</span>
+            
+            <span class="c1">// 4. If first element in the table is same as new element to be added, get the element in e.</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">p</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span>
+                <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="o">(</span><span class="n">key</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">))))</span> 
+                <span class="c1">// 5. Above: Performance: Comparing int hash which is faster, if same then only call equals</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+                
+            <span class="c1">// 6. If this list is already converted to tree, add to element to the tree</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">p</span> <span class="k">instanceof</span> <span class="nc">TreeNode</span><span class="o">)</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="o">((</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">p</span><span class="o">).</span><span class="na">putTreeVal</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">tab</span><span class="o">,</span> <span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+             
+            <span class="c1">// 7. Else add to the linked list</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">binCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="o">;</span> <span class="o">++</span><span class="n">binCount</span><span class="o">)</span> <span class="o">{</span>
+                
+                    <span class="c1">// 8. Traverse the list until the end (one element at a time)</span>
+                    <span class="k">if</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">p</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">newNode</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+                        
+                        <span class="c1">// 9. If elements in linked list are more than threshold, convert to tree</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">binCount</span> <span class="o">&gt;=</span> <span class="no">TREEIFY_THRESHOLD</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> 
+                            <span class="n">treeifyBin</span><span class="o">(</span><span class="n">tab</span><span class="o">,</span> <span class="n">hash</span><span class="o">);</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    
+                    <span class="c1">// 10. If while traversing, any element equals and element-to-add then, get element in e</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span>
+                        <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="o">(</span><span class="n">key</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">))))</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            
+            <span class="c1">// 11. If element already exists</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> 
+                <span class="no">V</span> <span class="n">oldValue</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+                
+                <span class="c1">// 12. Update with new value and return old value.</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">onlyIfAbsent</span> <span class="o">||</span> <span class="n">oldValue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+                <span class="n">afterNodeAccess</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+                <span class="k">return</span> <span class="n">oldValue</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        
+        <span class="c1">// 13. Increase modificationCount and Size</span>
+        <span class="o">++</span><span class="n">modCount</span><span class="o">;</span>
+        
+        <span class="c1">// 14. If after adding element, threshold is reached, increase table size. </span>
+        <span class="k">if</span> <span class="o">(++</span><span class="n">size</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="o">)</span>
+            <span class="n">resize</span><span class="o">();</span>
+            
+        <span class="c1">// 15. Callback used for linkedhashmap not this regular hashmap</span>
+        <span class="n">afterNodeInsertion</span><span class="o">(</span><span class="n">evict</span><span class="o">);</span>
+        
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span></code></pre></figure>
+
+<h2 id="tree">Tree</h2>
+
+<ul>
+  <li>A linked list is converted to Red-Black tree only if list’s size exceeds threshold (8) and 
+table size is greater than threshold (64).</li>
+  <li>Code comments inline</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="kd">final</span> <span class="kt">void</span> <span class="nf">treeifyBin</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">tab</span><span class="o">,</span> <span class="kt">int</span> <span class="n">hash</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="n">index</span><span class="o">;</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">;</span>
+        
+        <span class="c1">// 1. If table size is less than MIN_TREEIFY_CAPACITY(64), then </span>
+        <span class="c1">// instead of creating tree, resize the table. </span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tab</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="o">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">&lt;</span> <span class="no">MIN_TREEIFY_CAPACITY</span><span class="o">)</span>
+            <span class="n">resize</span><span class="o">();</span>
+            
+        <span class="c1">// 2. Convert linked list to tree</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">tab</span><span class="o">[</span><span class="n">index</span> <span class="o">=</span> <span class="o">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">hash</span><span class="o">])</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">hd</span> <span class="o">=</span> <span class="kc">null</span><span class="o">,</span> <span class="n">tl</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="k">do</span> <span class="o">{</span>
+            
+                <span class="c1">// 3. create TreeNode for each element, and link using just prev/next </span>
+                <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">replacementTreeNode</span><span class="o">(</span><span class="n">e</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">tl</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                    <span class="n">hd</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+                <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">p</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">tl</span><span class="o">;</span>
+                    <span class="n">tl</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+                <span class="o">}</span>
+                <span class="n">tl</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">while</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+            
+            <span class="c1">// 4. Convert list of TreeNodes with prev/next to tree</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">tab</span><span class="o">[</span><span class="n">index</span><span class="o">]</span> <span class="o">=</span> <span class="n">hd</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">hd</span><span class="o">.</span><span class="na">treeify</span><span class="o">(</span><span class="n">tab</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 5. Method from within TreeNode class.</span>
+    <span class="kd">final</span> <span class="kt">void</span> <span class="nf">treeify</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">tab</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">root</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="k">this</span><span class="o">,</span> <span class="n">next</span><span class="o">;</span> <span class="n">x</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">next</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">next</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">x</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">x</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            
+            <span class="c1">// 6. For root i.e. first element</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">x</span><span class="o">.</span><span class="na">parent</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="n">x</span><span class="o">.</span><span class="na">red</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+                <span class="n">root</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+            <span class="o">}</span>
+            
+            <span class="c1">// 7. For all other TreeNodes</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="no">K</span> <span class="n">k</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">key</span><span class="o">;</span>
+                <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="na">hash</span><span class="o">;</span>
+                <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">kc</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                <span class="k">for</span> <span class="o">(</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">root</span><span class="o">;;)</span> <span class="o">{</span>
+                    <span class="kt">int</span> <span class="n">dir</span><span class="o">,</span> <span class="n">ph</span><span class="o">;</span>
+                    <span class="no">K</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">key</span><span class="o">;</span>
+                    
+                    <span class="c1">// 8. Sort to left or right, by comparing hash values</span>
+                    <span class="c1">// 9. Imp: All elements of this tree have same (hash % table-size) values, but their </span>
+                    <span class="c1">// actual hashes are different</span>
+                    <span class="k">if</span> <span class="o">((</span><span class="n">ph</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">hash</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">h</span><span class="o">)</span>
+                        <span class="n">dir</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+                    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">ph</span> <span class="o">&lt;</span> <span class="n">h</span><span class="o">)</span>
+                        <span class="n">dir</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+                        
+                    <span class="c1">// 10. If by chance 2 elements have exact same hash, then break tie using System.identityHashCode</span>
+                    <span class="k">else</span> <span class="nf">if</span> <span class="o">((</span><span class="n">kc</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span>
+                              <span class="o">(</span><span class="n">kc</span> <span class="o">=</span> <span class="n">comparableClassFor</span><span class="o">(</span><span class="n">k</span><span class="o">))</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">||</span>
+                             <span class="o">(</span><span class="n">dir</span> <span class="o">=</span> <span class="n">compareComparables</span><span class="o">(</span><span class="n">kc</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">pk</span><span class="o">))</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+                        <span class="n">dir</span> <span class="o">=</span> <span class="n">tieBreakOrder</span><span class="o">(</span><span class="n">k</span><span class="o">,</span> <span class="n">pk</span><span class="o">);</span>
+
+                    <span class="c1">// 11. Traverse TreeNode until appropriate (left/right) null child is found</span>
+                    <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">xp</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+                    <span class="k">if</span> <span class="o">((</span><span class="n">p</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">p</span><span class="o">.</span><span class="na">left</span> <span class="o">:</span> <span class="n">p</span><span class="o">.</span><span class="na">right</span><span class="o">)</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    
+                        <span class="c1">// 12. Attach TreeNode as appropriate (left/right) child</span>
+                        <span class="n">x</span><span class="o">.</span><span class="na">parent</span> <span class="o">=</span> <span class="n">xp</span><span class="o">;</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">dir</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span>
+                            <span class="n">xp</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+                        <span class="k">else</span>
+                            <span class="n">xp</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+                        
+                        <span class="c1">// 13. Tree can become unbalanced after addition of TreeNode, rebalance</span>
+                        <span class="c1">// The root can change during balancing, re-assign to root</span>
+                        <span class="n">root</span> <span class="o">=</span> <span class="n">balanceInsertion</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">x</span><span class="o">);</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        
+        <span class="c1">// 14. If during balancing root node changed, then table[hash % size] != root, </span>
+        <span class="c1">// fix this by change table's index to root</span>
+        <span class="n">moveRootToFront</span><span class="o">(</span><span class="n">tab</span><span class="o">,</span> <span class="n">root</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// 15. Called when number of elements in tree are less than threshold</span>
+    <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="nf">untreeify</span><span class="o">(</span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">map</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">hd</span> <span class="o">=</span> <span class="kc">null</span><span class="o">,</span> <span class="n">tl</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span> <span class="n">q</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">replacementNode</span><span class="o">(</span><span class="n">q</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">tl</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">hd</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+            <span class="k">else</span>
+                <span class="n">tl</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+            <span class="n">tl</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">hd</span><span class="o">;</span>
+    <span class="o">}</span>
+    </code></pre></figure>
+
+<h2 id="get-value-from-key">Get value from key</h2>
+
+<p>Not much to see here. Straight forward code.</p>
+
+<ul>
+  <li>If its a list traverse till the end (if its a tree, traverse the tree).</li>
+  <li>Code comments inline.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    
+    <span class="kd">public</span> <span class="no">V</span> <span class="nf">get</span><span class="o">(</span><span class="nc">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">;</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">e</span> <span class="o">=</span> <span class="n">getNode</span><span class="o">(</span><span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">),</span> <span class="n">key</span><span class="o">))</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="kc">null</span> <span class="o">:</span> <span class="n">e</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="nf">getNode</span><span class="o">(</span><span class="kt">int</span> <span class="n">hash</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">tab</span><span class="o">;</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">first</span><span class="o">,</span> <span class="n">e</span><span class="o">;</span> <span class="kt">int</span> <span class="n">n</span><span class="o">;</span> <span class="no">K</span> <span class="n">k</span><span class="o">;</span>
+        
+        <span class="c1">// 1. Validate table not null, and hash table entry is not null</span>
+        <span class="k">if</span> <span class="o">((</span><span class="n">tab</span> <span class="o">=</span> <span class="n">table</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">n</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span>
+            <span class="o">(</span><span class="n">first</span> <span class="o">=</span> <span class="n">tab</span><span class="o">[(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&amp;</span> <span class="n">hash</span><span class="o">])</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            
+            <span class="c1">// 2. Check first element, for performance,</span>
+            <span class="c1">// since in most cases, where hashcodes are unique, there will be only 1 element</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">first</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span> 
+                <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="o">(</span><span class="n">key</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">))))</span>
+                <span class="k">return</span> <span class="n">first</span><span class="o">;</span>
+            
+            <span class="c1">// 3. If there are more elements, traverse tree or linked-list accordingly</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">first</span> <span class="k">instanceof</span> <span class="nc">TreeNode</span><span class="o">)</span>
+                    <span class="k">return</span> <span class="o">((</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">first</span><span class="o">).</span><span class="na">getTreeNode</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">);</span>
+                <span class="k">do</span> <span class="o">{</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">==</span> <span class="n">hash</span> <span class="o">&amp;&amp;</span>
+                        <span class="o">((</span><span class="n">k</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">key</span> <span class="o">||</span> <span class="o">(</span><span class="n">key</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">key</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">k</span><span class="o">))))</span>
+                        <span class="k">return</span> <span class="n">e</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">while</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">next</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>  
+   
+    <span class="kd">final</span> <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="nf">getTreeNode</span><span class="o">(</span><span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="o">((</span><span class="n">parent</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">root</span><span class="o">()</span> <span class="o">:</span> <span class="k">this</span><span class="o">).</span><span class="na">find</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// Method within TreeNode class</span>
+    <span class="kd">final</span> <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="nf">find</span><span class="o">(</span><span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">k</span><span class="o">,</span> <span class="nc">Class</span><span class="o">&lt;?&gt;</span> <span class="n">kc</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span> <span class="k">this</span><span class="o">;</span>
+        <span class="k">do</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">ph</span><span class="o">,</span> <span class="n">dir</span><span class="o">;</span> <span class="no">K</span> <span class="n">pk</span><span class="o">;</span>
+            <span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">pl</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">pr</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">q</span><span class="o">;</span>
+            
+            <span class="c1">// 4. If node's hash greater than h, store left child tree in p</span>
+            <span class="k">if</span> <span class="o">((</span><span class="n">ph</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">hash</span><span class="o">)</span> <span class="o">&gt;</span> <span class="n">h</span><span class="o">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">pl</span><span class="o">;</span>
+                
+            <span class="c1">// 5. If node's hash less than h, store right child tree in p</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">ph</span> <span class="o">&lt;</span> <span class="n">h</span><span class="o">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">pr</span><span class="o">;</span>
+                
+            <span class="c1">// 6. If node's hash and key match, then return the node</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">((</span><span class="n">pk</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">key</span><span class="o">)</span> <span class="o">==</span> <span class="n">k</span> <span class="o">||</span> <span class="o">(</span><span class="n">k</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">k</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">pk</span><span class="o">)))</span>
+                <span class="k">return</span> <span class="n">p</span><span class="o">;</span>
+                
+            <span class="c1">// 7. If left child tree is null, then store right child tree in p</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">pl</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">pr</span><span class="o">;</span>
+                
+            <span class="c1">// 8. If left child tree is null, then store right child tree in p</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">pr</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">pl</span><span class="o">;</span>
+                
+            <span class="c1">// 9. If keys are comparable, compare and decide left or right child tree</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">((</span><span class="n">kc</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">||</span>
+                      <span class="o">(</span><span class="n">kc</span> <span class="o">=</span> <span class="n">comparableClassFor</span><span class="o">(</span><span class="n">k</span><span class="o">))</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span>
+                     <span class="o">(</span><span class="n">dir</span> <span class="o">=</span> <span class="n">compareComparables</span><span class="o">(</span><span class="n">kc</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">pk</span><span class="o">))</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="o">(</span><span class="n">dir</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">pl</span> <span class="o">:</span> <span class="n">pr</span><span class="o">;</span>
+                
+            <span class="c1">// 10. Search recursively in right tree first.</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">((</span><span class="n">q</span> <span class="o">=</span> <span class="n">pr</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">kc</span><span class="o">))</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="k">return</span> <span class="n">q</span><span class="o">;</span>
+                
+            <span class="c1">// 11. Set p as left child tree, and let while loop recursively search with p</span>
+            <span class="k">else</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">pl</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">p</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    </code></pre></figure>
+
+<h2 id="resizing-table">Resizing table</h2>
+
+<ul>
+  <li>Used for both resizing and initializing table for first time.</li>
+  <li>Code Comments inline</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="kd">final</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="nf">resize</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">oldTab</span> <span class="o">=</span> <span class="n">table</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">oldCap</span> <span class="o">=</span> <span class="o">(</span><span class="n">oldTab</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">oldTab</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">oldThr</span> <span class="o">=</span> <span class="n">threshold</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">newCap</span><span class="o">,</span> <span class="n">newThr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">oldCap</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 1. Validate less than MAX</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">oldCap</span> <span class="o">&gt;=</span> <span class="no">MAXIMUM_CAPACITY</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">threshold</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+                <span class="k">return</span> <span class="n">oldTab</span><span class="o">;</span>
+            <span class="o">}</span>
+            
+            <span class="c1">// 2. Double capacity and threshold</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">((</span><span class="n">newCap</span> <span class="o">=</span> <span class="n">oldCap</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="o">)</span> <span class="o">&lt;</span> <span class="no">MAXIMUM_CAPACITY</span> <span class="o">&amp;&amp;</span>
+                     <span class="n">oldCap</span> <span class="o">&gt;=</span> <span class="no">DEFAULT_INITIAL_CAPACITY</span><span class="o">)</span>
+                <span class="n">newThr</span> <span class="o">=</span> <span class="n">oldThr</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="o">;</span> <span class="c1">// double threshold</span>
+        <span class="o">}</span>
+        <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">oldThr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">// initial capacity was placed in threshold</span>
+            <span class="n">newCap</span> <span class="o">=</span> <span class="n">oldThr</span><span class="o">;</span>
+        <span class="k">else</span> <span class="o">{</span>               <span class="c1">// zero initial threshold signifies using defaults</span>
+            <span class="n">newCap</span> <span class="o">=</span> <span class="no">DEFAULT_INITIAL_CAPACITY</span><span class="o">;</span>
+            <span class="n">newThr</span> <span class="o">=</span> <span class="o">(</span><span class="kt">int</span><span class="o">)(</span><span class="no">DEFAULT_LOAD_FACTOR</span> <span class="o">*</span> <span class="no">DEFAULT_INITIAL_CAPACITY</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">newThr</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">float</span> <span class="n">ft</span> <span class="o">=</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span><span class="n">newCap</span> <span class="o">*</span> <span class="n">loadFactor</span><span class="o">;</span>
+            <span class="n">newThr</span> <span class="o">=</span> <span class="o">(</span><span class="n">newCap</span> <span class="o">&lt;</span> <span class="no">MAXIMUM_CAPACITY</span> <span class="o">&amp;&amp;</span> <span class="n">ft</span> <span class="o">&lt;</span> <span class="o">(</span><span class="kt">float</span><span class="o">)</span><span class="no">MAXIMUM_CAPACITY</span> <span class="o">?</span>
+                      <span class="o">(</span><span class="kt">int</span><span class="o">)</span><span class="n">ft</span> <span class="o">:</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">newThr</span><span class="o">;</span>
+        <span class="nd">@SuppressWarnings</span><span class="o">({</span><span class="s">"rawtypes"</span><span class="o">,</span><span class="s">"unchecked"</span><span class="o">})</span>
+        <span class="c1">// 3. Create table </span>
+        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[]</span> <span class="n">newTab</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;[])</span><span class="k">new</span> <span class="nc">Node</span><span class="o">[</span><span class="n">newCap</span><span class="o">];</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">newTab</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">oldTab</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        
+            <span class="c1">// 4. Loop through old table to reassign all elements</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">oldCap</span><span class="o">;</span> <span class="o">++</span><span class="n">j</span><span class="o">)</span> <span class="o">{</span>
+                <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">;</span>
+                <span class="k">if</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">oldTab</span><span class="o">[</span><span class="n">j</span><span class="o">])</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">oldTab</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                    
+                    <span class="c1">// 5. Just assign for single element</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">next</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                        <span class="n">newTab</span><span class="o">[</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">&amp;</span> <span class="o">(</span><span class="n">newCap</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)]</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                        
+                    <span class="c1">// 6. Split the tree in 2 if a TreeNode</span>
+                    <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">e</span> <span class="k">instanceof</span> <span class="nc">TreeNode</span><span class="o">)</span>
+                        <span class="o">((</span><span class="nc">TreeNode</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">e</span><span class="o">).</span><span class="na">split</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">newTab</span><span class="o">,</span> <span class="n">j</span><span class="o">,</span> <span class="n">oldCap</span><span class="o">);</span>
+                        
+                    <span class="c1">// 7. Split the linked list</span>
+                    <span class="k">else</span> <span class="o">{</span> <span class="c1">// preserve order</span>
+                        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">loHead</span> <span class="o">=</span> <span class="kc">null</span><span class="o">,</span> <span class="n">loTail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">hiHead</span> <span class="o">=</span> <span class="kc">null</span><span class="o">,</span> <span class="n">hiTail</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                        <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">;</span>
+                        <span class="k">do</span> <span class="o">{</span>
+                            <span class="n">next</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+                            
+                            <span class="c1">// 8. Take advantage of factor of 2 size of table</span>
+                            <span class="c1">// Either new index of element will be the same, or oldTableSize + oldIndex</span>
+                            <span class="c1">// Assign to appropriate list</span>
+                            <span class="k">if</span> <span class="o">((</span><span class="n">e</span><span class="o">.</span><span class="na">hash</span> <span class="o">&amp;</span> <span class="n">oldCap</span><span class="o">)</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                                <span class="k">if</span> <span class="o">(</span><span class="n">loTail</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                                    <span class="n">loHead</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                                <span class="k">else</span>
+                                    <span class="n">loTail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                                <span class="n">loTail</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                            <span class="o">}</span>
+                            <span class="k">else</span> <span class="o">{</span>
+                                <span class="k">if</span> <span class="o">(</span><span class="n">hiTail</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                                    <span class="n">hiHead</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                                <span class="k">else</span>
+                                    <span class="n">hiTail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                                <span class="n">hiTail</span> <span class="o">=</span> <span class="n">e</span><span class="o">;</span>
+                            <span class="o">}</span>
+                        <span class="o">}</span> <span class="k">while</span> <span class="o">((</span><span class="n">e</span> <span class="o">=</span> <span class="n">next</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">);</span>
+                        
+                        <span class="c1">// 9. Attach list to appropriate table indexes</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">loTail</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">loTail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                            <span class="n">newTab</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">loHead</span><span class="o">;</span>
+                        <span class="o">}</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">hiTail</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">hiTail</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                            <span class="n">newTab</span><span class="o">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">oldCap</span><span class="o">]</span> <span class="o">=</span> <span class="n">hiHead</span><span class="o">;</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">newTab</span><span class="o">;</span>
+    <span class="o">}</span></code></pre></figure>
+
+<h2 id="linkedhashmap">LinkedHashMap</h2>
+
+<ul>
+  <li>Its Node extends HashMap node and adds before, after Entry references to keep track of insertion order.</li>
+  <li>Note that these new references form a doubly linked list, and is completely unrelated to the HashMap’s list,
+which keeps track of all elements with same hashcode.</li>
+  <li>Code comments inline</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">   <span class="c1">// 1. Extra references to keep track of insertion order. </span>
+   <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="kd">extends</span> <span class="nc">HashMap</span><span class="o">.</span><span class="na">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="o">{</span>
+        <span class="nc">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">before</span><span class="o">,</span> <span class="n">after</span><span class="o">;</span>
+        <span class="nc">Entry</span><span class="o">(</span><span class="kt">int</span> <span class="n">hash</span><span class="o">,</span> <span class="no">K</span> <span class="n">key</span><span class="o">,</span> <span class="no">V</span> <span class="n">value</span><span class="o">,</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">next</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">super</span><span class="o">(</span><span class="n">hash</span><span class="o">,</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">next</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 2. Adjust doubly linked list once a node is removed</span>
+    <span class="kt">void</span> <span class="nf">afterNodeRemoval</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// unlink</span>
+        <span class="nc">LinkedHashMap</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span>
+            <span class="o">(</span><span class="nc">LinkedHashMap</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">e</span><span class="o">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">before</span><span class="o">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">after</span><span class="o">;</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">before</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">after</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+        <span class="k">else</span>
+            <span class="n">b</span><span class="o">.</span><span class="na">after</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+        <span class="k">else</span>
+            <span class="n">a</span><span class="o">.</span><span class="na">before</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 2. Adjust doubly linked list once a node is added</span>
+    <span class="kt">void</span> <span class="nf">afterNodeInsertion</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">evict</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// possibly remove eldest</span>
+        <span class="nc">LinkedHashMap</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">first</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">evict</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">first</span> <span class="o">=</span> <span class="n">head</span><span class="o">)</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">removeEldestEntry</span><span class="o">(</span><span class="n">first</span><span class="o">))</span> <span class="o">{</span>
+            <span class="no">K</span> <span class="n">key</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="na">key</span><span class="o">;</span>
+            <span class="n">removeNode</span><span class="o">(</span><span class="n">hash</span><span class="o">(</span><span class="n">key</span><span class="o">),</span> <span class="n">key</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">false</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 3. If a node is replaced, move it to the end (its treated as newly added node)</span>
+    <span class="kt">void</span> <span class="nf">afterNodeAccess</span><span class="o">(</span><span class="nc">Node</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span> 
+        <span class="nc">LinkedHashMap</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">last</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">accessOrder</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">last</span> <span class="o">=</span> <span class="n">tail</span><span class="o">)</span> <span class="o">!=</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">LinkedHashMap</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;</span> <span class="n">p</span> <span class="o">=</span>
+                <span class="o">(</span><span class="nc">LinkedHashMap</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="no">K</span><span class="o">,</span><span class="no">V</span><span class="o">&gt;)</span><span class="n">e</span><span class="o">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">before</span><span class="o">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="na">after</span><span class="o">;</span>
+            <span class="n">p</span><span class="o">.</span><span class="na">after</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">b</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">head</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+            <span class="k">else</span>
+                <span class="n">b</span><span class="o">.</span><span class="na">after</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">a</span><span class="o">.</span><span class="na">before</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+            <span class="k">else</span>
+                <span class="n">last</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">last</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+                <span class="n">head</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+            <span class="k">else</span> <span class="o">{</span>
+                <span class="n">p</span><span class="o">.</span><span class="na">before</span> <span class="o">=</span> <span class="n">last</span><span class="o">;</span>
+                <span class="n">last</span><span class="o">.</span><span class="na">after</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">p</span><span class="o">;</span>
+            <span class="o">++</span><span class="n">modCount</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span></code></pre></figure>
+
+<h2 id="skipped">Skipped</h2>
+
+<ul>
+  <li>Iterators</li>
+  <li>Serialization</li>
+  <li>Red-Black Tree balancing</li>
+  <li>Splitting the Tree</li>
+  <li>EntrySet and Values methods</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+  <li>For a core data structure being used billions (probably trillions) of times, its okay to introduce complexity
+to gain extra performance.</li>
+  <li>There are always trade offs between performance and space overhead.</li>
+  <li>Bitwise operators are performant and powerful.</li>
+  <li>HashMap class has 2734 lines of code (&amp; comments)!</li>
+  <li>Seemingly simple looking operations can involve huge amount of code.</li>
+</ul>
+
+<h2 id="cake-and-the-cherry">Cake and the cherry</h2>
+
+<p>I got the following Twitter reply from Joshua Bloch which just made my day.</p>
+
+<p>Goes to show the power of Twitter in democratizing communication (eg: between rockstar and average programmers) and 
+also that programmer community at large is kind, helpful and generous.</p>
+
+<figure style="max-width: 600px; margin-left: auto; margin-right: auto">
+    <a href="https://deepakvadgama.com/images/blog/Joshua_Bloch_twitter.png"><img src="https://deepakvadgama.com/images/blog/Joshua_Bloch_twitter.png" /></a>
+</figure>
+
+<p><strong>Thanks:</strong> Special thanks to my friend <a href="https://twitter.com/neeravsv">Neerav Vadodaria</a> for proof-reading the article.</p>
+:ET

@@ -1,0 +1,221 @@
+I"B<p>For all the things you can buy online, I haven’t seen many sites selling raw diamonds, though there are many selling jewellery.</p>
+
+<p>Me and my friend Bhavik were tasked with creating such twin websites. 
+One site for selling certified diamonds. 
+Each such diamond is certified by central authorities, and is expensive. 
+Second site for selling parcel diamonds (aka loose diamonds). 
+These diamonds are tiny, relatively cheap, bought in bulk and are typically used for creating jewellery.</p>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-home-1.png"><img src="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-home-1.png" /></a>
+</figure>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-twin-site.png"><img src="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-twin-site.png" /></a>
+</figure>
+
+<h3 id="site-links">Site links</h3>
+
+<ul>
+  <li><a href="http://sejalgems.com/#/">Certified Diamonds</a></li>
+  <li><a href="https://sejalexports.in/#/">Parcel Diamonds</a></li>
+</ul>
+
+<h3 id="stack">Stack</h3>
+
+<ul>
+  <li>Spring MVC</li>
+  <li>AngularJS 1.x</li>
+  <li>Bitbucket</li>
+  <li>Google Compute Engine</li>
+</ul>
+
+<h3 id="technology-decisions">Technology decisions</h3>
+
+<ul>
+  <li>
+    <p><strong>Hibernate vs JDBC</strong>: Being from Java background I was all for using Hibernate. 
+But my partner is from database background and is more comfortable with native SQL queries. 
+Thus we settled for using Spring JDBC. It did involve writing lot of code and fixing issues, but that was expected.</p>
+  </li>
+  <li>
+    <p><strong>Security</strong>: I attempted out-of-the-box Spring solution for security, but was unable to get it running. 
+(for a subsequent project, I was able to successfully use it with Spring Boot). Thus, I had to 
+create own APIs for login/register.</p>
+
+    <ul>
+      <li>BCrypt to encode passwords on server</li>
+      <li>UUID to generate tokens</li>
+      <li>AngularJS’s interceptors to add X-AUTH-TOKEN token to every request</li>
+      <li>JS local-storage to save the token</li>
+      <li>Expiry embedded in token to handle session logout</li>
+      <li>Spring’s HandlerInterceptorAdapter to verify X-AUTH-TOKEN for every request</li>
+      <li><a href="https://github.com/HackedByChinese/ng-idle">ng-idle</a> for client-side session timeout</li>
+    </ul>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// AuthInterceptor</span>
+<span class="k">return</span> <span class="p">{</span>
+    <span class="c1">// Add authorization token to headers</span>
+    <span class="na">request</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">config</span><span class="p">.</span><span class="nx">headers</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">headers</span> <span class="o">||</span> <span class="p">{};</span>
+        <span class="kd">var</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">localStorageService</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">token</span><span class="dl">'</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">token</span> <span class="o">&amp;&amp;</span> <span class="nx">token</span><span class="p">.</span><span class="nx">expires</span> <span class="o">&amp;&amp;</span> <span class="nx">token</span><span class="p">.</span><span class="nx">expires</span> <span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nx">config</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="dl">'</span><span class="s1">x-auth-token</span><span class="dl">'</span><span class="p">]</span> <span class="o">=</span> <span class="nx">token</span><span class="p">.</span><span class="nx">token</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">config</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Token expiry in service</span>
+<span class="nl">hasValidToken</span><span class="p">:</span> 
+<span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">token</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getToken</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">token</span> <span class="o">&amp;&amp;</span> <span class="nx">token</span><span class="p">.</span><span class="nx">expires</span> <span class="o">&amp;&amp;</span> <span class="nx">token</span><span class="p">.</span><span class="nx">expires</span> <span class="o">&gt;</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// Server token expiry interceptor</span>
+<span class="k">return</span> <span class="p">{</span>
+    <span class="na">responseError</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">401</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">localStorageService</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">'</span><span class="s1">token</span><span class="dl">'</span><span class="p">);</span>
+            <span class="nx">localStorageService</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="dl">'</span><span class="s1">username</span><span class="dl">'</span><span class="p">);</span>
+            <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Login expired. Please login again</span><span class="dl">'</span><span class="p">);</span>
+            <span class="nx">$location</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="dl">'</span><span class="s1">/login</span><span class="dl">'</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">$q</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+            </code></pre></figure>
+
+<ul>
+  <li>
+    <p><strong>Template for UI</strong> We opted to buy a <a href="https://themeforest.net/item/canvas-the-multipurpose-html5-template/9228123">template</a>
+ to make the site look pretty. 
+This was probably our biggest mistake of the project. Granted, all the static pages look great
+ with little effort, but when it comes to JavaScript based functionalities, it was painful to 
+ find and resolve issues as listed below. Better alternatives would have been to either buy a 
+ Angular based template or create site using plain old CSS.</p>
+  </li>
+  <li>
+    <p><strong>Template issue #1: JavaScript code size</strong> Default, out-of-the-box code for the template contains hundreds of files, all of which is imported. Unlike separate HTML files, all the JavaScript related code was in single JS file of 5000 lines of code!! 
+The functions within were so tightly integrated that it took me couple of days to remove unused code.</p>
+  </li>
+  <li>
+    <p><strong>Template issue #2: JQuery/JS w/ Angular</strong> The template was pure JS, JQuery one. Thus all the function calls 
+were based on assumption that page is already rendered by the time function is called. 
+ This didnt bode well for our Angular app which renders based on digest/eval <a href="https://www.sitepoint.com/understanding-angulars-apply-digest/">loop</a>. I had to find those functions and make them trigger after initial render.</p>
+  </li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$scope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="dl">'</span><span class="s1">ngRenderComplete</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">ngRepeatFinishedEvent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">SEMICOLON</span><span class="p">.</span><span class="nx">documentOnLoad</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+    <span class="nx">SEMICOLON</span><span class="p">.</span><span class="nx">documentOnReady</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="dl">'</span><span class="s1">$stateChangeSuccess</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">currentState</span><span class="p">,</span> <span class="nx">nextState</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$timeout</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">scrollTo</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+
+<span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="dl">'</span><span class="s1">$stateChangeStart</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">toState</span><span class="p">,</span> <span class="nx">toParams</span><span class="p">,</span> <span class="nx">fromState</span><span class="p">,</span> <span class="nx">fromParams</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">fromState</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">app.home</span><span class="dl">'</span> <span class="o">&amp;&amp;</span> <span class="nx">toState</span><span class="p">.</span><span class="nx">name</span> <span class="o">!==</span> <span class="dl">'</span><span class="s1">app.home</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">jQuery</span><span class="p">(</span><span class="dl">'</span><span class="s1">.tp-banner</span><span class="dl">'</span><span class="p">).</span><span class="nx">revkill</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">});</span></code></pre></figure>
+
+<ul>
+  <li><strong>OCZ Lazy Load</strong> Lazy load of JavaScript using <a href="https://github.com/ocombe/ocLazyLoad">oc.lazy-load</a> files which came in very handy with many pages of the app.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="dl">'</span><span class="s1">app.login</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/login</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">templateUrl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">tpl/login.html</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">controller</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LoginController</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">resolve</span><span class="p">:</span> <span class="nx">load</span><span class="p">([</span><span class="dl">'</span><span class="s1">js/controllers/login.js</span><span class="dl">'</span><span class="p">])</span> <span class="c1">// lazy load</span>
+<span class="p">})</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p><strong>Grunt</strong> This was quite painful since I created the GruntFile myself. Grunt is infamous for this very complexity. 
+I spent a week to get the below listed functions working. Most examples on StackOverflow/Internet are 
+using different versions or Express or NPM etc. 
+Since JS world is moving at a breakneck pace it was not an option to learn Gulp or Browserify or something else.</p>
+
+    <ul>
+      <li>Adding Proxy for tomcat</li>
+      <li>Building (filerev, uglify, minify etc)</li>
+      <li>Server</li>
+      <li>Live Reload</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Angular Datatables</strong> <a href="l-lin.github.io/angular-datatables/">This library</a> is a wrapper on famous <a href="https://datatables.net/">JS only datatables</a>. 
+It sufficed to provide sorting, searching, pagination, fixed header, scrolling etc.</p>
+  </li>
+</ul>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-search-2.png"><img src="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-search-2.png" /></a>
+</figure>
+
+<ul>
+  <li><strong>Dynamic Reports</strong> <a href="www.dynamicreports.org/">This library</a> is a wrapper over open source version of Jasper Reports. It helped us <a href="http://www.dynamicreports.org/examples/invoice">create invoices</a> in PDF format.</li>
+</ul>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-invoice.png"><img src="https://deepakvadgama.com/images/blog/sejalgems/sejalgems-invoice.png" /></a>
+</figure>
+
+<ul>
+  <li>
+    <p><strong>Apache POI</strong> <a href="https://poi.apache.org/">This library</a> helped us create excel based reports. There were numerous reports required for things like customers, orders, inventory, average pricing etc.</p>
+  </li>
+  <li>
+    <p><strong>Payment Gateway integration</strong> Writeup coming soon. Yet to implement.</p>
+  </li>
+</ul>
+
+<h3 id="list-of-functionalities">List of functionalities</h3>
+
+<ul>
+  <li>Login/Register</li>
+  <li>Home page for branding</li>
+  <li>Search/Results/Download-to-excel</li>
+  <li>Cart</li>
+  <li>Checkout/Enquiry</li>
+  <li>Invoice</li>
+  <li>Tracking delivery</li>
+  <li>Excel based Reports</li>
+  <li>Admin (to manage inventory, users/dealers, prices, delivery etc)</li>
+  <li>Misc (Google maps, general enquiry etc)</li>
+</ul>
+
+<h3 id="business-decisions">Business decisions</h3>
+
+<ul>
+  <li>
+    <p><strong>Delay for payment gateway</strong> The website creation started in first half of 2015, with UAT deployment in June. The client 
+wanted full payment gateway integration before we could make it live. 
+We suggested making the site live without it to start getting early feedback but client insisted on having it.
+The decision making and paperwork process took whole 6 months before we could resume working on the site again.</p>
+  </li>
+  <li>
+    <p><strong>Feedback</strong> This same delay also resulted a lengthy list of changes as feedback from the client. 
+I think we as developers have responsibility of helping customers understand the importance of Agile and its benefits. 
+Failing this, it becomes troublesome for both the parties involved.</p>
+  </li>
+</ul>
+
+<h3 id="learning">Learning</h3>
+
+<ul>
+  <li>After creating a subsequent project (post coming soon) completely based on Spring Boot and Hibernate, I regret 
+not using full power of Spring Boot in this project. I had to spend lot of time developing functionalities and fixing issues.</li>
+  <li>I also regret using template instead of creating site from basic components. It saved time initially, but 
+in the long run, was too time consuming.</li>
+  <li>On apositive note, I learned lot of new things like OC.Lazyload, diamond industry workings, Spring filters, Angular digest cycle etc.</li>
+</ul>
+:ET

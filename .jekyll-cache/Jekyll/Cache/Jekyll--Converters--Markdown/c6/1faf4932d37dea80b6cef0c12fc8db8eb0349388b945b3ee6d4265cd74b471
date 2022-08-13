@@ -1,0 +1,403 @@
+I"C#<p>I absolutely love working with Intellij IDEA. I switched from Eclipse to Intellij ~4 years ago and have never looked back. Its fast, smart and a boon for productivity. I endorse it profusely to my team (as if I am being paid money for it; I don’t). Yes, they all tease me about it :)</p>
+
+<p>I have created few videos of my most frequently used shortcuts. Hope it helps you.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLhfHPmPYPPRnVU4zAwkvolwSwVS7LC_5S" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen=""></iframe>
+
+<p><br /></p>
+
+<p>All the shortcuts discussed in the video are listed below. Printable PDF version can be <a href="https://deepakvadgama.com/downloads/Intellij_IDEA_shortcuts.pdf">downloaded here</a></p>
+
+<p>JetBrains’s list of suggested shortcuts can be found <a href="https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf">here</a> (PDF)</p>
+
+<h3 id="working-with-panels">Working with Panels</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Toggle Open/Close of Project Panel</td>
+      <td>Alt + 1</td>
+    </tr>
+    <tr>
+      <td>Toggle Open/Close of Run Panel</td>
+      <td>Alt + 4</td>
+    </tr>
+    <tr>
+      <td>Toggle Open/Close of Debug Panel</td>
+      <td>Alt + 5</td>
+    </tr>
+    <tr>
+      <td>Toggle Open/Close of Version Control Panel</td>
+      <td>Alt + 9</td>
+    </tr>
+    <tr>
+      <td>Take cursor back to Editor</td>
+      <td>Esc</td>
+    </tr>
+    <tr>
+      <td>Minimize current panel and take cursor back to Editor</td>
+      <td>Shift + Esc</td>
+    </tr>
+    <tr>
+      <td>Open Terminal</td>
+      <td>Alt + F12</td>
+    </tr>
+    <tr>
+      <td>Open Next Project Window</td>
+      <td>Alt + Ctrl + [</td>
+    </tr>
+    <tr>
+      <td>Open Previous Project Window</td>
+      <td>Alt + Ctrl + ]</td>
+    </tr>
+    <tr>
+      <td>Expand Bottom Panel Size</td>
+      <td>Ctrl + Shift + Up</td>
+    </tr>
+    <tr>
+      <td>Shrink Bottom Panel Size</td>
+      <td>Ctrl + Shift + Down</td>
+    </tr>
+    <tr>
+      <td>Expand Left Panel Size</td>
+      <td>Ctrl + Shift + Right</td>
+    </tr>
+    <tr>
+      <td>Shrink Left Panel Size</td>
+      <td>Ctrl + Shift + Left</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="working-with-files">Working with Files</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Open a class</td>
+      <td>Ctrl + N</td>
+    </tr>
+    <tr>
+      <td>Open a file</td>
+      <td>Ctrl + Shift + N</td>
+    </tr>
+    <tr>
+      <td>Open anything (class, file, symbol)</td>
+      <td>Double + Shift</td>
+    </tr>
+    <tr>
+      <td>Open Recent Files <br /> (partials, abbreviations and wildcards)</td>
+      <td>Ctrl + E</td>
+    </tr>
+    <tr>
+      <td>Open Recently Edited Files</td>
+      <td>Ctrl + Shift + E</td>
+    </tr>
+    <tr>
+      <td>Create new file/package.</td>
+      <td>Alt + Ins (within project panel)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="working-with-java-code">Working with Java Code</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Find Action</td>
+      <td>Ctrl + Shift + A</td>
+    </tr>
+    <tr>
+      <td>Open suggested solutions for errors</td>
+      <td>Alt + Enter</td>
+    </tr>
+    <tr>
+      <td>Move between errors</td>
+      <td>F2</td>
+    </tr>
+    <tr>
+      <td>Rename variable/method/class</td>
+      <td>Shift + F6</td>
+    </tr>
+    <tr>
+      <td>Autocomplete</td>
+      <td>Ctrl + Shift + Enter</td>
+    </tr>
+    <tr>
+      <td>Autocomplete suggestions</td>
+      <td>Ctrl + Space</td>
+    </tr>
+    <tr>
+      <td>Smart Autocomplete</td>
+      <td>Ctrl + Shift + Space</td>
+    </tr>
+    <tr>
+      <td>Comment / Uncomment</td>
+      <td>Ctrl + /</td>
+    </tr>
+    <tr>
+      <td>Extract Variable</td>
+      <td>Alt + Ctrl + V</td>
+    </tr>
+    <tr>
+      <td>Extract Field</td>
+      <td>Ctrl + Alt + F</td>
+    </tr>
+    <tr>
+      <td>Extract Method</td>
+      <td>Ctrl + Alt + M</td>
+    </tr>
+    <tr>
+      <td>To replace existing word instead of appending</td>
+      <td>Tab</td>
+    </tr>
+    <tr>
+      <td>Split into variable and declaration</td>
+      <td>Alt + Enter</td>
+    </tr>
+    <tr>
+      <td>Join lines.</td>
+      <td>Ctrl + Shift + J</td>
+    </tr>
+    <tr>
+      <td>Organize imports</td>
+      <td>Ctrl + Alt + O</td>
+    </tr>
+    <tr>
+      <td>Format code</td>
+      <td>Ctrl + Alt + L</td>
+    </tr>
+    <tr>
+      <td>Template for iterating</td>
+      <td>iter</td>
+    </tr>
+    <tr>
+      <td>Template for for-loop</td>
+      <td>fori</td>
+    </tr>
+    <tr>
+      <td>Template for main method</td>
+      <td>psvm</td>
+    </tr>
+    <tr>
+      <td>Templates for if null and if not null</td>
+      <td>ifn, inn</td>
+    </tr>
+    <tr>
+      <td>Templates for System.out and System.err print</td>
+      <td>sout, serr</td>
+    </tr>
+    <tr>
+      <td>Show Parameters</td>
+      <td>Ctrl + P</td>
+    </tr>
+    <tr>
+      <td>Navigate to declaration (variable) or open class</td>
+      <td>Ctrl + B</td>
+    </tr>
+    <tr>
+      <td>Show usages of class</td>
+      <td>Alt + Ctrl + F7</td>
+    </tr>
+    <tr>
+      <td>Override parent methods</td>
+      <td>Ctrl + O</td>
+    </tr>
+    <tr>
+      <td>Display all methods of class</td>
+      <td>Ctrl + F12 (press Ctrl + F12 again to show super class)</td>
+    </tr>
+    <tr>
+      <td>Move between methods</td>
+      <td>Alt + Up/Down arrow</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="text-editing">Text Editing</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Find Action</td>
+      <td>Ctrl + Shift + A</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>w/ New Scratch Buffer</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>w/ Change File Language</td>
+    </tr>
+    <tr>
+      <td>Format</td>
+      <td>Ctrl + Alt + L</td>
+    </tr>
+    <tr>
+      <td>Move one Word at a time</td>
+      <td>Ctrl + Left/Right</td>
+    </tr>
+    <tr>
+      <td>Delete one Word at a time</td>
+      <td>Ctrl + Backspace</td>
+    </tr>
+    <tr>
+      <td>Move line</td>
+      <td>Alt + Shift + Up/Down</td>
+    </tr>
+    <tr>
+      <td>Delete Line</td>
+      <td>Ctrl + Y</td>
+    </tr>
+    <tr>
+      <td>Duplicate Line</td>
+      <td>Ctrl + D</td>
+    </tr>
+    <tr>
+      <td>Join Lines</td>
+      <td>Ctrl + Shift + J</td>
+    </tr>
+    <tr>
+      <td>Clone Caret Below (custom shortcut)</td>
+      <td>Ctrl + Shift + X</td>
+    </tr>
+    <tr>
+      <td>Select Next occurrence</td>
+      <td>Alt + J</td>
+    </tr>
+    <tr>
+      <td>Select All occurrences</td>
+      <td>Ctrl + Shift + Alt + J</td>
+    </tr>
+    <tr>
+      <td>Expand Selection</td>
+      <td>Ctrl + W</td>
+    </tr>
+    <tr>
+      <td>Shrink Selection</td>
+      <td>Ctrl + Shift + W</td>
+    </tr>
+    <tr>
+      <td>Toggle Case</td>
+      <td>Ctrl + Shift + U</td>
+    </tr>
+    <tr>
+      <td>Find</td>
+      <td>Ctrl + F</td>
+    </tr>
+    <tr>
+      <td>Replace</td>
+      <td>Ctrl + R</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Alt + P to replace selected</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Alt + A to replace all</td>
+    </tr>
+    <tr>
+      <td>Find in Project</td>
+      <td>Ctrl + Shift + F</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>then Tab, then Enter to open</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="working-with-rundebug">Working with Run/Debug</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Shortcut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Run Menu</td>
+      <td>Ctrl + Shift + F10</td>
+    </tr>
+    <tr>
+      <td>Run last app</td>
+      <td>Shift + F10</td>
+    </tr>
+    <tr>
+      <td>Debug Menu</td>
+      <td>Ctrl + Shift + F9</td>
+    </tr>
+    <tr>
+      <td>Debug last app</td>
+      <td>Shift + F9</td>
+    </tr>
+    <tr>
+      <td>Toggle Breakpoint</td>
+      <td>Ctrl + F8</td>
+    </tr>
+    <tr>
+      <td>Continue execution (until next debug)</td>
+      <td>F9</td>
+    </tr>
+    <tr>
+      <td>Next statement</td>
+      <td>F8</td>
+    </tr>
+    <tr>
+      <td>Go inside method</td>
+      <td>F7</td>
+    </tr>
+    <tr>
+      <td>Restart</td>
+      <td>Ctrl + F5</td>
+    </tr>
+    <tr>
+      <td>Force Stop</td>
+      <td>Ctrl + F2</td>
+    </tr>
+    <tr>
+      <td>Reload</td>
+      <td>Ctrl + F9</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>That’s it. Learning about only ~80 shortcuts will help you code much much faster and you will hardly have to use the mouse.</p>
+
+<p>Start slow, maybe with 5 or 10 shortcuts and ramp up from there. If you forget a shortcut, use Ctrl + Shift + A to open <code class="highlighter-rouge">Action</code> window and type in your command instead of using the mouse.</p>
+
+<p>Slowly they all become muscle memory. I promise.</p>
+
+<p>Happy coding!</p>
+:ET

@@ -1,0 +1,115 @@
+I"�<figure>
+    <a href="https://deepakvadgama.com/images/blog/monolith.png"><img src="https://deepakvadgama.com/images/blog/monolith.png" /></a>
+</figure>
+
+<p>I worked as a Java developer on a trading system for close to 2 years.</p>
+
+<p>It was a fairly large project. The application connected to 5 different markets each with different API (XML, FIX, proprietary etc). To massage the trade, application had to access close 7 systems, outside our purview, to access reference data. The code base itself was around few hundred thousand lines of code.</p>
+
+<p>We faced lot of issues due to the monolithic nature of our architecture</p>
+
+<h2 id="code-maintenance">Code maintenance</h2>
+<p>It was easy to step on each other’s shoes when multiple developers access the same codebase. Creating branches can be helpful in such cases, but using Subversion (instead of Git) can make the merging complicated especially at scale.</p>
+
+<h2 id="build-and-deploy">Build and deploy</h2>
+<ul>
+  <li>Testing fixes in an environment, say UAT, required building entire codebase. For us, this meant 30 minutes of coffee break.</li>
+  <li>This did not scale well. 12 developers multi-tasking bug-fixes and features additions, lead to huge number of concurrent builds  (along with serious coffee addiction).</li>
+  <li>Deploying a complete fix, might accidentally deploy other developer’s partial fix. All the code needed to be checked-in atomically (which was difficult to enforce).</li>
+  <li>It became terribly important to know state of codebase, and schedule of building it; which meant lot of communication overhead within the team.</li>
+</ul>
+
+<h2 id="latency">Latency</h2>
+<ul>
+  <li>To reduce the latency of accessing external systems we wanted to cache reference data.</li>
+  <li>Was not possible with  32-bit Java (tell me about it!) i.e. 1.8GB heap space.</li>
+  <li>Alternative was to use external caching solutions, but our manager insisted on creating an in-house distributed cache, which we did (I’m sorry Redis, my hands were tied).</li>
+</ul>
+
+<p>These issues called for drastic change in architecture and processes. We had never heard the term microservices before, but that’s what we ended up with. If you are new to the term microservices, please read <a href="http://martinfowler.com/articles/microservices.html">Martin Fowler’s excellent introduction</a>.</p>
+
+<h2 id="from-monolith-to-microservices">From monolith to microservices</h2>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/microservices.png"><img src="https://deepakvadgama.com/images/blog/microservices.png" /></a>
+</figure>
+
+<h2 id="step-1-identify-independent-pieces-of-the-application">Step 1: Identify independent pieces of the application</h2>
+
+<ul>
+  <li>Break down application into components, each responsible for single unit of functionality. For us, it translated to ‘sub-system connecting to a single external system’</li>
+  <li>Create separate subversion (VCS) tree for each component</li>
+</ul>
+
+<p>Rejoice! No more codebase conflicts amongst developers. As a bonus, we started owning components instead of code packages.</p>
+
+<h2 id="step-2-expose-the-service">Step 2: Expose the service</h2>
+
+<ul>
+  <li>Expose functionality of that component as an API</li>
+  <li>Expose cache if service deals with data (we used our in-house <a href="https://deepakvadgama.com/projects/making-of-distributed-cache/">custom cache</a>)</li>
+  <li>Document the APIs in team wiki</li>
+</ul>
+
+<p>Now for any new code, developer can just refer to the API of dependent services, without worrying about the internals. Though deciding on the API itself should be a thorough process. Otherwise, dependent services may need to keep updating the code, to keep up with API changes.</p>
+
+<h2 id="step-3-make-service-discoverable">Step 3: Make service discoverable</h2>
+
+<ul>
+  <li>Avoid hardcoding configuration (host-port) values of dependent services</li>
+  <li>Instead, identify services with logical names</li>
+  <li>Expose this using service discovery tool like <a href="https://zookeeper.apache.org/">Zookeeper</a> (We used an in-house company-wide solution)</li>
+</ul>
+
+<p>Zookeeper might be an overkill for an application with limited scalability requirements and limited number of services. Alternative would be to create a well-known service, that provides configuration of other services.</p>
+
+<h2 id="step-4-data-exchange-format">Step 4: Data exchange format</h2>
+
+<p>We made a mistake of using <a href="https://github.com/EsotericSoftware/kryo">Kryo</a> as our serializer instead of JSON/XML. Having to maintain same version of JARs across the services proved difficult and we had to revamp our entire build system <a href="http://www.deepakvadgama.com/projects/build-automation">detailed in another post</a>.</p>
+
+<p>Alternative was to split the JAR (holding data classes) itself into multiple subsets, but it was not feasible at the time.</p>
+
+<p>Choosing serialization format can be tricky.</p>
+
+<h4 id="xml-or-json">XML or JSON</h4>
+<ul>
+  <li>Pros: Readable. Makes debugging easy. Backwards compatible.</li>
+  <li>Cons: Network overhead. Slow. Maintenance of serializer and deserializer every time a data class updates.</li>
+</ul>
+
+<h4 id="kryo-binary-format">Kryo (binary format)</h4>
+<ul>
+  <li>Pros: Concise. Fast.</li>
+  <li>Cons: Needs same version of POJO on both ends. Not backwards compatible. Debugging and replay of messages is difficult.</li>
+</ul>
+
+<h2 id="step-5-address-failure-of-services">Step 5: Address failure of services</h2>
+
+<ul>
+  <li>If a dependent services exposing cache is down, use stale cache (if use-case allows)</li>
+  <li>Preferably display it on the UI, so that trader/user is aware if certain data-set is stale or unavailable</li>
+  <li>Setup alerts for the dev/support team to rectify the issue</li>
+</ul>
+
+<h2 id="step-6-update-build-and-deploy-process">Step 6: Update build and deploy process</h2>
+
+<ul>
+  <li>Update build system to allow each service to be built and deployed independently</li>
+  <li>Since we used Kryo, if a POJO representing data was updated, we had to built all services using that POJO</li>
+</ul>
+
+<h2 id="miscellaneous">Miscellaneous:</h2>
+
+<ul>
+  <li>Microservices call for each service having its own database. We had a common database, though every service owned a subset of data (this addresses issues like eventual consistency).</li>
+  <li>Our most important piece of data was a trade object, which was owned by a single component for each market. This way we were able to skip distributed transactions entirely.
+    <ul>
+      <li>So a service would update the trade</li>
+      <li>Send it across to owning component (which was anyways required to communicate with the market)</li>
+      <li>Owning component would validate, persist the update, and distribute updated trade back to services/UI</li>
+    </ul>
+  </li>
+</ul>
+
+<p>In the end, the resultant architecture aka microservices, was lot more flexible, modular and maintainable. The processes became more streamlined and we started moving more swiftly as a team.</p>
+:ET

@@ -1,0 +1,144 @@
+I"� <p>Steps to install free SSL certificates using <a href="https://letsencrypt.org/">Lets Encrypt</a> on Google Cloud based Wordpress installation.</p>
+
+<p>All the paths below are based on assumption that you’ve used one-click-install Google Launcher version of <a href="https://cloud.google.com/launcher/solution/click-to-deploy-images/wordpress?q=Wordpress">Wordpress</a>. Also, in the steps below replace ‘balajiextrusions’ with your own site name</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Login to your Compute instance using SSH</p>
+
+<figure>
+     <a href="https://deepakvadgama.com/images/blog/ssh-compute-instance.png"><img src="https://deepakvadgama.com/images/blog/ssh-compute-instance.png" /></a>
+ </figure>
+
+<p>Change to super user</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>su</code></pre></figure>
+
+<p>Install git if absent</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git <span class="nt">--version</span></code></pre></figure>
+
+<p>If for above, it says command not found then run the following</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>apt-get <span class="nb">install </span>git</code></pre></figure>
+
+<p>Clone the letsencrypt github repo</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git clone https://github.com/letsencrypt/letsencrypt  
+<span class="nv">$ </span><span class="nb">cd </span>letsencrypt</code></pre></figure>
+
+<p>Run the SSL certificate command</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>./letsencrypt-auto <span class="nt">--apache</span> <span class="nt">-d</span> balajiextrusions.com <span class="nt">-d</span> www.balajiextrusions.com</code></pre></figure>
+
+<p>The above command will guide you through the steps (will ask for email and other details).</p>
+
+<p>If it asks to select the .conf file, select <code class="highlighter-rouge">default-ssl.conf</code></p>
+
+<h2 id="error-in-selecting-ssl-conf-file">Error in selecting ssl conf file</h2>
+
+<p>In my case, after selection it gave error similar to <code class="highlighter-rouge">server name not found</code>.  I reselected the same <code class="highlighter-rouge">default-ssl.conf</code> file couple of times and that error went away.</p>
+
+<p>It expects ServerName to be present in default-ssl.conf. I am not sure whats the purpose of this field. Anyways, I was able to work through the problem without adding ServerName.</p>
+
+<h2 id="error-in-installation">Error in installation</h2>
+
+<p>After the installation you might see this error</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go">No vhost exists with servername or alias of: maybe.isnot.org. No
+vhost was selected. Please specify servernames in the Apache config
+Error while running a2dismod socache_shmcb.
+ERROR: The following modules depend on socache_shmcb and need to be
+disabled first: ssl
+Unable to run undo command: a2dismod socache_shmcb
+Error while running a2dismod mime.
+WARNING: The following essential module will be disabled.
+This might result in unexpected behavior and should NOT be done
+unless you know exactly what you are doing!
+To continue type in the phrase 'Yes, do as I say!' or retry by
+passing '-f': Aborting
+Unable to run undo command: a2dismod mime
+    </span></code></pre></figure>
+
+<p>I faced this error too. Don’t worry, lets remedy that using a manual step.</p>
+
+<p>Open default-ssl.conf file</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>nano /etc/apache2/sites-available/default-ssl.conf </code></pre></figure>
+
+<p>Add the lines from <code class="highlighter-rouge">DocumentRoot</code> until <code class="highlighter-rouge">&lt;/Directory&gt;</code> at appropriate position</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;IfModule</span> <span class="err">mod_ssl.c</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;VirtualHost</span> <span class="err">_default_:443</span><span class="nt">&gt;</span>
+                ServerAdmin webmaster@localhost
+                DocumentRoot /var/www/html
+                <span class="nt">&lt;Directory</span> <span class="err">/var/www/html</span><span class="nt">&gt;</span>
+                 AllowOverride All
+                 <span class="nt">&lt;IfModule</span> <span class="err">mod_rewrite.c</span><span class="nt">&gt;</span>
+                   RewriteEngine On
+                   RewriteBase /
+                   RewriteRule ^index\.php$ - [L]
+                   RewriteCond %{REQUEST_FILENAME} !-f
+                   RewriteCond %{REQUEST_FILENAME} !-d
+                   RewriteRule . /index.php [L]
+                 <span class="nt">&lt;/IfModule&gt;</span>
+                <span class="nt">&lt;/Directory&gt;</span></code></pre></figure>
+
+<h2 id="redirect-all-http-links-to-https">Redirect all http links to https</h2>
+
+<p>Open default-ssl.conf file</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">sudo </span>nano /etc/apache2/sites-available/default-ssl.conf</code></pre></figure>
+
+<p>Add new VirtualHost tag as below, after existing VirtualHost tag and before &lt;/IfModule&gt;</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">            <span class="nt">&lt;/VirtualHost&gt;</span>
+            <span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
+                ServerName balajiextrusions.com
+                Redirect permanent / https://balajiextrusions.com/
+            <span class="nt">&lt;/VirtualHost&gt;</span>
+    <span class="nt">&lt;/IfModule&gt;</span></code></pre></figure>
+
+<h2 id="wordpress-configuration">Wordpress configuration</h2>
+
+<p>Ensure all Wordpress permalinks follow https by changing URL in Wordpress Admin -&gt; Settings -&gt; General</p>
+
+<figure>
+     <a href="https://deepakvadgama.com/images/blog/https-wordpress-config.png"><img src="https://deepakvadgama.com/images/blog/https-wordpress-config.png" /></a>
+ </figure>
+
+<p>Note: Once URL is updated and apache is restarted, your wordpress admin URL will change from IP based (xxx.xx.xx.xx/wp-admin) to domain based (balajiextrusions.com/wp-admin)</p>
+
+<h2 id="restart-apache">Restart apache</h2>
+
+<p>Restart apache service for changes to take effect</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>service apache2 restart</code></pre></figure>
+
+<h2 id="certificate-auto-renewal">Certificate auto-renewal</h2>
+
+<p>LetsEncrypt certificate expire every 90 days. So schedule cronjob to auto-renew it say every month.</p>
+
+<p>Open crontab</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>crontab <span class="nt">-e</span></code></pre></figure>
+
+<p>Add this line to the file (update your letsencrypt directory path as applicable)</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="go"> 0 0 1 * * /home/vadgama_deepak/letsencrypt/letsencrypt-auto certonly --webroot -w /var/www/html -d balajiextrusions.com -d www.balajiextrusions.com --renew-by-default</span></code></pre></figure>
+
+<p>This new command is saved to a temp file (it will ask you for location), and then add it to <a href="http://unix.stackexchange.com/a/197506">actual cron</a></p>
+
+<h2 id="confirm-and-rejoice">Confirm and rejoice</h2>
+
+<figure>
+     <a href="https://deepakvadgama.com/images/blog/https-balajiextrusions-site.png"><img src="https://deepakvadgama.com/images/blog/https-balajiextrusions-site.png" /></a>
+ </figure>
+
+<p>That’s it. You are done. Enjoy free https.</p>
+
+<p>Feel free to comment if you need any help with above steps.</p>
+
+<p><strong>Update (July 2016)</strong>: The steps listed below still work but are outdated. LetsEncrypt now recommends <a href="https://certbot.eff.org">Certbot</a> which is super easy to install and use. 
+It auto creates the certificates and also deals with renewals.</p>
+:ET

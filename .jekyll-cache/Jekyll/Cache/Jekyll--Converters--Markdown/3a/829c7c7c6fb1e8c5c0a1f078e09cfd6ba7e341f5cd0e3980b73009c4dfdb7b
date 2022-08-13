@@ -1,0 +1,119 @@
+I"~<p>One fine day in 2013, I received a call from an ex-colleague about an opportunity. It was an invitation to work on a startup. It was exciting to say the least.</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/0Q2v2BeCb8o" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="idea">Idea</h2>
+<p>The idea was to connect users to small businesses and individual contractors (eg: carpenters, cake shop etc) using a chat based app. The startup was formed by <a href="https://www.linkedin.com/in/aharshil">Harshil Shah</a> and <a href="https://www.linkedin.com/in/timosteitz">Timo Steiz</a> (who also runs <a href="http://shoesize.me">shoesize</a>). They had just finished their MBA in Spain and were planning on this idea to launch in Barcelona. The revenue model was to charge small amount from the businesses on every lead generation. Here is the <a href="https://drive.google.com/open?id=0BwwLZCExviQsNHpQcVN4MzRQWlhVR1FuYV95ZmlndnAzYi1n">presentation/pitch</a>.</p>
+
+<p>There are now quite a few startups with same idea like <a href="www.housejoy.in/home_services‎">HouseJoy</a> and <a href="https://www.urbanclap.com/">UrbanClap</a>.  From the other end, popular chat applications like <a href="http://thenextweb.com/facebook/2015/12/02/facebook-now-lets-you-chat-with-businesses-via-messenger-on-their-website/#gref">Facebook Messenger</a> and <a href="https://techcrunch.com/2016/08/25/whatsapp-plans-to-let-businesses-on-to-its-service-before-the-end-of-the-year/">WhatsApp</a> have started to onboard businesses, entering the same space.</p>
+
+<h2 id="team">Team</h2>
+<p>The team comprised of 2 co-founders Harshil &amp; Timo, and 2 developers Bhavik and myself. We hired few interns for marketing but they were temporary hires working only for a short duration. We (developers) were promised a generous share of the startup at 12.5% a piece.</p>
+
+<h2 id="my-role">My Role</h2>
+<p>My role was to create and drive the entire product (which was a mobile optimized web application). I setup the project environment, created the core flows (authentication, db connectivity, etc). After this me and Bhavik split up the work on functionalities like signup, login etc. Post that I created the chat flows and optimized website for mobile.</p>
+
+<h2 id="tech-team">Tech Team</h2>
+<p>Bhavik is a Database Developer (Oracle) and was not well versed with Java or with AngularJS back then. I helped him learn both, by spending lot of time walking him through the live code. All the effort was completely worth it. He is quite hard working and we complement each other nicely. We still work together on other projects. We communicated almost everyday (hangouts was more than handy) and worked late hours and weekends (we both were working on full-time jobs). This development phase which lasted more than 8 months was the deceptively most exciting.</p>
+
+<h2 id="tech-stack">Tech stack</h2>
+<ul>
+  <li>Servlets API on Tomcat (I know, we did not even use Spring).</li>
+  <li>MongoDB</li>
+  <li>AngularJS (1.x)</li>
+  <li>Bootstrap</li>
+</ul>
+
+<h2 id="functionalities">Functionalities</h2>
+
+<h3 id="easy">Easy</h3>
+<p>Once the Angular and Servlets core flows were set up, implementing these flows was quite easy.</p>
+
+<ul>
+  <li>Static Website</li>
+  <li>Login, Signup, Forgot Password - Including for Businesses</li>
+  <li>Notification to business about new chat</li>
+  <li>Enquiry</li>
+</ul>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/chat2get/home.png">
+   <img src="https://deepakvadgama.com/images/blog/chat2get/home.png" />
+ </a>
+</figure>
+
+<h3 id="moderate">Moderate</h3>
+
+<ul>
+  <li><strong>Search</strong> - Searching within MongoDB using Java services.</li>
+  <li><strong>Auto complete</strong> - We used Twitter’s <a href="https://twitter.github.io/typeahead.js/examples/">typeahead</a></li>
+  <li><strong>Multiple languages</strong> - <a href="http://github.com/PascalPrecht/angular-translate">3rd party translate library</a>.</li>
+  <li><strong>Auth token</strong> - Used UUID sent from server and <a href="https://docs.angularjs.org/api/ngCookies/service/$cookies">Angular cookies</a> to save on UI</li>
+</ul>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/chat2get/search-results.png">
+   <img src="https://deepakvadgama.com/images/blog/chat2get/search-results.png" />
+ </a>
+</figure>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/chat2get/home-lang2.png">
+   <img src="https://deepakvadgama.com/images/blog/chat2get/home-lang2.png" />
+ </a>
+</figure>
+
+<h3 id="hard">Hard</h3>
+
+<ul>
+  <li>
+    <p><strong>Chat</strong> - Push messaging was not famous yet, there were limited browser support solutions like <a href="">socket.io</a>. We completely missed <a href="https://firebase.google.com">Firebase</a>. It could have saved us almost 1-2 months. We had to implement messaging using polling (gap of 3 seconds). Two polling channel, one for number of chats (which also handled any new unread messages) and other for latest messages within the active chat.</p>
+  </li>
+  <li>
+    <p><strong>Mobile site</strong> - Bootstrap is quite handy though adding mobile specific css later is quite time consuming.</p>
+  </li>
+</ul>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/chat2get/user-chat.png">
+   <img src="https://deepakvadgama.com/images/blog/chat2get/user-chat.png" />
+ </a>
+</figure>
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/chat2get/mobile-combine2.png">
+   <img src="https://deepakvadgama.com/images/blog/chat2get/mobile-combine2.png" />
+ </a>
+</figure>
+
+<h2 id="startup-struggles">Startup struggles</h2>
+<p>The struggle part can be fun, sitting in a dark corner creating the product, fascinating about the millions who would use it eventually. We took more than 8 months to create product and even more months to launch it and try and signup the businesses.</p>
+
+<p>The tech team had constant friction with the co-founders who wanted the product to be as polished as possible, while we (developers) had been working for close to a year working on the product and wanted to launch it ASAP.</p>
+
+<h2 id="marketing">Marketing</h2>
+<p>It was a chicken and egg problem for the product to take off. Without enough users it was difficult to onboard businesses. Without businesses, product would not be used by customers. We hired few interns to for door-to-door marketing (onboarding businesses) in Barcelona but we couldn’t gather enough. Harshil moved to Hong Kong and we decided to launch the product there but same underlying issues ensured it never took off.</p>
+
+<h2 id="doctivede---another-opening">Doctive.de - Another opening</h2>
+<p>We got another opportunity to progress the platform when a german company started by German doctors asked to create a prototype of our product for them. They wanted to use our product to connect Medical Practitioners with Doctors. We charged a reasonable amount and rebranded the app for them. Alas, they never replied back.</p>
+
+<figure>
+ <a href="https://deepakvadgama.com/images/blog/chat2get/doctive-home.png">
+   <img src="https://deepakvadgama.com/images/blog/chat2get/doctive-home.png" />
+ </a>
+</figure>
+
+<h2 id="startup-learnings">Startup Learnings</h2>
+
+<p>As you might have guessed, the startup did not pan out. There wasn’t any traction with the users and we didn’t do much to onboard the businesses. I learned a few important lessons.</p>
+
+<ul>
+  <li>Launch first polish later.</li>
+  <li>Fail early.</li>
+  <li>Learn to say no to inconsequential changes which demand too much effort.</li>
+  <li>Discuss and decide the time lines and targeted milestones.</li>
+  <li>Automate build, deploy, rollback.</li>
+  <li>Seek existing (open-source) solutions for complex technical problems.</li>
+  <li>Low friction within tech team works wonders.</li>
+</ul>
+
+:ET

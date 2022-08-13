@@ -1,0 +1,85 @@
+I"8<p>Since March 2017, I have been working with one of the largest financial institutions in the world, as an Associate VP.
+Contrary to my prior stints working with large enterprises, this one has been surprisingly delightful so far. 
+Its mostly thanks to a small, independent &amp; wonderful team, and a very supportive manager.</p>
+
+<h3 id="the-product">The Product</h3>
+
+<p>We own the ‘Search’ component of a public facing website</p>
+
+<ul>
+  <li>4 developers</li>
+  <li>~100k unique visitors a month</li>
+  <li>1.3 million searches a month</li>
+  <li>4 tomcats across 2 data centers in hot-hot config</li>
+  <li>Apache as reverse proxy (security, load-balancing, URL mapping etc.)</li>
+  <li>Oracle/Cassandra (used as config store)</li>
+</ul>
+
+<p>In the early part of the product’s life, it was mandated to have entire code flow dynamic. All changes were driven 
+through configuration. It was a monolith, which meant deploying any change required down-time.  By the time I joined, the monolithic system was being decoupled into components. As of today, we share our Tomcat with only one other component.</p>
+
+<p>I was able to push further towards simplicity, higher tooling and use of out-of-the-box components. 
+This was also largely aided by management push to go agile/cloud-native (Thank you Amazon for scaring all the banks into it).</p>
+
+<h3 id="spring-boot-migration">Spring Boot Migration</h3>
+
+<p>When I joined, the Java code was pure servlet based. Using web.xml for URL mapping, reading parameters from headers manually, 
+ a single (3000 line) class to manage dependencies (read: too much boilerplate). It wasn’t ideal. 
+I was already a big fan of <a href="http://www.deepakvadgama.com/blog/spring-boot-wonders/">Spring Boot</a>.
+I requested to migrate entire code-base (~110k LoC) to Spring Boot.</p>
+
+<p>The migration took ~1.5 months (including test cases, integration testing, merging etc.). The migrated code-base was ~90k LoC. The code was much smaller, more manageable and more readable. I also undertook internal session on advantages of using Spring Boot.</p>
+
+<h3 id="culture">Culture</h3>
+
+<p>AS developers we get too comfortable using existing tools. This is especially true in the enterprise. 
+I pushed for using libraries like <a href="http://projects.spring.io/spring-data/">Spring Data</a>, 
+<a href="http://joel-costigliola.github.io/assertj/">AssertJ</a> (excellent assertion library), <a href="https://github.com/square/okhttp/tree/master/mockwebserver">Mock Web Server</a>, <a href="http://square.github.io/retrofit/">Retrofit</a> (http client), <a href="https://github.com/google/guava">Guava</a> (for using time-based cache) and such. 
+I am really grateful my team is far from stubborn. They all understood that these tools/libraries can hugely benefit us.</p>
+
+<p>We are still away from the ideal setup though. 
+We are using Java 7 (so no lambdas), and create a WAR to deploy on Tomcat (which makes using Spring Boot Dev Tools difficult).</p>
+
+<p>There is also culture of ‘what if in the future’ which affects a lot of code we write. Especially pushing for things to be dynamic and config driven. 
+This unnecessarily complicates the code, and in 9 months I am with this team, we have <strong>never</strong> updated a single config in production. With microservices and continuous deploys, I don’t see the need for this.</p>
+
+<p>I am also a big fan of <a href="https://www.jetbrains.com/idea/">Intellij IDEA</a>. I have learned most of its shortcuts and hardly use mouse with it, which also generated interest in my team to switch from Eclipse.</p>
+
+<h3 id="sessions">Sessions</h3>
+
+<p>Ofcourse changing this culture requires little persuasion. I hosted multiple internal sessions to help everyone understand the advantages of using these tools/libraries.</p>
+
+<ul>
+  <li><a href="http://www.deepakvadgama.com/blog/spring-boot-wonders/">Spring Boot</a></li>
+  <li><a href="https://drive.google.com/open?id=17wuWZCs_2DIUkMrORLXIJ615t5Tht08oYim4ztM1NGc">Git</a></li>
+  <li><a href="https://github.com/DeepakVadgama/java-testing">Testing in Java</a></li>
+  <li><a href="https://drive.google.com/open?id=199HgvWRtoZLoqzsuOL-hG8sm_r6vvXWB2rrl-9HdbIQ">Basics of Hadoop</a></li>
+  <li><a href="https://drive.google.com/open?id=1FKo5EJF4XIYATJVYA6foU4gYJobgF0ICQQjVKEMGKns">Introduction to Cloud Computing</a></li>
+  <li>Jules Pipeline (Continuous Integration &amp; Deployments)</li>
+</ul>
+
+<h3 id="symphony-chatbot">Symphony chatbot</h3>
+
+<p>I developed a ‘Search’ chatbot based on <a href="https://symphony.com/">Symphony platform</a>. 
+Unfortunately, most of the details of the platform API were abstracted by our internal proprietary layer.
+For each chat-message aka query, the bot retrieved results from REST API (which I built separately) and displayed results.</p>
+
+<p>Having a single thread for all requests was a perfect use-case for using <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html">CompletableFuture</a>.
+In addition to offloading the task off the thread, it made the code much more readable.</p>
+
+<p>There are very limited number of users searching on the platform. We plan to use NLP in the future (for understanding user queries) if the platform usage picks up.</p>
+
+<h3 id="faster-development">Faster development</h3>
+
+<p>Using Spring Profiles and offloading the startup caches on a Scheduled Executor, I was able to bring down the server startup time
+<strong>from 5 minutes to 20 seconds</strong>. 4 developers and multiple restarts per day meant huge time savings.<br />
+Hopefully in the future we will use <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html">Spring Boot Dev Tools</a> and avoid this restart altogether.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>It is very important to have a good team with sufficient independence and management support (the world is on fire due to DevOps and ‘Silicon Vally is coming’ scare helps too).</p>
+
+<p>On a personal note, its deeply rewarding to mentor a team, witness improvements, feel appreciated and deliver solutions at a healthy clip.</p>
+
+<p>On the other hand, one day I wish to work in a great team where I’m the least nerdy/quirky/knowledgeable one. With the right culture, that’s the best environment to learn, which itself is highly rewarding. I also miss working on solutions which can have much larger and positive impact.</p>
+:ET

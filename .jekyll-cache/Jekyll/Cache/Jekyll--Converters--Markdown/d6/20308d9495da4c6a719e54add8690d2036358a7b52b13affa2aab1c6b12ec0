@@ -1,0 +1,90 @@
+I"A<figure>
+    <a href="https://deepakvadgama.com/images/blog/balaji-site.png"><img src="https://deepakvadgama.com/images/blog/balaji-site.png" /></a>
+</figure>
+
+<p>I recently created a Wordpress based website <a href="http://balajiwires.in">Balaji Wires</a>. It was one of my first projects as a freelancer/consultant.</p>
+
+<h2 id="wordpress-installation-mess">Wordpress installation mess</h2>
+<p>It took me 2 days to get Wordpress working on my desktop (Linux Mint). Ironic, considering Wordpress promises installation in <a href="http://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Install">5 minutes</a>. 
+Turns out, the Wordpress available in Ubuntu repositories is outdated and its <a href="https://help.ubuntu.com/community/WordPress">guide</a> is no help either.
+Found his guide by <a href="digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04">Digital Ocean</a>, which is exceptionally crisp and accurate. 
+With this, installation was done in less than 15 minutes.</p>
+
+<h2 id="wordpress">Wordpress</h2>
+<p>Wordpress excels in addressing usual suspects of setting up a website. All these were relatively easy to setup.</p>
+
+<ul>
+  <li><a href="www.wpbeginner.com/beginners-guide/how-to-install-google-analytics-in-wordpress/">Google Analytics</a></li>
+  <li><a href="https://wordpress.org/plugins/w3-total-cache/">Caching</a></li>
+  <li><a href="https://deepakvadgama.com/blog/letsencrypt-gcloud-wordpress/">Free HTTPS</a></li>
+  <li>Email - <a href="https://wordpress.org/plugins/postman-smtp/">Plugin</a> and <a href="https://cloud.google.com/compute/docs/tutorials/sending-mail/using-sendgrid">Sendgrid on Google Cloud</a></li>
+  <li><a href="https://codex.wordpress.org/Settings_Permalinks_Screen">Permalinks</a></li>
+  <li><a href="https://ultimate.brainstormforce.com/">Brainstorm Widgets</a></li>
+  <li><a href="https://vc.wpbakery.com/">Visual Composer</a></li>
+  <li><a href="https://codex.wordpress.org/Child_Themes">Child theme</a> to allow easy updates of theme.</li>
+</ul>
+
+<h2 id="theme">Theme</h2>
+<p>Even though the website did not feature a blog, I chose a theme so as to minimize the effort in creating a beautiful looking site.
+I chose <a href="http://themeforest.net/item/porto-responsive-wordpress-woocommerce-theme/9207399?s_rank=3">Porto theme</a> and it was a big learning for me. 
+ I had to muck around a lot to resolve simple issues (compounded by my lack of Wordpress experience).</p>
+
+<ul>
+  <li>My learning: Choose a theme with a lot of sales like <a href="http://themeforest.net/item/avada-responsive-multipurpose-theme/2833226?s_rank=1">Avada</a> or <a href="http://themeforest.net/item/x-the-theme/5871901?s_rank=2">X-Theme</a>.</li>
+  <li>Porto sales = ~4,500, X Theme sales = ~95,000, Avada sales = ~200,000!</li>
+  <li>Higher sales = Good standard documentation</li>
+  <li>Higher sales = Lot of indirect documentation in form of Q&amp;A from other buyers and YouTube videos.</li>
+  <li>Higher sales = Most of the edge case issues have been ironed out.</li>
+</ul>
+
+<h2 id="performance">Performance</h2>
+<p>Out of the box performance of the theme was not good. Even after adding <a href="https://wordpress.org/plugins/w3-total-cache/">cache</a>, the <a href="http://www.webpagetest.org/result/160407_TH_BZ4/">speed test was horrible</a>.
+ This is purely due to large number of JavaScript files (thanks to the Theme) and large number of images. There are a few options to fix this.</p>
+
+<ul>
+  <li>Optimize cache settings on the <a href="https://wordpress.org/plugins/w3-total-cache/">plugin</a></li>
+  <li>Use proxy servers like <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-nginx-on-ubuntu-14-04">nginx</a>, <a href="https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04">apache</a> or <a href="http://code.tutsplus.com/tutorials/optimizing-wordpress-with-varnish-and-w3-total-cache--cms-21136">varnish</a></li>
+  <li>Use HTTP2 on top</li>
+</ul>
+
+<h2 id="image-editing-marathon">Image editing marathon</h2>
+<p>60% of my time on this project ended up being spent on editing the images. 
+Though thanks to that I learned <a href="https://www.gimp.org/">Gimp</a> a bit and found this amazing tool called <a href="http://imagemagick.org/">ImageMagick</a>.
+Few operations/aspects of these tools I learned are:</p>
+
+<h3 id="gimp">Gimp</h3>
+
+<ul>
+  <li><a href="https://www.gimp.org/tutorials/GIMP_Quickies/">Image resize</a> and <a href="https://docs.gimp.org/en/gimp-image-resize.html">Canvas select a.ka. Crop</a></li>
+  <li><a href="https://docs.gimp.org/en/plug-in-colortoalpha.html">Transparent background</a></li>
+  <li><a href="https://docs.gimp.org/en/gimp-tools-selection.html">Excellent Selection tools</a> - By selection, by color, by fuzzy logic its all here.</li>
+  <li><a href="https://docs.gimp.org/en/gimp-image-combining.html">Layers</a></li>
+  <li><a href="https://docs.gimp.org/en/gimp-concepts-gradients.html">Gradient</a></li>
+  <li><a href="https://docs.gimp.org/en/gimp-tool-clone.html">Clone</a> and <a href="https://docs.gimp.org/en/gimp-tool-eraser.html">Erase</a></li>
+  <li>Export as PNG to retain transparent background. JPEG does not support it.</li>
+</ul>
+
+<h3 id="imagemagick">ImageMagick</h3>
+
+<ul>
+  <li><a href="https://www.imagemagick.org/discourse-server/viewtopic.php?t=21454">Bulk Edit</a> - Most time saving aspect of this tool.</li>
+  <li><a href="http://imagemagick.org/Usage/thumbnails/#pad">Padding</a></li>
+  <li>Command line based.</li>
+  <li>Wicked fast.</li>
+</ul>
+
+<h2 id="client-communication">Client communication</h2>
+
+<ul>
+  <li>Clients are very visual. Agile methodology of customer involvement and splitting work in multiple phases is critical.</li>
+  <li>Its better to coordinate with only 1 point of contact if working for a client company.</li>
+  <li>Though, as happened with me, chances are, at latter stages once other folks will have feedback and that will have to be incorporated too.</li>
+  <li>Emailing work to your clients is not enough. 
+ You have to be physically be there to walk them through, otherwise the emails are mostly ignored or replied to very late.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Project lasted much longer than I anticipated. Most of this time was consumed in image editing. 
+  Wordpress &amp; the theme had some learning curve, though very handy once learned. 
+ All in all, lot of learning. That makes me happy!</p>
+:ET

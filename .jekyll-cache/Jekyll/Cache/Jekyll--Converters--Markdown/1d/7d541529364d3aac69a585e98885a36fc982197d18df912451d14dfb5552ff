@@ -1,0 +1,126 @@
+I"�%<p>I have been working on an existing Spring MVC application with relatively large codebase. 
+It became important to reduce the time taken to redeploy the WAR with code change. There is an easy though multi-step solution for this. 
+This article details these steps. There are also multiple alternatives to this flow, listed at the end of the article.</p>
+
+<p>Steps for single step ‘compile, build war, deploy and reload’ war to Tomcat using Maven:</p>
+
+<h2 id="tomcat-manager">Tomcat Manager</h2>
+<p>Tomcat comes bundled with web-app called <a href="https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html">manager</a> which allows us to check and deploy applications to Tomcat using URL. 
+Ensure that tomcat/webapps/manager directory is present. If not available, download fresh version of Tomcat from <a href="">here</a></p>
+
+<h2 id="setup-tomcat-user">Setup Tomcat User</h2>
+<p>For security reasons by default users do not have access to Manager application. 
+To gain access add a user in tomcat/conf/tomcat-users.xml file. Update username/password to your liking</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;user</span> <span class="na">username=</span><span class="s">"tomcat"</span> <span class="na">password=</span><span class="s">"tomcat"</span> <span class="na">roles=</span><span class="s">"admin,manager,manager-gui,manager-script"</span><span class="nt">/&gt;</span></code></pre></figure>
+
+<h2 id="add-same-credentials-to-maven">Add same credentials to Maven</h2>
+<p>Since we will use maven to deploy to tomcat and we are not going to hardcode the username-password in our pom.xml, 
+let us create a server tag in maven/conf/settings.xml file (do ensure IDE is using same maven settings xml). 
+Ensure same username, password as above. Change id value to you liking.</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;servers&gt;</span>
+  <span class="nt">&lt;server&gt;</span>
+    <span class="nt">&lt;id&gt;</span>Tomcat<span class="nt">&lt;/id&gt;</span>
+    <span class="nt">&lt;username&gt;</span>tomcat<span class="nt">&lt;/username&gt;</span>
+    <span class="nt">&lt;password&gt;</span>tomcat<span class="nt">&lt;/password&gt;</span>
+  <span class="nt">&lt;/server&gt;</span>
+<span class="nt">&lt;/servers&gt;</span></code></pre></figure>
+
+<h2 id="setup-tomcat-maven-plugin">Setup tomcat maven plugin</h2>
+<p>Add tomcat maven plugin to your application’s pom.xml. 
+This will allow us to trigger manager url (localhost:8080/manager) to deploy our war. 
+Update context path (/salesmanager) based on your application, and server id defined in maven’s setting.xml.
+context path is typically same as name of your WAR.
+A common mistake is to forget the ‘text’ string after the url, or use html instead. Be careful.</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;plugin&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.apache.tomcat.maven<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>tomcat7-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;url&gt;</span>http://localhost:8080/manager/text<span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;path&gt;</span>/salesmanager<span class="nt">&lt;/path&gt;</span>
+        <span class="nt">&lt;server&gt;</span>Tomcat<span class="nt">&lt;/server&gt;</span>
+    <span class="nt">&lt;/configuration&gt;</span>
+ <span class="nt">&lt;/plugin&gt;</span></code></pre></figure>
+
+<h2 id="run-tomcatdeploy-task">Run tomcat:deploy task</h2>
+
+<p>Since we added this new plugin, your IDe should download this automatically and show corresponding tasks available.
+Ensure tomcat is started and the run task ‘tomcat:redeploy’ from Maven Projects window and check console for corresponding status</p>
+
+<figure>
+     <a href="https://deepakvadgama.com/images/blog/maven-tasks-tomcat.png"><img src="https://deepakvadgama.com/images/blog/maven-tasks-tomcat.png" /></a>
+ </figure>
+
+<figure>
+      <a href="https://deepakvadgama.com/images/blog/maven-tomcat-redeploy.png"><img src="https://deepakvadgama.com/images/blog/maven-tomcat-redeploy.png" /></a>
+  </figure>
+
+<p>If all goes well, WAR will be redeployed and will be reflected on browser http://localhost:8080/you-context-path; in this case http://localhost:8080/salesmanager</p>
+
+<p>For good measure add shortcut to this tomcat task to avoid opening Maven task window, finding and clicking the same task repeatedly.</p>
+
+<h2 id="war-size-limit">WAR size limit</h2>
+<p>You might face FileSizeLimitExceeded exception while deploying the application. 
+This is because WAR size is greated than acceptable limit. 
+There are 2 reasons this might happen either http post doesn’t allow it or manager web-app is refusing.</p>
+
+<p>Update maxSwallowSize and connectionTimeout in tomcat/conf/server.xml</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;Connector</span> <span class="na">port=</span><span class="s">"8080"</span> <span class="na">protocol=</span><span class="s">"HTTP/1.1"</span>
+            <span class="na">connectionTimeout=</span><span class="s">"20000"</span>
+            <span class="na">maxSwallowSize=</span><span class="s">"100000000"</span>
+            <span class="na">redirectPort=</span><span class="s">"8443"</span> <span class="nt">/&gt;</span></code></pre></figure>
+
+<p>Update/Validate file size limit in tomcat/webapps/manager/WEB-INF/web.xml. 
+Note this step is only if you are using html manager interface (http://localhost:8080/manager/text), while we are using text interface (http://localhost:8080/manager/text).</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;multipart-config&gt;</span>
+   <span class="c">&lt;!-- 80MB max --&gt;</span>
+   <span class="nt">&lt;max-file-size&gt;</span>80428800<span class="nt">&lt;/max-file-size&gt;</span>
+   <span class="nt">&lt;max-request-size&gt;</span>80428800<span class="nt">&lt;/max-request-size&gt;</span>
+   <span class="nt">&lt;file-size-threshold&gt;</span>0<span class="nt">&lt;/file-size-threshold&gt;</span>
+ <span class="nt">&lt;/multipart-config&gt;</span></code></pre></figure>
+
+<h2 id="arrayindexoutofboundsexception-while-reading-__1class">ArrayIndexOutOfBoundsException while reading <strong>__</strong>$1.class</h2>
+
+<p>This issue occurs when the JDK version the class is compiled with is different than the compatible Spring and Tomcat versions.</p>
+
+<p>Spring 3.x doesn’t support JDK 8.x. Avoid downgrading JDK to 7 because it is no longer supported, thus might have security loop holes. 
+Better yet, upgrade to Spring 4.x using <a href="https://github.com/spring-projects/spring-framework/wiki/migrating-from-earlier-versions-of-the-spring-framework">this guide</a></p>
+
+<p>Also validate your tomcat version based on <a href="http://tomcat.apache.org/whichversion.html">this chart</a></p>
+
+<h1 id="alternatives">Alternatives</h1>
+
+<h2 id="spring-boot">Spring boot</h2>
+<p>Spring Boot v1.3 supports <a href="https://spring.io/blog/2015/06/17/devtools-in-spring-boot-1-3">Auto-reload and live-server</a> which is better than 
+having to manually trigger the deploys.</p>
+
+<h2 id="jrebel">JRebel</h2>
+<p><a href="https://zeroturnaround.com/software/jrebel/">JRebel</a> is a tool which supports hot-swap of classes and other resources. It supports multitude of 
+frameworks like Spring, Hibernate etc and in the long run can save a lot of time avoiding application restarts. 
+Personally I feel its way too expensive ($475 per user per year) even though it is useful. 
+Alternative to this is <a href="http://ssw.jku.at/dcevm/">DCEVM</a>, but its no longer being actively developed and it does not have support for various frameworks
+ and libraries.</p>
+
+<h2 id="intellij-idea--eclipse-hot-swap">Intellij Idea / Eclipse hot swap</h2>
+<p>IDEs support hotswap of files and combined with Tomcat’s ability to watch and reload updated files, it provides good alternative to buying JRebel. 
+Go through <a href="http://stackoverflow.com/a/19609115/3494368">Intellij Idea setup</a> and <a href="http://www.mkyong.com/eclipse/how-to-configure-hot-deploy-in-eclipse/">Eclipse setup</a>. 
+This alternative though works only for changes within a method and is not extensive as JRebel. Nonetheless very useful.</p>
+
+<h2 id="tomcat-context-reload">Tomcat Context Reload</h2>
+<p>Tomcat allows reloading context (without restarting the application). For this add the following to Tomcat’s conf/server.xml file (within existing host tag)</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"> <span class="nt">&lt;Host&gt;</span>
+    <span class="nt">&lt;Context</span> <span class="na">path=</span><span class="s">"/path-dir-containing-war"</span> <span class="na">reloadable=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;WatchedResource&gt;</span>path/to/watched/resource<span class="nt">&lt;/WatchedResource&gt;</span>
+        <span class="nt">&lt;WatchedResource&gt;</span>another/path/to/another/resource<span class="nt">&lt;/WatchedResource&gt;</span>
+    <span class="nt">&lt;/Context&gt;</span>
+ <span class="nt">&lt;/Host&gt;</span>
+ </code></pre></figure>
+
+<p>That’s that. Enjoy the redeploys and comment below if you need help with any of the steps.</p>
+:ET

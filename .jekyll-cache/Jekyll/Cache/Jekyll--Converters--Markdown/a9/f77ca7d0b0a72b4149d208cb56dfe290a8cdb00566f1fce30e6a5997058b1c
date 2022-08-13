@@ -1,0 +1,112 @@
+I"�"<p>Can’t make sense of words like Docker, Containers, Kubernetes, ETCD? You are not alone. The container technology space is on a tear lately. Let me try to make sense of a few the buzz words.</p>
+
+<p><strong>Caution</strong>: I only have limited understanding of this ecosystem. I’d suggest reading the article to understand concepts rather than individual companies/projects and where they stand.</p>
+
+<h2 id="microservices">Microservices</h2>
+<p>Architecture style in which large application is split into multiple small applications (aka services). Each service performs a small specific task of the application hence called micro-service. Each microservice can use its own set of technologies (language, db etc). The services communicate with each other using queues or REST API. Read Martin Fowler’s <a href="http://martinfowler.com/microservices/#what">excellent guide</a> on the topic. Following diagram is from my experience converting <a href="https://deepakvadgama.com/projects/accidental-microservices/">monolith 
+application to microservices</a>.</p>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/microservices.png"><img src="https://deepakvadgama.com/images/blog/microservices.png" /></a>
+    <figcaption> A sample microservices based application </figcaption>
+</figure>
+
+<p>Since each microservice is small, a few/all of them can be deployed on a single server. There are 2 ways of doing this: Virtual Machines and Containers.</p>
+
+<h2 id="virtual-machines">Virtual Machines</h2>
+<p>An entire Operating System wrapped in a installable software. You can install your application on a single OS, wrap it in a Virtual Machine and then install it on any server (OS/Linux/Windows) and application will work correctly. VMs are resource heavy and large (since it is an entire OS), thus it is slow and you can only use limited number of VMs on single server.</p>
+
+<h2 id="container-runtime">Container Runtime</h2>
+<p>Instead of full-fledged Operating Systems we can use set of core libraries that most applications use to interact with the server. Container engine is a thin layer that acts as an intermediary between application and OS/Other-applications.</p>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/microservices/container-vs-vm-2.jpg"><img src="https://deepakvadgama.com/images/blog/microservices/container-vs-vm-2.jpg" /></a>
+    <figcaption> Virtual Machines (left) vs Containers (right) </figcaption>
+</figure>
+
+<h2 id="containers">Containers</h2>
+<p>Containers are thin wrappers surrounding the microservice/application. Like VMs if your application works well within the container, you can be assured it will work on any server (OS/Linux/Windows). If application is wrapped in a container, it can be easily replicated or migrated to another server. (example: replicate front-end container in response to increase in requests). Also, it ensures, containers restrict application’s abilities on the server. (Example: application can access only restricted set of users, file system, ports, CPU, memory etc).</p>
+
+<h2 id="container-formats">Container Formats</h2>
+<p>These containers need to have specific format so that the runtime can start and run them properly. There are mainly 2 competing formats</p>
+
+<ul>
+  <li><a href="https://www.docker.com/what-docker">Docker</a></li>
+  <li><a href="https://coreos.com/blog/rocket/">Rkt by CoreOS</a></li>
+  <li><a href="https://www.opencontainers.org/about">OCI</a> Attempt to standardize container format</li>
+</ul>
+
+<h3 id="side-note">Side note:</h3>
+
+<p>Industry has <a href="https://sreeninet.wordpress.com/2016/06/11/container-standards/">not</a> <a href="https://coreos.com/blog/making-sense-of-standards/">yet</a> <a href="https://www.linkedin.com/pulse/forking-docker-daniel-riek">standardized</a> the format for containers. Thus, all container orchestration frameworks advertise their compatibility with different containers. For example: <a href="http://blog.kubernetes.io/2016/07/rktnetes-brings-rkt-container-engine-to-Kubernetes.html">Kubernetes</a> is capable of running both Docker and Rocket containers.</p>
+
+<p>Docker and CoreOS are 2 companies which not only have their container formats (Docker and Rkt) but also entire ecosystem to 
+ manage them (some of which are listed below).</p>
+
+<h2 id="container-registry">Container Registry</h2>
+
+<p>Once a container is created for the application, it can be stored on a server called container registry. This helps in reusing the container image, to create new copies/instances.</p>
+
+<p>Registries are of two types</p>
+
+<ul>
+  <li>Public - Which hosts basic software images like Tomcat, Nginx, MySQL etc.</li>
+  <li>Private - Which host your custom application containers.</li>
+</ul>
+
+<p>Typically, first a basic image is downloaded from <a href="https://hub.docker.com">Docker’s Open Repository</a>. Then the image is customized as per the application’s needs, and then saved to any of the private registries mentioned below.</p>
+
+<ul>
+  <li><a href="https://docs.docker.com/registry/">Docker Registry</a></li>
+  <li><a href="https://coreos.com/products/enterprise-registry/docs">CoreOS Registry</a></li>
+  <li><a href="https://aws.amazon.com/ecr/">AWS Registry</a></li>
+  <li><a href="https://cloud.google.com/container-registry/">Google Container Registry</a></li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/microservices/docker-registry.png"><img src="https://deepakvadgama.com/images/blog/microservices/docker-registry.png" /></a>
+    <figcaption>Docker's Public Container Registry</figcaption>
+</figure>
+
+<h2 id="orchestration">Orchestration</h2>
+
+<p>Once all microservices/applications are wrapped in containers, there needs to be a way to automate their deployments, rollbacks, restart, healing etc. Also, there is a need to monitor services, discover new services, authenticate them, scale/replicate etc.</p>
+
+<p>All these requirements call for an orchestration framework.</p>
+
+<p>Few of such frameworks are listed below:</p>
+
+<ul>
+  <li><a href="https://deis.com/blog/2016/kubernetes-illustrated-guide/">Kubernetes</a> - Most popular one.</li>
+  <li><a href="https://blog.docker.com/2016/06/docker-1-12-built-in-orchestration/">Docker Swarm</a> - Docker’s own embedded orchestration.</li>
+  <li><a href="mesos.apache.org/">Mesos</a> - Highly popular cluster manager, used to manage servers. Is used with Hadoop, Kafka and Spark. Recently gained container (Docker/Rkt/OCI) <a href="https://blogs.apache.org/foundation/entry/the_apache_software_foundation_announces97">support</a>.</li>
+  <li><a href="https://aws.amazon.com/ecs/">Amazon ECS</a> - AWS’s own cloud based orchestration.</li>
+  <li><a href="https://cloud.google.com/container-engine/">Google Container Engine</a> - Kubernetes on Google Compute Engine.</li>
+</ul>
+
+<figure>
+    <a href="https://deepakvadgama.com/images/blog/microservices/kubernetes.png"><img src="https://deepakvadgama.com/images/blog/microservices/kubernetes.png" /></a>
+</figure>
+
+<h2 id="service-discovery">Service Discovery</h2>
+
+<p>As part of the orchestration, each service needs to register itself, so that other services and orchestrator can discover and work with it. For this functionality, a highly available, strongly consistent system is required. Few of softwares which satisfy these requirements include <a href="https://coreos.com/etcd/">ETCD</a>, <a href="https://www.consul.io/">Consul</a> and  <a href="https://zookeeper.apache.org/">Zookeeper</a>. These projects are used by frameworks internally, and we need not have complete understanding of it. I’d recommend this <a href="https://research.google.com/archive/chubby.html">Google paper</a> if interested in knowing how these systems are implemented.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The ecosystem surrounding microservices and containers is vibrant and fast-paced. Since, it is still going through
+the churn and yet to mature, it can be difficult to keep track of all projects. I guess, we will soon see
+consolidation of these technologies. Trends are beginning to show Docker leading in containers while Kubernetes
+in container management. Fascinating times.</p>
+
+<h2 id="left-over-buzzwords">Left over buzzwords</h2>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=d2xeNpfzsYI">Hadoop</a>: System used to store and process large amounts of data.</li>
+  <li><a href="http://kafka.apache.org/">Kafka</a>: Distributed messaging system.</li>
+  <li><a href="http://spark.apache.org/">Spark</a>: Big data processing engine. Similar to (&amp; allegedly much better than) Hadoop</li>
+  <li><a href="http://redis.io">Redis</a>: Distributed key-Value store.</li>
+</ul>
+
+<p>If you want to learn about some of the modern databases, check out this <a href="https://deepakvadgama.com/blog/choosing-databases/">article</a>.</p>
+:ET
