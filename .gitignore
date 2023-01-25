@@ -11,4 +11,5 @@ _asset_bundler_cache
 .idea/workspace.xml
 *.iml
 .jekyll-metadata
+.jekyll-cache
 .Gemfile.lock
