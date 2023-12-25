@@ -14,3 +14,5 @@ _asset_bundler_cache
 .jekyll-cache
 .Gemfile.lock
 .firebase
+.idea
+.circleci
