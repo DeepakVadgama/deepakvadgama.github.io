@@ -1,49 +1,63 @@
 ---
 layout: post
-title: Resist
+title: Anchorless
 category: poem
 comments: true
-excerpt: A connection frail, yet refuses to sever
+excerpt: Destitute soul, nourished by moments
 ---
 
-A connection frail, yet refuses to sever      
-Biding time, made to wait forever    
-    
-Layers of self-apathy, built up over time      
-Calcified, life buried within, fails to climb    
-    
-From inside, a cocoon that protects and nurtures      
-In reality, a bubble that traps and tortures    
-    
-Soul demands fight, a fiery desire to egress      
-Yet chained, embodied, a statue hopeless     
-    
-Momentarily found a footing, again in a freefall      
-Unjust the capture, abhorrent the thrall     
-    
-Screams drown into void, no one to abet      
-Rooted introverts, devoid of a safety net    
-    
-Unsheathe the dagger, summon strength to peirce    
-Stop staring at the incoming abyss, plunge it fierce    
-    
-Steady now, ascension will begin eventually    
-Exigency, pause the disintegration imminently    
-    
-Self preservation is autonomic, I take no pride    
-Like a patient stopped, from attempted suicide    
-    
-Exhausted, spent, the ceaseless clashes    
-Far from "phoenix rising from the ashes"    
-    
-Strenuous the act, doesn't feel like a rebirth    
-Bloodless battle, still questioning self-worth    
-    
-Putting myself together, bit by bit    
-Blood binding the flesh, drop by drop    
-    
-Statue remains motionless, cracks begun to appear    
-Rebel inside stirred into sun, the will rose sheer    
-    
-Light breaks through, a triumphant reprise    
-Or this flame's last flickr, an untimely demise      
+Destitute soul, nourished by moments  
+Ordinary yet feeding, inconspicuous affections  
+Innocuous laughs, frustrating rituals  
+Molded into memory, heartfelt connections  
+  
+Experiences, insignificant, mundane  
+Made joyous, in passage of time  
+Made painful, its inevitable march  
+Paralyzing, its power divine  
+  
+Bonds perceived, misconstrued in innocence  
+Held irrevocably, only if interknit, received  
+Self deception, a love lopsided  
+Temporary play, allowed, appeased  
+  
+Fresh wounds, inhibit retrospection  
+Incessant pings, bouncing in gray  
+Activating memories, an existential dread  
+Tucked safely then, now laid bare and fray  
+  
+The chain unlinked  
+Soul drifts through the unbound  
+Floats aimlessly  
+Unknown, pained, confound  
+  
+Countless beings, countless interactions  
+Shallow and futile, soul remains astray  
+Reaching out over and over  
+Ghost off-plane, trying to convey  
+  
+Stare out the window, marvel at the infinite  
+Stars and light, intense and exhaustive  
+Holding all the answers  
+A hope, a spark, a pull deceptive  
+  
+Amongst the stars, all I see is dark  
+Devoid of life, devoid of meaning  
+Ever expanding nothingness, a vacuum  
+Past bonds, too distant for my keening  
+  
+Tears don't relieve  
+Words left unseeded  
+The tightness stays  
+Unsolicited, unheeded  
+  
+Saints preach  
+Solitary soul  
+Cut ties of the self  
+Raise towards One goal  
+  
+Her nudge, a final hope  
+Turn-around a life remiss  
+Only faith left, for distressed thread  
+Forestalling a fall into the abyss  
+  
