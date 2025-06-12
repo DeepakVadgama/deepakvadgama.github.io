@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Search, but without an engine
+title: '[2019] Search, but without an engine'
 category: projects
 comments: true
-published: true 
+published: true
 excerpt: Building an API aggregator 
 ---
 

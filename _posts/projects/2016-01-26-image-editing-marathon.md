@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Image editing marathon
+title: '[2016] Image editing marathon'
 category: projects
-comments: true
 excerpt: Wordpress website for Balaji Extrusions
 ---
 

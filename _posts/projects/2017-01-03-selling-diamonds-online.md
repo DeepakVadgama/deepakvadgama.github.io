@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Selling Diamonds online
+title: '[2017] Selling Diamonds online'
 category: projects
-comments: true
 published: true
 excerpt: E-commerce website of diamond trading company Sejal Gems
 ---

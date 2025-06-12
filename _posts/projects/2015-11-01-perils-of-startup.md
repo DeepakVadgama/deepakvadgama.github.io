@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Perils of startup world
+title: '[2015] Perils of startup world'
 category: projects
-comments: true
 published: true
 excerpt: My experience working on a failed startup chat2get.com.
 ---

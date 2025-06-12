@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The soul of an Android app
+title: '[2016] The soul of an Android app'
 category: projects
 comments: true
 published: true

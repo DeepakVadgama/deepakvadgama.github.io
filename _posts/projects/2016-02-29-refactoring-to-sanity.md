@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Refactoring to sanity
+title: '[2016] Refactoring to sanity'
 category: projects
-comments: true
 excerpt: Enhancing Balaji Extrusion's ERP software (based on Spring MVC).
 ---
 

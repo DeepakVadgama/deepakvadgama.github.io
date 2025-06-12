@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Slow moving culture wall
+title: '[2017] Slow moving culture wall'
 category: projects
-comments: true
 published: true 
 excerpt: Working in a large enterprise as a Lead Developer
 ---

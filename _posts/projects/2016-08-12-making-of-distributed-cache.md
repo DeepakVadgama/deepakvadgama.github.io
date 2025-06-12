@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Making of distributed cache
+title: '[2016] Making of distributed cache'
 category: projects
-comments: true
 excerpt: How we built distributed cache as foundation for our microservices architecture.
 ---
 

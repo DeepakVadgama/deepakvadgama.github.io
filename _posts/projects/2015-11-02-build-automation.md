@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Build Automation
+title: '[2015] Build Automation'
 category: projects
-comments: true
 excerpt: Build automation of microservices based application using Bamboo API   
 ---
 

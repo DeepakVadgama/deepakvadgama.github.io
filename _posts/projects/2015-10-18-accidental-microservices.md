@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Accidental Microservices
+title: '[2015] Accidental Microservices'
 category: projects
-comments: true
 excerpt: How we ended up with microservices in a trading system project  
 ---
 
