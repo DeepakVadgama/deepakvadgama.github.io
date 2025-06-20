@@ -8,8 +8,6 @@ excerpt: My experience working on a failed startup chat2get.com.
 
 One fine day in 2013, I received a call from an ex-colleague about an opportunity. It was an invitation to work on a startup. It was exciting to say the least. 
 
-<iframe width="420" height="315" src="https://www.youtube.com/embed/0Q2v2BeCb8o" frameborder="0" allowfullscreen></iframe>
-
 ## Idea
 The idea was to connect users to small businesses and individual contractors (eg: carpenters, cake shop etc) using a chat based app. The startup was formed by [Harshil Shah](https://www.linkedin.com/in/aharshil) and [Timo Steiz](https://www.linkedin.com/in/timosteitz) (who also runs [shoesize](http://shoesize.me)). They had just finished their MBA in Spain and were planning on this idea to launch in Barcelona. The revenue model was to charge small amount from the businesses on every lead generation. Here is the [presentation/pitch](https://drive.google.com/open?id=0BwwLZCExviQsNHpQcVN4MzRQWlhVR1FuYV95ZmlndnAzYi1n). 
 
